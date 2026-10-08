@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>St Carels Academy - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 20px;
+            padding: 35px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: #0d47a1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d47a1;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .school-name {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25,118,210,0.1);
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 50px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            cursor: pointer;
+            color: #1976d2;
+            font-size: 13px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #083579;
+        }
+
+        .forgot {
+            text-align: right;
+            margin: 12px 0 20px;
+        }
+
+        .forgot a {
+            color: #1976d2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #d32f2f;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">SC</div>
+
+        <h1>St Carels Academy</h1>
+
+        <p class="school-name">
+            School Management System
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-box">
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <span
+                        class="show-password"
+                        onclick="togglePassword()"
+                    >
+                        Show
+                    </span>
+                </div>
+            </div>
+
+            <div class="forgot">
+                <a href="#" onclick="forgotPassword()">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                LOGIN
+            </button>
+
+            <div id="message" class="message"></div>
+
+        </form>
+
+        <div class="footer">
+            <p>Excellency via faith</p>
+            <p>© 2026 St Carels Academy</p>
+        </div>
+
+    </div>
+
+    <script>
+
+        function togglePassword() {
+
+            const password = document.getElementById("password");
+            const button = document.querySelector(".show-password");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+
+            if (email === "" || password === "") {
+                message.textContent = "Please enter your email and password.";
+                return;
+            }
+
+            /*
+             * Temporary login.
+             * We will connect this to Supabase/database later.
+             */
+
+            if (email === "admin@stcarels.com" && password === "admin123") {
+
+                message.style.color = "green";
+                message.textContent = "Login successful...";
+
+                setTimeout(function() {
+                    window.location.href = "dashboard.html";
+                }, 1000);
+
+            } else {
+
+                message.style.color = "#d32f2f";
+                message.textContent = "Invalid email or password.";
+
+            }
+
+        });
+
+        function forgotPassword() {
+
+            alert(
+                "Please contact the school administrator to reset your password."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
+
+How to use it
+
+Create these files in the same folder:
+
+st-carels/
+│
+├── index.html
+├── login.html
+├── dashboard.html
+└── style.css
+
+For now, the test login is:
+
+Email: "admin@stcarels.com"
+Password: "admin123"
+
+After that, I can give you the "dashboard.html" that opens automatically after login, with Students, Teachers, Classes, Subjects, Marks, Fees, Attendance and Reports.
