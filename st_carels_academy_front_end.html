@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Carels Academy - Digital Front-End Portal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for Interactive Visual Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f6ff',
+                            100: '#e0edff',
+                            500: '#3b82f6',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0f172a',
+                        },
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        },
+                        whatsapp: '#25D366'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Pulse ring effect for floating WhatsApp button */
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            animation: ring-pulse 2s infinite;
+            background-color: rgba(37, 211, 102, 0.4);
+        }
+
+        @keyframes ring-pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+
+        /* Typing indicator animation */
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Announcement Banner -->
+    <div class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 text-xs py-2 px-4 font-bold shadow-xs z-50">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <div class="flex items-center space-x-2">
+                <span class="bg-slate-950 text-amber-400 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-widest">Admissions Active</span>
+                <span>🎓 <strong>2026 Academic Year Enrollment Open!</strong> PP1 to Grade 9 JSS slots available.</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="openAdmissionModal()" class="inline-flex items-center space-x-1.5 bg-slate-950 hover:bg-slate-900 text-amber-300 px-3 py-1 rounded-lg text-[11px] font-extrabold transition cursor-pointer shadow-xs">
+                    <i class="fa-solid fa-user-plus text-amber-400"></i>
+                    <span>Apply Online</span>
+                </button>
+                <a href="https://wa.me/254720028192?text=Hello%20St.%20Carels%20Academy" target="_blank" class="hidden md:inline-flex items-center space-x-1 text-slate-900 font-bold hover:underline text-[11px]">
+                    <i class="fa-brands fa-whatsapp text-emerald-700"></i>
+                    <span>0720028192</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dynamic Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- School Brand / Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-900 via-brand-800 to-blue-600 flex items-center justify-center text-white shadow-md shadow-brand-900/20">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-heading font-extrabold text-slate-900 tracking-tight block">St. Carels Academy</span>
+                        <span class="text-[11px] font-bold text-gold-600 tracking-wider uppercase block">School Front-End System</span>
+                    </div>
+                </div>
+
+                <!-- Central Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-brand-900 bg-white shadow-xs">
+                        <i class="fa-solid fa-chart-pie mr-1.5"></i> Dashboard
+                    </button>
+                    <button onclick="switchTab('learners')" id="nav-learners" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-users text-amber-500 mr-1.5"></i> Learners & Admission
+                    </button>
+                    <button onclick="switchTab('timetable')" id="nav-timetable" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-calendar-days text-blue-600 mr-1.5"></i> Timetable Matrix
+                    </button>
+                    <button onclick="switchTab('finance')" id="nav-finance" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-wallet text-emerald-600 mr-1.5"></i> Fee & M-Pesa
+                    </button>
+                    <button onclick="switchTab('academics')" id="nav-academics" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-award text-purple-600 mr-1.5"></i> CBC Report Cards
+                    </button>
+                </nav>
+
+                <!-- Right Actions & Role Selector Switcher -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <!-- Dynamic Role Switcher -->
+                    <div class="relative bg-slate-100 p-1 rounded-xl border border-slate-200 flex items-center">
+                        <span class="text-[10px] font-bold uppercase text-slate-400 px-2">Role:</span>
+                        <select id="roleSwitcher" onchange="handleRoleSwitch(this.value)" class="bg-white border-0 text-slate-800 text-xs font-bold rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-brand-500 shadow-xs cursor-pointer">
+                            <option value="admin" selected>Administrator</option>
+                            <option value="teacher">Teacher / Staff</option>
+                            <option value="parent">Parent / Guardian</option>
+                            <option value="student">Student / Learner</option>
+                        </select>
+                    </div>
+
+                    <button onclick="openAdmissionModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-500 transition shadow-xs flex items-center space-x-1.5 cursor-pointer">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>New Registration</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Navigation Toggle Button -->
+                <div class="lg:hidden flex items-center space-x-2">
+                    <button onclick="openAdmissionModal()" class="px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-950 bg-amber-400 hover:bg-amber-500 transition shadow-xs">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Apply</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-slate-900 rounded-lg bg-slate-100">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Mobile Drawer Menu -->
+            <div id="mobileMenuDrawer" class="hidden lg:hidden border-t border-slate-200 py-4 space-y-2">
+                <div class="p-2 bg-slate-100 rounded-xl mb-3">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Switch View Role</label>
+                    <select onchange="handleRoleSwitch(this.value); toggleMobileMenu()" class="w-full bg-white border border-slate-300 text-xs font-bold rounded-lg p-2">
+                        <option value="admin">Administrator</option>
+                        <option value="teacher">Teacher / Staff</option>
+                        <option value="parent">Parent / Guardian</option>
+                        <option value="student">Student / Learner</option>
+                    </select>
+                </div>
+                <button onclick="switchTab('dashboard'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-pie text-brand-800"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button onclick="switchTab('learners'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-users text-amber-500"></i>
+                    <span>Learners Directory & Admission</span>
+                </button>
+                <button onclick="switchTab('timetable'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-calendar-days text-blue-600"></i>
+                    <span>Timetable Dashboard</span>
+                </button>
+                <button onclick="switchTab('finance'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-wallet text-emerald-600"></i>
+                    <span>Fee & M-Pesa Payment Hub</span>
+                </button>
+                <button onclick="switchTab('academics'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-award text-purple-600"></i>
+                    <span>CBC Academic Report Cards</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Workspace Container -->
+    <main class="flex-grow">
+
+        <!-- ================= TAB 1: MAIN DASHBOARD OVERVIEW ================= -->
+        <section id="tab-dashboard" class="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+            
+            <!-- Welcome Hero Banner -->
+            <div class="relative bg-gradient-to-r from-brand-950 via-brand-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden border border-brand-800/50">
+                <div class="absolute right-0 top-0 bottom-0 opacity-10 pointer-events-none p-8 flex items-center">
+                    <i class="fa-solid fa-school text-9xl"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-3">
+                    <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur border border-white/20 px-3 py-1 rounded-full text-xs font-semibold text-amber-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="roleBadge">Administrator View Active</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-heading font-extrabold tracking-tight">
+                        Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-yellow-400">St. Carels Academy</span> Portal
+                    </h1>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Manage academic schedules, streamline student admissions, track M-Pesa fee payments, and generate CBC report cards effortlessly. Need quick help? Use our integrated AI Assistant or reach support at <strong class="text-white">0720028192</strong>.
+                    </p>
+                    <div class="pt-2 flex flex-wrap items-center gap-3">
+                        <button onclick="openAdmissionModal()" class="px-4 py-2.5 rounded-xl font-extrabold text-xs bg-amber-400 hover:bg-amber-500 text-slate-950 transition shadow-md flex items-center space-x-2 cursor-pointer">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>Register New Learner</span>
+                        </button>
+                        <button onclick="switchTab('timetable')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center space-x-2">
+                            <i class="fa-solid fa-calendar-days text-amber-400"></i>
+                            <span>View Timetable</span>
+                        </button>
+                        <a href="https://wa.me/254720028192?text=Hello%20St.%20Carels%20Academy%20Support" target="_blank" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-2 shadow-sm">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>WhatsApp Desk (0720028192)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Key Performance Indicators (KPIs) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <!-- KPI 1 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Enrolled</span>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-800 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-extrabold text-slate-900" id="dashTotalStudents">482</div>
+                    <span class="text-[11px] font-semibold text-emerald-600 flex items-center gap-1 mt-1">
+                        <i class="fa-solid fa-arrow-up"></i> +12 new this month
+                    </span>
+                </div>
+
+                <!-- KPI 2 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Today's Attendance</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-extrabold text-slate-900">96.4%</div>
+                    <span class="text-[11px] font-semibold text-emerald-600 flex items-center gap-1 mt-1">
+                        <i class="fa-solid fa-check-circle"></i> 465 / 482 Present
+                    </span>
+                </div>
+
+                <!-- KPI 3 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Fee Collections</span>
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-extrabold text-slate-900">88.5%</div>
+                    <span class="text-[11px] font-semibold text-amber-600 flex items-center gap-1 mt-1">
+                        <i class="fa-solid fa-clock"></i> Term 3 Active
+                    </span>
+                </div>
+
+                <!-- KPI 4 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Staff</span>
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-extrabold text-slate-900">28 Educators</div>
+                    <span class="text-[11px] font-semibold text-purple-600 flex items-center gap-1 mt-1">
+                        <i class="fa-solid fa-shield-check"></i> CBC Certified
+                    </span>
+                </div>
+            </div>
+
+            <!-- Charts & Analytics Section -->
+            <div class="grid lg:grid-cols-12 gap-8">
+                <!-- Academic Performance Chart (8 Cols) -->
+                <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-heading font-bold text-base text-slate-900">CBC Competency Level Distribution</h3>
+                            <p class="text-xs text-slate-500">Learner assessment performance across grades in Term 3</p>
+                        </div>
+                        <span class="text-xs bg-slate-100 font-bold px-3 py-1 rounded-full text-slate-600">2026 Academic Year</span>
+                    </div>
+                    <div class="h-64 relative">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Quick Action Hub & Noticeboard (4 Cols) -->
+                <div class="lg:col-span-4 space-y-6">
+                    <!-- Noticeboard Card -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                            <h3 class="font-heading font-bold text-base text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-bullhorn text-amber-500"></i> School Announcements
+                            </h3>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md">Live</span>
+                        </div>
+                        <div class="space-y-3.5 text-xs">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
+                                <span class="text-[10px] font-bold text-brand-800 uppercase block">Sept 28, 2026</span>
+                                <p class="font-bold text-slate-800">Grade 7 JSS Practical Science Exhibition</p>
+                                <p class="text-slate-500 text-[11px]">All parents are invited to attend the lab presentation at 10:00 AM.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
+                                <span class="text-[10px] font-bold text-emerald-700 uppercase block">Oct 05, 2026</span>
+                                <p class="font-bold text-slate-800">Term 3 Fee Clearance Notice</p>
+                                <p class="text-slate-500 text-[11px]">Kindly clear balances via M-Pesa Paybill 247247 or KCB 522522.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Support Desk Note -->
+                    <div class="bg-gradient-to-br from-emerald-900 to-teal-950 p-5 rounded-2xl text-white shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-300">Admin Support</span>
+                            <i class="fa-brands fa-whatsapp text-xl text-emerald-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm">Have Questions? Talk to Admin</h4>
+                        <p class="text-xs text-emerald-100 leading-relaxed">
+                            For fee balance adjustments or portal login queries, chat directly with ICT Desk at <strong class="text-white">0720028192</strong>.
+                        </p>
+                        <a href="https://wa.me/254720028192?text=Hello%20St.%20Carels%20Academy" target="_blank" class="inline-block mt-2 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition shadow-xs">
+                            Open WhatsApp (0720028192)
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 2: LEARNERS & ADMISSION MODULE ================= -->
+        <section id="tab-learners" class="hidden py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+            
+            <!-- Section Header -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 uppercase tracking-wider block">Student Management & Registry</span>
+                    <h2 class="text-2xl font-heading font-extrabold text-slate-900">Learners Directory</h2>
+                    <p class="text-xs text-slate-500 mt-1">Search, filter by grade level (PP1 to Senior Grade 12), or admit new learners.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="openAdmissionModal()" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-amber-400 hover:bg-amber-500 text-slate-950 transition shadow-xs flex items-center space-x-1.5 cursor-pointer">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>New Learner Admission</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grade Quick-Filter Navigation Bar (PP1 to Senior School) -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-filter text-brand-800"></i> Quick Select Grade:
+                    </span>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase">Early Years • Primary • JSS • Senior School</span>
+                </div>
+                
+                <div id="gradeButtonsContainer" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs">
+                    <button onclick="selectGradeFilter('ALL', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-brand-900 text-white shadow-xs">
+                        All Grades
+                    </button>
+                    <!-- Pre-Primary -->
+                    <button onclick="selectGradeFilter('PP1 Kindergarten', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        PP1
+                    </button>
+                    <button onclick="selectGradeFilter('PP2 Kindergarten', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        PP2
+                    </button>
+                    <!-- Primary (Grade 1 - 6) -->
+                    <button onclick="selectGradeFilter('Grade 1 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 1
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 2 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 2
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 3 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 3
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 4 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 4
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 5 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 5
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 6 Primary', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Grade 6
+                    </button>
+                    <!-- Junior Secondary School JSS (Grade 7 - 9) -->
+                    <button onclick="selectGradeFilter('Grade 7 JSS', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300">
+                        Grade 7 JSS
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 8 JSS', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300">
+                        Grade 8 JSS
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 9 JSS', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300">
+                        Grade 9 JSS
+                    </button>
+                    <!-- Senior Secondary / Senior School (Grade 10 - 12) -->
+                    <button onclick="selectGradeFilter('Grade 10 Senior', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-purple-100 text-purple-900 hover:bg-purple-200 border border-purple-300">
+                        Grade 10 Senior
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 11 Senior', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-purple-100 text-purple-900 hover:bg-purple-200 border border-purple-300">
+                        Grade 11 Senior
+                    </button>
+                    <button onclick="selectGradeFilter('Grade 12 Senior', this)" class="grade-btn px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap bg-purple-100 text-purple-900 hover:bg-purple-200 border border-purple-300">
+                        Grade 12 Senior
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter & Search Controls -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="w-full sm:w-80 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+                    <input type="text" id="studentSearchInput" onkeyup="filterLearnersTable()" placeholder="Search by name, ID, or grade..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <select id="gradeFilterSelect" onchange="syncGradeSelectToButtons(this.value)" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        <option value="ALL">All Grade Levels</option>
+                        <option value="PP1 Kindergarten">PP1 Kindergarten</option>
+                        <option value="PP2 Kindergarten">PP2 Kindergarten</option>
+                        <option value="Grade 1 Primary">Grade 1 Primary</option>
+                        <option value="Grade 2 Primary">Grade 2 Primary</option>
+                        <option value="Grade 3 Primary">Grade 3 Primary</option>
+                        <option value="Grade 4 Primary">Grade 4 Primary</option>
+                        <option value="Grade 5 Primary">Grade 5 Primary</option>
+                        <option value="Grade 6 Primary">Grade 6 Primary</option>
+                        <option value="Grade 7 JSS">Grade 7 JSS</option>
+                        <option value="Grade 8 JSS">Grade 8 JSS</option>
+                        <option value="Grade 9 JSS">Grade 9 JSS</option>
+                        <option value="Grade 10 Senior">Grade 10 Senior School</option>
+                        <option value="Grade 11 Senior">Grade 11 Senior School</option>
+                        <option value="Grade 12 Senior">Grade 12 Senior School</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Learners Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider">
+                                <th class="p-4">Admission ID</th>
+                                <th class="p-4">Learner Name</th>
+                                <th class="p-4">Grade / Class</th>
+                                <th class="p-4">Parent / Guardian Contact</th>
+                                <th class="p-4">Fee Status</th>
+                                <th class="p-4 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="learnersTableBody" class="divide-y divide-slate-200 text-xs">
+                            <!-- Dynamic Learners Data Rows Injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 3: TIMETABLE ENGINE ================= -->
+        <section id="tab-timetable" class="hidden py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+            
+            <!-- Controls Header -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-clock"></i> Automated Scheduling Engine
+                    </div>
+                    <h2 class="text-2xl font-heading font-extrabold text-slate-900">Lesson Timetable Dashboard</h2>
+                    <p class="text-xs text-slate-500 mt-1">Manage weekly lesson routines, teacher allocations, and conflict-free schedules.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Select Grade</label>
+                        <select id="ttClassSelect" onchange="renderTimetableDashboard()" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="PP1">PP1 Kindergarten</option>
+                            <option value="PP2">PP2 Kindergarten</option>
+                            <option value="Grade 1">Grade 1 Primary</option>
+                            <option value="Grade 2">Grade 2 Primary</option>
+                            <option value="Grade 3">Grade 3 Primary</option>
+                            <option value="Grade 4">Grade 4 Primary</option>
+                            <option value="Grade 5">Grade 5 Primary</option>
+                            <option value="Grade 6">Grade 6 Primary</option>
+                            <option value="Grade 7" selected>Grade 7 JSS</option>
+                            <option value="Grade 8">Grade 8 JSS</option>
+                            <option value="Grade 9">Grade 9 JSS</option>
+                            <option value="Grade 10">Grade 10 Senior</option>
+                            <option value="Grade 11">Grade 11 Senior</option>
+                            <option value="Grade 12">Grade 12 Senior</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Academic Term</label>
+                        <select id="ttTermSelect" onchange="renderTimetableDashboard()" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="Term 3 2026" selected>Term 3 (2026)</option>
+                            <option value="Term 1 2027">Term 1 (2027)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-end gap-2 pt-4 sm:pt-0">
+                        <button onclick="autoGenerateTimetable()" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Auto-Generate</span>
+                        </button>
+                        <button onclick="printTimetable()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Print Schedule</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Metric Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-brand-800 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">Weekly Periods</span>
+                        <span id="tt-total-periods" class="text-base font-extrabold text-slate-900">40 / 40</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">CBC Subjects</span>
+                        <span class="text-base font-extrabold text-slate-900">8 Core Subjects</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">Conflict Status</span>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md inline-block">0 Conflicts</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">Master Administrator</span>
+                        <span class="text-xs font-bold text-slate-900 block truncate">Buma Isaac</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timetable Matrix Grid -->
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-9 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                    <div class="p-4 bg-slate-950 text-white flex items-center justify-between">
+                        <h3 class="font-bold text-xs sm:text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-table text-amber-400"></i>
+                            <span id="tt-grid-title">Grade 7 JSS - Weekly Schedule Matrix</span>
+                        </h3>
+                        <span class="text-[10px] text-slate-400 hidden sm:inline">Click any lesson cell to edit educator or subject</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[700px]">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-[10px] font-extrabold text-slate-600 uppercase tracking-wider">
+                                    <th class="p-3 w-28 text-center border-r border-slate-200">Time / Period</th>
+                                    <th class="p-3 text-center border-r border-slate-200">Monday</th>
+                                    <th class="p-3 text-center border-r border-slate-200">Tuesday</th>
+                                    <th class="p-3 text-center border-r border-slate-200">Wednesday</th>
+                                    <th class="p-3 text-center border-r border-slate-200">Thursday</th>
+                                    <th class="p-3 text-center">Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody id="timetableGridBody" class="divide-y divide-slate-200 text-xs">
+                                <!-- Dynamic Timetable Matrix Cells Inject Here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Teacher Workload Radar -->
+                <div class="lg:col-span-3 space-y-6">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+                        <h3 class="font-bold text-xs text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                            <i class="fa-solid fa-chalkboard-user text-brand-800"></i> Teacher Allocation Load
+                        </h3>
+                        <div id="teacherWorkloadList" class="space-y-3">
+                            <!-- Dynamic Workload Bars Inject Here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 4: FEE & M-PESA PAYMENT HUB ================= -->
+        <section id="tab-finance" class="hidden py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Financial Management</span>
+                    <h2 class="text-2xl font-heading font-extrabold text-slate-900">Fee Payment & M-Pesa Portal</h2>
+                    <p class="text-xs text-slate-500 mt-1">Instant M-Pesa Paybill payment processing and downloadable digital receipts.</p>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-xl text-xs font-bold text-emerald-800 flex items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-emerald-600 text-base"></i>
+                    <span>M-Pesa Paybill: <strong>247247</strong> (Equity) / <strong>522522</strong> (KCB)</span>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8">
+                <!-- M-Pesa STK Push Simulator (5 Cols) -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 class="font-heading font-bold text-base text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-mobile-screen-button text-emerald-600"></i> Simulate M-Pesa Fee Payment
+                        </h3>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Instant STK</span>
+                    </div>
+
+                    <form onsubmit="handleMpesaSimulation(event)" class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Student Admission Number *</label>
+                            <input type="text" id="mpesaAdmNo" placeholder="e.g. SCA/2026/0482" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Parent / Guardian Phone (Safaricom) *</label>
+                            <input type="tel" id="mpesaPhone" placeholder="07XXXXXXXX" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Amount to Pay (KES) *</label>
+                            <input type="number" id="mpesaAmount" placeholder="e.g. 15000" min="100" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Send M-Pesa STK Prompt</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recent Fee Transactions Log (7 Cols) -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                    <h3 class="font-heading font-bold text-base text-slate-900 border-b border-slate-100 pb-3">
+                        Recent Payment Audit Log
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-[10px] font-extrabold text-slate-600 uppercase">
+                                    <th class="p-2.5">Receipt / Ref</th>
+                                    <th class="p-2.5">Admission No</th>
+                                    <th class="p-2.5">Amount</th>
+                                    <th class="p-2.5">Date</th>
+                                    <th class="p-2.5">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mpesaLogBody" class="divide-y divide-slate-200">
+                                <!-- Dynamic Transaction Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 5: CBC REPORT CARDS ================= -->
+        <section id="tab-academics" class="hidden py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-purple-600 uppercase tracking-wider block">Competency Based Assessment</span>
+                    <h2 class="text-2xl font-heading font-extrabold text-slate-900">CBC Academic Report Cards</h2>
+                    <p class="text-xs text-slate-500 mt-1">Review student performance rubrics (EE, ME, AE, BE) and generate official report forms.</p>
+                </div>
+            </div>
+
+            <!-- Gradebook Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Sample Learner Card 1 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-800 uppercase block">SCA/2026/0482</span>
+                            <h3 class="font-bold text-sm text-slate-900">Emmanuel Otieno</h3>
+                        </div>
+                        <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">Grade 7 JSS</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Mathematics:</span>
+                            <span class="font-bold text-emerald-600">Exceeding Expectation (EE)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Computer Studies:</span>
+                            <span class="font-bold text-emerald-600">Exceeding Expectation (EE)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">English Language:</span>
+                            <span class="font-bold text-blue-600">Meeting Expectation (ME)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Integrated Science:</span>
+                            <span class="font-bold text-blue-600">Meeting Expectation (ME)</span>
+                        </div>
+                    </div>
+
+                    <button onclick="previewReportCard('Emmanuel Otieno', 'SCA/2026/0482', 'Grade 7 JSS')" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-file-pdf text-amber-400"></i>
+                        <span>View Official Report Form</span>
+                    </button>
+                </div>
+
+                <!-- Sample Learner Card 2 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-800 uppercase block">SCA/2026/0119</span>
+                            <h3 class="font-bold text-sm text-slate-900">Amani Wanjiru</h3>
+                        </div>
+                        <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">Grade 8 JSS</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Mathematics:</span>
+                            <span class="font-bold text-blue-600">Meeting Expectation (ME)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Kiswahili:</span>
+                            <span class="font-bold text-emerald-600">Exceeding Expectation (EE)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Social Studies:</span>
+                            <span class="font-bold text-blue-600">Meeting Expectation (ME)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Creative Arts:</span>
+                            <span class="font-bold text-emerald-600">Exceeding Expectation (EE)</span>
+                        </div>
+                    </div>
+
+                    <button onclick="previewReportCard('Amani Wanjiru', 'SCA/2026/0119', 'Grade 8 JSS')" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-file-pdf text-amber-400"></i>
+                        <span>View Official Report Form</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= MODALS & OVERLAYS ================= -->
+
+    <!-- NEW LEARNER ADMISSION MODAL -->
+    <div id="admissionModal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-8">
+            <div class="bg-gradient-to-r from-brand-950 via-brand-900 to-indigo-950 text-white p-5 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-lg leading-tight">New Learner Admission Registration</h3>
+                        <p class="text-xs text-amber-300">St. Carels Academy • Academic Year 2026</p>
+                    </div>
+                </div>
+                <button onclick="closeAdmissionModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleAdmissionSubmit(event)" class="p-6 space-y-5 text-xs">
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-amber-900 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-amber-600 text-base"></i>
+                    <span>Submitting this form auto-generates a unique Admission ID for portal login and fee payments.</span>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Full Student Name *</label>
+                        <input type="text" id="admStudentName" placeholder="e.g. Emmanuel Otieno" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Applying Grade Level *</label>
+                        <select id="admGrade" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="PP1 Kindergarten">PP1 Kindergarten</option>
+                            <option value="PP2 Kindergarten">PP2 Kindergarten</option>
+                            <option value="Grade 1 Primary">Grade 1 Lower Primary</option>
+                            <option value="Grade 2 Primary">Grade 2 Lower Primary</option>
+                            <option value="Grade 3 Primary">Grade 3 Lower Primary</option>
+                            <option value="Grade 4 Primary">Grade 4 Upper Primary</option>
+                            <option value="Grade 5 Primary">Grade 5 Upper Primary</option>
+                            <option value="Grade 6 Primary">Grade 6 Upper Primary</option>
+                            <option value="Grade 7 JSS" selected>Grade 7 JSS (CBC)</option>
+                            <option value="Grade 8 JSS">Grade 8 JSS (CBC)</option>
+                            <option value="Grade 9 JSS">Grade 9 JSS (CBC)</option>
+                            <option value="Grade 10 Senior">Grade 10 Senior School</option>
+                            <option value="Grade 11 Senior">Grade 11 Senior School</option>
+                            <option value="Grade 12 Senior">Grade 12 Senior School</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Parent / Guardian Full Name *</label>
+                        <input type="text" id="admParentName" placeholder="e.g. Grace Otieno" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Parent Phone / WhatsApp *</label>
+                        <input type="tel" id="admParentPhone" placeholder="07XXXXXXXX" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeAdmissionModal()" class="px-4 py-2 font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl font-bold bg-brand-900 hover:bg-brand-800 text-white transition shadow-md flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-check-circle text-amber-400"></i>
+                        <span>Complete Registration</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMISSION SUCCESS CONFIRMATION MODAL -->
+    <div id="admissionSuccessModal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 text-center space-y-4">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-bold mx-auto">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Registration Successful</span>
+                <h3 class="text-xl font-heading font-extrabold text-slate-900 mt-1">Learner Admitted!</h3>
+            </div>
+            
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left space-y-2 text-xs">
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Admission No:</span>
+                    <span id="succAdmId" class="font-extrabold text-brand-800">SCA/2026/0892</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Student Name:</span>
+                    <span id="succStudentName" class="font-bold text-slate-800">Emmanuel Otieno</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Grade Level:</span>
+                    <span id="succGrade" class="font-bold text-slate-800">Grade 7 JSS</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-3 pt-2">
+                <button onclick="copyAdmissionId()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition flex items-center gap-1">
+                    <i class="fa-solid fa-copy"></i>
+                    <span>Copy ID</span>
+                </button>
+                <button onclick="closeAdmissionSuccessModal()" class="px-5 py-2 bg-brand-900 hover:bg-brand-800 text-white font-bold text-xs rounded-xl shadow-md transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPORT CARD MODAL -->
+    <div id="reportCardModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-8 p-8 space-y-6 text-xs">
+            <div class="flex justify-between items-center border-b-2 border-brand-900 pb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-brand-900 text-white rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-heading font-extrabold text-brand-900">ST. CARELS ACADEMY</h2>
+                        <p class="text-[10px] text-slate-500">P.O. BOX 104 - 00100, NAIROBI | TEL: 0720028192</p>
+                    </div>
+                </div>
+                <button onclick="closeReportCardModal()" class="text-slate-400 hover:text-slate-800 text-lg font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid sm:grid-cols-3 gap-2 font-bold">
+                <div>Student: <span id="rcName" class="text-brand-900">Emmanuel Otieno</span></div>
+                <div>Admission No: <span id="rcId" class="text-brand-900">SCA/2026/0482</span></div>
+                <div>Grade: <span id="rcGrade" class="text-brand-900">Grade 7 JSS</span></div>
+            </div>
+
+            <table class="w-full text-left border-collapse border border-slate-300 text-xs">
+                <thead>
+                    <tr class="bg-slate-100 font-extrabold">
+                        <th class="p-2 border border-slate-300">Learning Area / Subject</th>
+                        <th class="p-2 border border-slate-300">Competency Grade</th>
+                        <th class="p-2 border border-slate-300">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                    <tr>
+                        <td class="p-2 border border-slate-300 font-bold">Mathematics</td>
+                        <td class="p-2 border border-slate-300 text-emerald-600 font-extrabold">Exceeding Expectation (EE)</td>
+                        <td class="p-2 border border-slate-300">Exceptional problem solving skills.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border border-slate-300 font-bold">Computer Studies / ICT</td>
+                        <td class="p-2 border border-slate-300 text-emerald-600 font-extrabold">Exceeding Expectation (EE)</td>
+                        <td class="p-2 border border-slate-300">Excellent computational thinking.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border border-slate-300 font-bold">English Language</td>
+                        <td class="p-2 border border-slate-300 text-blue-600 font-extrabold">Meeting Expectation (ME)</td>
+                        <td class="p-2 border border-slate-300">Good grammar and creative writing.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border border-slate-300 font-bold">Integrated Science</td>
+                        <td class="p-2 border border-slate-300 text-blue-600 font-extrabold">Meeting Expectation (ME)</td>
+                        <td class="p-2 border border-slate-300">Active engagement in laboratory tasks.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+                <span class="text-[11px] text-slate-500">Principal Signature: __________________</span>
+                <button onclick="window.print()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print Report Card</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON (Bottom-Left) -->
+    <div class="fixed bottom-6 left-6 z-50">
+        <div class="relative group">
+            <div class="pulse-ring"></div>
+            <a href="https://wa.me/254720028192?text=Hello%20St.%20Carels%20Academy%20Support" 
+               target="_blank" 
+               aria-label="Chat on WhatsApp"
+               class="relative w-14 h-14 bg-whatsapp hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110">
+                <i class="fa-brands fa-whatsapp text-3xl"></i>
+            </a>
+            <div class="absolute left-16 top-2 bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap shadow-lg">
+                WhatsApp Desk (0720028192)
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING AI SUPPORT CHATBOX (Bottom-Right) -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="chat-toggle-btn" onclick="toggleAiChat()" class="w-14 h-14 bg-gradient-to-tr from-brand-900 to-indigo-700 text-white rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-105 cursor-pointer">
+            <i id="chat-icon-open" class="fa-solid fa-robot text-2xl"></i>
+            <i id="chat-icon-close" class="fa-solid fa-xmark text-2xl hidden"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-amber-400 rounded-full border-2 border-white"></span>
+        </button>
+
+        <div id="ai-chat-window" class="hidden absolute bottom-20 right-0 w-[90vw] sm:w-[380px] h-[500px] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden transition-all">
+            <div class="bg-gradient-to-r from-brand-950 via-brand-900 to-indigo-950 text-white p-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm">St. Carels AI Support</h4>
+                        <span class="text-[10px] text-emerald-400 font-medium flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> Active | 24/7 Helpline
+                        </span>
+                    </div>
+                </div>
+                <button onclick="toggleAiChat()" class="text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs">
+                <div class="flex items-start space-x-2">
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-brand-800 flex items-center justify-center flex-shrink-0 font-bold">
+                        <i class="fa-solid fa-robot text-xs"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-slate-800 shadow-xs max-w-[85%]">
+                        Hello! 👋 Welcome to <strong>St. Carels Academy Front-End</strong>. Ask me about M-Pesa fee payments, timetable routines, or learner admissions!
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-2 bg-white border-t border-slate-100 flex gap-1.5 overflow-x-auto text-[11px]">
+                <button onclick="sendQuickQuery('Fee Paybill')" class="px-2.5 py-1 bg-blue-50 text-brand-800 rounded-full font-medium whitespace-nowrap border border-blue-200">💰 Paybill</button>
+                <button onclick="sendQuickQuery('WhatsApp Support')" class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full font-medium whitespace-nowrap border border-emerald-200">📱 WhatsApp</button>
+                <button onclick="sendQuickQuery('Admissions')" class="px-2.5 py-1 bg-purple-50 text-purple-700 rounded-full font-medium whitespace-nowrap border border-purple-200">🎓 Admission</button>
+            </div>
+
+            <form onsubmit="handleUserSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+                <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" class="flex-grow text-xs bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-800">
+                <button type="submit" class="w-9 h-9 bg-brand-900 hover:bg-brand-800 text-white rounded-xl flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed top-24 right-6 z-50 transform translate-x-full transition-transform duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center space-x-3 text-xs border border-slate-700">
+        <i id="toast-icon" class="fa-solid fa-circle-info text-amber-400 text-base"></i>
+        <span id="toast-message">Notification message</span>
+    </div>
+
+    <!-- ================= JAVASCRIPT APP ENGINE ================= -->
+    <script>
+        let currentRole = 'admin';
+        let activeTab = 'dashboard';
+        let isChatOpen = false;
+
+        // Sample Learner Registry Data Store with PP1 to Senior Grades
+        const learnersData = [
+            { id: 'SCA/2026/0482', name: 'Emmanuel Otieno', grade: 'Grade 7 JSS', parent: 'Grace Otieno', phone: '0720028192', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' },
+            { id: 'SCA/2026/0119', name: 'Amani Wanjiru', grade: 'Grade 8 JSS', parent: 'Peter Wanjiru', phone: '0712345678', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' },
+            { id: 'SCA/2026/0920', name: 'Daniel Kiptoo', grade: 'Grade 10 Senior', parent: 'Sarah Kiptoo', phone: '0798765432', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' },
+            { id: 'SCA/2026/0941', name: 'Joy Chebet', grade: 'Grade 12 Senior', parent: 'James Chebet', phone: '0787654321', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' },
+            { id: 'SCA/2026/0530', name: 'Brian Kiprop', grade: 'Grade 9 JSS', parent: 'David Kiprop', phone: '0723456789', feeStatus: 'Pending (5,000 KES)', feeColor: 'bg-amber-100 text-amber-800' },
+            { id: 'SCA/2026/0204', name: 'Faith Muthoni', grade: 'Grade 6 Primary', parent: 'Mary Muthoni', phone: '0734567890', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' },
+            { id: 'SCA/2026/0611', name: 'Kevin Kamau', grade: 'PP1 Kindergarten', parent: 'John Kamau', phone: '0745678901', feeStatus: 'Pending (8,500 KES)', feeColor: 'bg-amber-100 text-amber-800' },
+            { id: 'SCA/2026/0688', name: 'Blessed Nduku', grade: 'PP2 Kindergarten', parent: 'Ann Nduku', phone: '0756789012', feeStatus: 'Cleared', feeColor: 'bg-emerald-100 text-emerald-800' }
+        ];
+
+        function selectGradeFilter(gradeValue, btnElement) {
+            // Update dropdown selection
+            const selectEl = document.getElementById('gradeFilterSelect');
+            if (selectEl) selectEl.value = gradeValue;
+
+            // Highlight active button
+            const buttons = document.querySelectorAll('.grade-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-900', 'text-white', 'shadow-xs');
+                if (!btn.classList.contains('border-amber-300') && !btn.classList.contains('border-purple-300')) {
+                    btn.classList.add('bg-slate-100', 'text-slate-700');
+                }
+            });
+
+            if (btnElement) {
+                btnElement.classList.remove('bg-slate-100', 'text-slate-700');
+                btnElement.classList.add('bg-brand-900', 'text-white', 'shadow-xs');
+            }
+
+            filterLearnersTable();
+        }
+
+        function syncGradeSelectToButtons(gradeValue) {
+            const buttons = document.querySelectorAll('.grade-btn');
+            buttons.forEach(btn => {
+                const onclickAttr = btn.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(`'${gradeValue}'`)) {
+                    selectGradeFilter(gradeValue, btn);
+                }
+            });
+            filterLearnersTable();
+        }
+
+        // Sample Payment Audit Log
+        const mpesaPayments = [
+            { ref: 'QKH98231XA', adm: 'SCA/2026/0482', amount: 'KES 18,500', date: '2026-09-22', status: 'Completed' },
+            { ref: 'QKG44210MB', adm: 'SCA/2026/0119', amount: 'KES 22,000', date: '2026-09-20', status: 'Completed' },
+            { ref: 'QKF10948ZP', adm: 'SCA/2026/0204', amount: 'KES 14,000', date: '2026-09-18', status: 'Completed' }
+        ];
+
+        function switchTab(tabId) {
+            activeTab = tabId;
+            const tabs = ['dashboard', 'learners', 'timetable', 'finance', 'academics'];
+            
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`nav-${t}`);
+                if (el) el.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('text-brand-900', 'bg-white', 'shadow-xs');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+
+            const activeEl = document.getElementById(`tab-${tabId}`);
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('text-brand-900', 'bg-white', 'shadow-xs');
+            }
+
+            if (tabId === 'learners') renderLearnersTable();
+            if (tabId === 'timetable') renderTimetableDashboard();
+            if (tabId === 'finance') renderMpesaLogs();
+        }
+
+        function handleRoleSwitch(role) {
+            currentRole = role;
+            const badge = document.getElementById('roleBadge');
+            if (badge) {
+                badge.innerText = `${role.toUpperCase()} View Active`;
+            }
+            showToast(`Switched view to ${role.toUpperCase()} role.`);
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (drawer) drawer.classList.toggle('hidden');
+        }
+
+        function renderLearnersTable() {
+            const tbody = document.getElementById('learnersTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            learnersData.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-brand-800">${s.id}</td>
+                    <td class="p-4 font-bold text-slate-900">${s.name}</td>
+                    <td class="p-4 font-medium text-slate-600">${s.grade}</td>
+                    <td class="p-4 text-slate-600">${s.parent} (${s.phone})</td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-md font-bold text-[10px] ${s.feeColor}">${s.feeStatus}</span></td>
+                    <td class="p-4 text-center">
+                        <button onclick="previewReportCard('${s.name}', '${s.id}', '${s.grade}')" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-bold text-[10px]">Report</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterLearnersTable() {
+            const query = document.getElementById('studentSearchInput').value.toLowerCase();
+            const gradeFilter = document.getElementById('gradeFilterSelect').value;
+            const tbody = document.getElementById('learnersTableBody');
+            tbody.innerHTML = '';
+
+            learnersData.filter(s => {
+                const matchesQuery = s.name.toLowerCase().includes(query) || s.id.toLowerCase().includes(query) || s.grade.toLowerCase().includes(query);
+                const matchesGrade = gradeFilter === 'ALL' || s.grade === gradeFilter;
+                return matchesQuery && matchesGrade;
+            }).forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-brand-800">${s.id}</td>
+                    <td class="p-4 font-bold text-slate-900">${s.name}</td>
+                    <td class="p-4 font-medium text-slate-600">${s.grade}</td>
+                    <td class="p-4 text-slate-600">${s.parent} (${s.phone})</td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-md font-bold text-[10px] ${s.feeColor}">${s.feeStatus}</span></td>
+                    <td class="p-4 text-center">
+                        <button onclick="previewReportCard('${s.name}', '${s.id}', '${s.grade}')" class="px-3 py-1 bg-slate-900 text-white rounded-lg font-bold text-[10px]">Report</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const periodTimeSlots = [
+            { name: 'Assembly', time: '08:00 - 08:30', isBreak: true },
+            { name: 'Period 1', time: '08:30 - 09:10', isBreak: false },
+            { name: 'Period 2', time: '09:10 - 09:50', isBreak: false },
+            { name: 'Tea Break', time: '10:30 - 11:00', isBreak: true },
+            { name: 'Period 3', time: '11:00 - 11:40', isBreak: false },
+            { name: 'Period 4', time: '11:40 - 12:20', isBreak: false },
+            { name: 'Lunch Break', time: '01:00 - 02:00', isBreak: true },
+            { name: 'Period 5', time: '02:00 - 02:40', isBreak: false },
+            { name: 'Period 6', time: '02:40 - 03:20', isBreak: false }
+        ];
+
+        const cbcSubjectPool = [
+            { subject: 'Mathematics', teacher: 'Buma Isaac', room: 'Room 7A', color: 'bg-blue-50 text-blue-800 border-blue-200' },
+            { subject: 'Computer Studies', teacher: 'Buma Isaac', room: 'ICT Lab', color: 'bg-indigo-50 text-indigo-800 border-indigo-200' },
+            { subject: 'English Language', teacher: 'Mrs. Jane Wanjiku', room: 'Room 7A', color: 'bg-purple-50 text-purple-800 border-purple-200' },
+            { subject: 'Kiswahili', teacher: 'Madam Mary Muthoni', room: 'Room 7A', color: 'bg-amber-50 text-amber-800 border-amber-200' },
+            { subject: 'Integrated Science', teacher: 'Mr. Peter Otieno', room: 'Science Lab', color: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+            { subject: 'Social Studies', teacher: 'Sr. Clara Nambale', room: 'Room 7A', color: 'bg-rose-50 text-rose-800 border-rose-200' }
+        ];
+
+        function renderTimetableDashboard() {
+            const selectedGrade = document.getElementById('ttClassSelect').value;
+            document.getElementById('tt-grid-title').innerText = `${selectedGrade} - Weekly Schedule Matrix`;
+
+            const tbody = document.getElementById('timetableGridBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let totalTaught = 0;
+            periodTimeSlots.forEach((slot, pIndex) => {
+                const tr = document.createElement('tr');
+                if (slot.isBreak) {
+                    tr.className = 'bg-amber-50/60 font-bold text-[10px] text-amber-800 text-center uppercase border-b border-slate-200';
+                    tr.innerHTML = `
+                        <td class="p-2 border-r border-slate-200 bg-slate-100 font-semibold text-slate-700">${slot.name}</td>
+                        <td colspan="5" class="p-2"><i class="fa-solid fa-mug-hot mr-1"></i> ${slot.name} (${slot.time})</td>
+                    `;
+                } else {
+                    let rowHtml = `
+                        <td class="p-2 text-center border-r border-slate-200 bg-slate-50 font-bold">
+                            <div>${slot.name}</div>
+                            <div class="text-[9px] text-slate-400 font-normal">${slot.time}</div>
+                        </td>
+                    `;
+                    daysOfWeek.forEach((day, dIndex) => {
+                        totalTaught++;
+                        const sub = cbcSubjectPool[(pIndex + dIndex) % cbcSubjectPool.length];
+                        rowHtml += `
+                            <td class="p-2 border-r border-slate-200 align-top">
+                                <div class="${sub.color} p-2 rounded-xl border text-[11px] shadow-2xs">
+                                    <div class="font-bold leading-tight">${sub.subject}</div>
+                                    <div class="text-[9px] opacity-80 mt-1">${sub.teacher}</div>
+                                </div>
+                            </td>
+                        `;
+                    });
+                    tr.innerHTML = rowHtml;
+                }
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('tt-total-periods').innerText = `${totalTaught} / 40`;
+            renderTeacherWorkload();
+        }
+
+        function renderTeacherWorkload() {
+            const container = document.getElementById('teacherWorkloadList');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const teachers = [
+                { name: 'Buma Isaac (0720028192)', load: 12 },
+                { name: 'Mrs. Jane Wanjiku', load: 8 },
+                { name: 'Madam Mary Muthoni', load: 7 },
+                { name: 'Mr. Peter Otieno', load: 9 }
+            ];
+
+            teachers.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'p-2 bg-slate-50 rounded-xl border border-slate-200 text-xs';
+                div.innerHTML = `
+                    <div class="flex justify-between font-bold text-slate-800 text-[11px] mb-1">
+                        <span>${t.name}</span>
+                        <span class="text-brand-800">${t.load} Pds</span>
+                    </div>
+                    <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-brand-800 h-full rounded-full" style="width: ${t.load * 8}%"></div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function autoGenerateTimetable() {
+            showToast('Auto-generating conflict-free schedule...');
+            setTimeout(() => {
+                renderTimetableDashboard();
+                showToast('Timetable schedule updated successfully!', 'success');
+            }, 500);
+        }
+
+        function printTimetable() {
+            window.print();
+        }
+
+        function renderMpesaLogs() {
+            const tbody = document.getElementById('mpesaLogBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            mpesaPayments.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2.5 font-bold text-brand-800">${p.ref}</td>
+                    <td class="p-2.5 font-medium">${p.adm}</td>
+                    <td class="p-2.5 font-bold text-emerald-700">${p.amount}</td>
+                    <td class="p-2.5 text-slate-500">${p.date}</td>
+                    <td class="p-2.5"><span class="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded">${p.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function handleMpesaSimulation(e) {
+            e.preventDefault();
+            const adm = document.getElementById('mpesaAdmNo').value;
+            const amount = document.getElementById('mpesaAmount').value;
+            const refCode = 'QK' + Math.floor(10000000 + Math.random() * 90000000);
+
+            showToast(`STK Push prompt sent for ${adm}...`);
+            setTimeout(() => {
+                mpesaPayments.unshift({
+                    ref: refCode,
+                    adm: adm,
+                    amount: `KES ${parseInt(amount).toLocaleString()}`,
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'Completed'
+                });
+                renderMpesaLogs();
+                showToast(`Payment of KES ${amount} received! Ref: ${refCode}`, 'success');
+                e.target.reset();
+            }, 1200);
+        }
+
+        function openAdmissionModal() {
+            document.getElementById('admissionModal').classList.remove('hidden');
+        }
+        function closeAdmissionModal() {
+            document.getElementById('admissionModal').classList.add('hidden');
+        }
+        function closeAdmissionSuccessModal() {
+            document.getElementById('admissionSuccessModal').classList.add('hidden');
+        }
+
+        function handleAdmissionSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('admStudentName').value;
+            const grade = document.getElementById('admGrade').value;
+            const parent = document.getElementById('admParentName').value;
+            const phone = document.getElementById('admParentPhone').value;
+            const admId = `SCA/2026/${Math.floor(1000 + Math.random() * 9000)}`;
+
+            learnersData.unshift({
+                id: admId,
+                name: name,
+                grade: grade,
+                parent: parent,
+                phone: phone,
+                feeStatus: 'Cleared',
+                feeColor: 'bg-emerald-100 text-emerald-800'
+            });
+
+            document.getElementById('succAdmId').innerText = admId;
+            document.getElementById('succStudentName').innerText = name;
+            document.getElementById('succGrade').innerText = grade;
+            document.getElementById('dashTotalStudents').innerText = learnersData.length;
+
+            closeAdmissionModal();
+            document.getElementById('admissionSuccessModal').classList.remove('hidden');
+            e.target.reset();
+        }
+
+        function copyAdmissionId() {
+            const id = document.getElementById('succAdmId').innerText;
+            const temp = document.createElement('input');
+            temp.value = id;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast(`Admission ID ${id} copied!`, 'success');
+        }
+
+        function previewReportCard(name, id, grade) {
+            document.getElementById('rcName').innerText = name;
+            document.getElementById('rcId').innerText = id;
+            document.getElementById('rcGrade').innerText = grade;
+            document.getElementById('reportCardModal').classList.remove('hidden');
+        }
+        function closeReportCardModal() {
+            document.getElementById('reportCardModal').classList.add('hidden');
+        }
+
+        function toggleAiChat() {
+            const win = document.getElementById('ai-chat-window');
+            const iconOpen = document.getElementById('chat-icon-open');
+            const iconClose = document.getElementById('chat-icon-close');
+
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                win.classList.remove('hidden');
+                iconOpen.classList.add('hidden');
+                iconClose.classList.remove('hidden');
+            } else {
+                win.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        }
+
+        function sendQuickQuery(query) {
+            document.getElementById('chat-input').value = query;
+            handleUserSubmit(new Event('submit'));
+        }
+
+        function handleUserSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            appendChatMessage(val, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                let reply = `For detailed inquiries regarding "<strong>${val}</strong>", please chat with our desk on WhatsApp: <a href="https://wa.me/254720028192" target="_blank" class="text-emerald-600 font-bold underline">0720028192</a>.`;
+                const lower = val.toLowerCase();
+                if (lower.includes('paybill') || lower.includes('fee')) {
+                    reply = `💰 <strong>M-Pesa Fee Paybill:</strong><br>Equity: <strong>247247</strong> | KCB: <strong>522522</strong><br>Account: Student Admission ID (e.g. SCA/2026/0482).`;
+                } else if (lower.includes('whatsapp') || lower.includes('desk')) {
+                    reply = `📱 Direct Helpline: <strong>0720028192</strong>.<br><a href="https://wa.me/254720028192" target="_blank" class="text-emerald-600 font-bold underline">Click here to open WhatsApp</a>`;
+                } else if (lower.includes('admission') || lower.includes('join')) {
+                    reply = `🎓 Admissions for 2026 are open! Click <strong>New Registration</strong> in the top bar to apply.`;
+                }
+                appendChatMessage(reply, 'bot');
+            }, 600);
+        }
+
+        function appendChatMessage(msg, sender) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            if (sender === 'user') {
+                div.className = 'flex justify-end';
+                div.innerHTML = `<div class="bg-brand-900 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%]">${msg}</div>`;
+            } else {
+                div.className = 'flex items-start space-x-2';
+                div.innerHTML = `
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-brand-800 flex items-center justify-center flex-shrink-0 font-bold">
+                        <i class="fa-solid fa-robot text-xs"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-slate-800 max-w-[85%] shadow-2xs">${msg}</div>
+                `;
+            }
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.innerText = msg;
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => { toast.classList.add('translate-x-full'); }, 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderTimetableDashboard();
+            renderMpesaLogs();
+
+            // Chart.js Performance Bar Chart Initialization
+            const ctx = document.getElementById('performanceChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Grade 7 JSS', 'Grade 8 JSS', 'Grade 9 JSS', 'Grade 6 Primary', 'Grade 5 Primary'],
+                        datasets: [
+                            { label: 'Exceeding Expectation (EE)', data: [45, 52, 48, 60, 55], backgroundColor: '#059669' },
+                            { label: 'Meeting Expectation (ME)', data: [40, 38, 42, 32, 35], backgroundColor: '#2563eb' },
+                            { label: 'Approaching Expectation (AE)', data: [12, 8, 7, 6, 8], backgroundColor: '#f59e0b' }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+                        scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' } } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
