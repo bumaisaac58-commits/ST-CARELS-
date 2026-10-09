@@ -41,3 +41,125 @@
     window.supabaseClient = null;
   }
 })();
+(function () {
+  if (!window.supabaseClient) {
+    console.error('❌ Supabase client not initialized.');
+    return;
+  }
+
+  window.stCarelsSupabase = {
+    async signIn(email, password) {
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        console.error('❌ Sign-in failed:', error.message);
+        throw error;
+      }
+
+      console.log('✅ Signed in:', data?.user?.email);
+      return data;
+    },
+
+    async signOut() {
+      const { error } = await window.supabaseClient.auth.signOut();
+
+      if (error) {
+        console.error('❌ Sign-out failed:', error.message);
+        throw error;
+      }
+
+      console.log('✅ Signed out successfully');
+      return true;
+    },
+
+    async getSession() {
+      const { data, error } = await window.supabaseClient.auth.getSession();
+
+      if (error) {
+        console.error('❌ Failed to get session:', error.message);
+        throw error;
+      }
+
+      return data;
+    },
+
+    async getUser() {
+      const { data: { user }, error } = await window.supabaseClient.auth.getUser();
+
+      if (error) {
+        console.error('❌ Failed to get user:', error.message);
+        throw error;
+      }
+
+      return user;
+    },
+
+    async select(table, columns = '*', filters = null) {
+      let query = window.supabaseClient.from(table).select(columns);
+
+      if (filters) {
+        Object.entries(filters).forEach(([key, value]) => {
+          query = query.eq(key, value);
+        });
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error(`❌ Failed to fetch from ${table}:`, error.message);
+        throw error;
+      }
+
+      return data;
+    },
+
+    async insert(table, row) {
+      const { data, error } = await window.supabaseClient
+        .from(table)
+        .insert(row)
+        .select();
+
+      if (error) {
+        console.error(`❌ Failed to insert into ${table}:`, error.message);
+        throw error;
+      }
+
+      return data;
+    },
+
+    async update(table, row, matchColumn, matchValue) {
+      const { data, error } = await window.supabaseClient
+        .from(table)
+        .update(row)
+        .eq(matchColumn, matchValue)
+        .select();
+
+      if (error) {
+        console.error(`❌ Failed to update ${table}:`, error.message);
+        throw error;
+      }
+
+      return data;
+    },
+
+    async delete(table, matchColumn, matchValue) {
+      const { data, error } = await window.supabaseClient
+        .from(table)
+        .delete()
+        .eq(matchColumn, matchValue)
+        .select();
+
+      if (error) {
+        console.error(`❌ Failed to delete from ${table}:`, error.message);
+        throw error;
+      }
+
+      return data;
+    }
+  };
+
+  console.log('✅ ST Carels Supabase helper ready');
+})();
