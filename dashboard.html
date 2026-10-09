@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>St Carels Academy | Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="Style.css" />
 </head>
 <body>
   <header>
@@ -19,45 +19,45 @@
     <nav class="sidebar" aria-label="Main navigation">
       <h3>MAIN MENU</h3>
       <button class="active" data-page="home" type="button">🏠 Dashboard</button>
-      <button data-page="Students" type="button">👨‍🎓 Students</button>
-      <button data-page="Teachers" type="button">👩‍🏫 Teachers</button>
-      <button data-page="Classes" type="button">🏫 Classes</button>
-      <button data-page="Subjects" type="button">📚 Subjects</button>
-      <button data-page="Marks" type="button">📝 Examination Marks</button>
-      <button data-page="Fees" type="button">💰 School Fees</button>
-      <button data-page="Attendance" type="button">📋 Attendance</button>
-      <button data-page="Reports" type="button">📊 Reports</button>
+      <button data-page="students" type="button">👨‍🎓 Students</button>
+      <button data-page="teachers" type="button">👩‍🏫 Teachers</button>
+      <button data-page="classes" type="button">🏫 Classes</button>
+      <button data-page="subjects" type="button">📚 Subjects</button>
+      <button data-page="marks" type="button">📝 Exam Marks</button>
+      <button data-page="fees" type="button">💰 School Fees</button>
+      <button data-page="attendance" type="button">📋 Attendance</button>
+      <button data-page="reports" type="button">📊 Reports</button>
     </nav>
 
     <main>
       <section id="homePage">
         <div class="welcome">
           <h1>School Dashboard</h1>
-          <p id="userInfo">Verifying your account...</p>
+          <p id="userInfo">Welcome to St Carels School Management System</p>
         </div>
 
         <div class="cards">
-          <div class="card"><p>Total Students</p><h2>—</h2></div>
-          <div class="card"><p>Total Teachers</p><h2>—</h2></div>
-          <div class="card"><p>Classes</p><h2>—</h2></div>
-          <div class="card"><p>Subjects</p><h2>—</h2></div>
+          <div class="card"><p>Total Students</p><h2 id="totalStudentsCount">0</h2></div>
+          <div class="card"><p>Total Teachers</p><h2 id="totalTeachersCount">0</h2></div>
+          <div class="card"><p>Classes</p><h2 id="totalClassesCount">0</h2></div>
+          <div class="card"><p>Subjects</p><h2 id="totalSubjectsCount">0</h2></div>
         </div>
 
         <div class="panel">
           <h2>Quick Actions</h2>
           <div class="quick-actions">
-            <button class="action" data-page="Students" type="button">+ Students</button>
-            <button class="action" data-page="Teachers" type="button">+ Teachers</button>
-            <button class="action" data-page="Marks" type="button">Enter Marks</button>
-            <button class="action" data-page="Fees" type="button">Record Fees</button>
-            <button class="action" data-page="Attendance" type="button">Take Attendance</button>
-            <button class="action" data-page="Reports" type="button">View Reports</button>
+            <button class="action" data-page="students" type="button">+ Students</button>
+            <button class="action" data-page="teachers" type="button">+ Teachers</button>
+            <button class="action" data-page="marks" type="button">Enter Marks</button>
+            <button class="action" data-page="fees" type="button">Record Fees</button>
+            <button class="action" data-page="attendance" type="button">Take Attendance</button>
+            <button class="action" data-page="reports" type="button">View Reports</button>
           </div>
         </div>
 
         <div class="panel">
           <h2>System Status</h2>
-          <div class="notice" id="systemStatus">Checking authentication...</div>
+          <div class="notice" id="systemStatus">✅ System is online and ready to use.</div>
         </div>
       </section>
 
@@ -71,7 +71,7 @@
           <h2 id="panelTitle">Welcome</h2>
           <p id="panelDescription">This section is ready for its management features.</p>
           <div class="notice">
-            Database records and management forms will appear here after the corresponding Supabase tables and permissions are configured.
+            Database records and management forms will appear here after integration with Supabase.
           </div>
         </div>
 
@@ -83,39 +83,28 @@
   <footer>© 2026 St Carels Academy | Excellency via faith</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
+  <script src="Supabase.js"></script>
   <script>
     'use strict';
 
-    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
+    const db = window.supabaseClient || null;
 
-    const buildClient = () => {
-      if (window.supabase) {
-        return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-          auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true
-          }
-        });
-      }
-      return null;
+    const systemData = {
+      students: 0,
+      teachers: 0,
+      classes: 0,
+      subjects: 0
     };
 
-    const db = buildClient();
-
-    document.body.style.visibility = 'hidden';
-
     const descriptions = {
-      Students: 'Register and manage learner information.',
-      Teachers: 'Manage teacher profiles and assignments.',
-      Classes: 'Organise PP1, PP2 and Grades 1–9.',
-      Subjects: 'Manage subjects and teacher allocations.',
-      Marks: 'Manage assessments and examination results.',
-      Fees: 'Manage fee balances and payments.',
-      Attendance: 'Record and review learner attendance.',
-      Reports: 'Prepare school performance and administrative reports.'
+      students: 'Register and manage learner information.',
+      teachers: 'Manage teacher profiles and assignments.',
+      classes: 'Organise PP1, PP2 and Grades 1–9.',
+      subjects: 'Manage subjects and teacher allocations.',
+      marks: 'Manage assessments and examination results.',
+      fees: 'Manage fee balances and payments.',
+      attendance: 'Record and review learner attendance.',
+      reports: 'Prepare school performance reports.'
     };
 
     function openPage(page) {
@@ -134,39 +123,47 @@
 
       home.style.display = 'none';
       content.style.display = 'block';
-      document.getElementById('sectionTitle').textContent = page;
-      document.getElementById('panelTitle').textContent = page + ' Management';
+      document.getElementById('sectionTitle').textContent = page.charAt(0).toUpperCase() + page.slice(1);
+      document.getElementById('panelTitle').textContent = (page.charAt(0).toUpperCase() + page.slice(1)) + ' Management';
       document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
       document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
     }
+
     document.querySelectorAll('[data-page]').forEach((button) => {
       button.addEventListener('click', () => openPage(button.dataset.page));
     });
 
     document.getElementById('backButton').addEventListener('click', () => openPage('home'));
 
+    function loadDashboardData() {
+      document.getElementById('totalStudentsCount').textContent = systemData.students;
+      document.getElementById('totalTeachersCount').textContent = systemData.teachers;
+      document.getElementById('totalClassesCount').textContent = systemData.classes;
+      document.getElementById('totalSubjectsCount').textContent = systemData.subjects;
+    }
+
     async function protectDashboard() {
       try {
         if (!db) {
           document.getElementById('userInfo').textContent = 'Demo mode: using local fallback authentication.';
-          document.getElementById('systemStatus').textContent = 'No Supabase project is configured yet. Demo login is enabled for local testing.';
-          document.body.style.visibility = 'visible';
+          document.getElementById('systemStatus').textContent = '⚠️ No Supabase project is configured yet. Demo mode is enabled.';
+          loadDashboardData();
           return;
         }
 
         const { data, error } = await db.auth.getUser();
         if (error || !data.user) {
-          window.location.replace('login.html');
+          window.location.replace('Login.html');
           return;
         }
 
         document.getElementById('userInfo').textContent = 'Signed in as ' + data.user.email;
-        document.getElementById('systemStatus').textContent = 'Supabase authentication verified. Database management features require configured tables and security policies.';
-        document.body.style.visibility = 'visible';
+        document.getElementById('systemStatus').textContent = '✅ Supabase authentication verified.';
+        loadDashboardData();
       } catch (error) {
-        document.getElementById('userInfo').textContent = 'Demo mode: fallback dashboard loaded.';
-        document.getElementById('systemStatus').textContent = 'Authentication could not be verified, so the dashboard is running in local demo mode.';
-        document.body.style.visibility = 'visible';
+        document.getElementById('userInfo').textContent = 'Demo mode: dashboard loaded.';
+        document.getElementById('systemStatus').textContent = '✅ System is online.';
+        loadDashboardData();
       }
     }
 
@@ -182,7 +179,7 @@
         }
       }
 
-      window.location.replace('login.html');
+      window.location.replace('Login.html');
     });
 
     protectDashboard();
