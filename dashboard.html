@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St Carels Academy | Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h2>ST CARELS ACADEMY</h2>
+      <p>School Management System | Excellency via faith</p>
+    </div>
+    <button class="logout" id="logoutButton" type="button">Logout</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="Main navigation">
+      <h3>MAIN MENU</h3>
+      <button class="active" data-page="home" type="button">🏠 Dashboard</button>
+      <button data-page="Students" type="button">👨‍🎓 Students</button>
+      <button data-page="Teachers" type="button">👩‍🏫 Teachers</button>
+      <button data-page="Classes" type="button">🏫 Classes</button>
+      <button data-page="Subjects" type="button">📚 Subjects</button>
+      <button data-page="Marks" type="button">📝 Examination Marks</button>
+      <button data-page="Fees" type="button">💰 School Fees</button>
+      <button data-page="Attendance" type="button">📋 Attendance</button>
+      <button data-page="Reports" type="button">📊 Reports</button>
+    </nav>
+
+    <main>
+      <section id="homePage">
+        <div class="welcome">
+          <h1>School Dashboard</h1>
+          <p id="userInfo">Verifying your account...</p>
+        </div>
+
+        <div class="cards">
+          <div class="card"><p>Total Students</p><h2>—</h2></div>
+          <div class="card"><p>Total Teachers</p><h2>—</h2></div>
+          <div class="card"><p>Classes</p><h2>—</h2></div>
+          <div class="card"><p>Subjects</p><h2>—</h2></div>
+        </div>
+
+        <div class="panel">
+          <h2>Quick Actions</h2>
+          <div class="quick-actions">
+            <button class="action" data-page="Students" type="button">+ Students</button>
+            <button class="action" data-page="Teachers" type="button">+ Teachers</button>
+            <button class="action" data-page="Marks" type="button">Enter Marks</button>
+            <button class="action" data-page="Fees" type="button">Record Fees</button>
+            <button class="action" data-page="Attendance" type="button">Take Attendance</button>
+            <button class="action" data-page="Reports" type="button">View Reports</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>System Status</h2>
+          <div class="notice" id="systemStatus">Checking authentication...</div>
+        </div>
+      </section>
+
+      <section id="pageContent">
+        <div class="welcome">
+          <h1 id="sectionTitle">Management</h1>
+          <p id="sectionDescription">School management section.</p>
+        </div>
+
+        <div class="panel">
+          <h2 id="panelTitle">Welcome</h2>
+          <p id="panelDescription">This section is ready for its management features.</p>
+          <div class="notice">
+            Database records and management forms will appear here after the corresponding Supabase tables and permissions are configured.
+          </div>
+        </div>
+
+        <button class="action" id="backButton" type="button">← Back to Dashboard</button>
+      </section>
+    </main>
+  </div>
+
+  <footer>© 2026 St Carels Academy | Excellency via faith</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    'use strict';
+
+    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
+
+    const buildClient = () => {
+      if (window.supabase) {
+        return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true
+          }
+        });
+      }
+      return null;
+    };
+
+    const db = buildClient();
+
+    document.body.style.visibility = 'hidden';
+
+    const descriptions = {
+      Students: 'Register and manage learner information.',
+      Teachers: 'Manage teacher profiles and assignments.',
+      Classes: 'Organise PP1, PP2 and Grades 1–9.',
+      Subjects: 'Manage subjects and teacher allocations.',
+      Marks: 'Manage assessments and examination results.',
+      Fees: 'Manage fee balances and payments.',
+      Attendance: 'Record and review learner attendance.',
+      Reports: 'Prepare school performance and administrative reports.'
+    };
+
+    function openPage(page) {
+      const home = document.getElementById('homePage');
+      const content = document.getElementById('pageContent');
+
+      document.querySelectorAll('.sidebar button').forEach((button) => {
+        button.classList.toggle('active', button.dataset.page === page);
+      });
+
+      if (page === 'home') {
+        home.style.display = 'block';
+        content.style.display = 'none';
+        return;
+      }
+
+      home.style.display = 'none';
+      content.style.display = 'block';
+      document.getElementById('sectionTitle').textContent = page;
+      document.getElementById('panelTitle').textContent = page + ' Management';
+      document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
+      document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
+    }
+    document.querySelectorAll('[data-page]').forEach((button) => {
+      button.addEventListener('click', () => openPage(button.dataset.page));
+    });
+
+    document.getElementById('backButton').addEventListener('click', () => openPage('home'));
+
+    async function protectDashboard() {
+      try {
+        if (!db) {
+          document.getElementById('userInfo').textContent = 'Demo mode: using local fallback authentication.';
+          document.getElementById('systemStatus').textContent = 'No Supabase project is configured yet. Demo login is enabled for local testing.';
+          document.body.style.visibility = 'visible';
+          return;
+        }
+
+        const { data, error } = await db.auth.getUser();
+        if (error || !data.user) {
+          window.location.replace('login.html');
+          return;
+        }
+
+        document.getElementById('userInfo').textContent = 'Signed in as ' + data.user.email;
+        document.getElementById('systemStatus').textContent = 'Supabase authentication verified. Database management features require configured tables and security policies.';
+        document.body.style.visibility = 'visible';
+      } catch (error) {
+        document.getElementById('userInfo').textContent = 'Demo mode: fallback dashboard loaded.';
+        document.getElementById('systemStatus').textContent = 'Authentication could not be verified, so the dashboard is running in local demo mode.';
+        document.body.style.visibility = 'visible';
+      }
+    }
+
+    document.getElementById('logoutButton').addEventListener('click', async function () {
+      this.disabled = true;
+
+      if (db) {
+        try {
+          const { error } = await db.auth.signOut();
+          if (error) { throw error; }
+        } catch (error) {
+          console.warn('Logout error:', error);
+        }
+      }
+
+      window.location.replace('login.html');
+    });
+
+    protectDashboard();
+  </script>
+</body>
+</html>
