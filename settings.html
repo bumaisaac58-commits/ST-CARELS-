@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>School Settings | St Carels School</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .settings-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+            margin-bottom: 20px;
+        }
+
+        .settings-card h2 {
+            color: #0756b5;
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        .settings-card .form-group {
+            margin-bottom: 16px;
+        }
+
+        .settings-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .settings-note {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .settings-status {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 750px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h2>ST CARELS SCHOOL</h2>
+        <p>School Management System</p>
+    </div>
+
+    <button type="button" onclick="logout()">Logout</button>
+</header>
+
+<div class="dashboard-layout">
+
+    <nav class="sidebar">
+        <h3>MAIN MENU</h3>
+
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="students.html">👨‍🎓 Students</a>
+        <a href="teachers.html">👩‍🏫 Teachers</a>
+        <a href="classes.html">🏫 Classes</a>
+        <a href="attendance.html">📋 Attendance</a>
+        <a href="exams.html">📝 Examinations</a>
+        <a href="fees.html">💰 School Fees</a>
+        <a href="reports.html">📊 Reports</a>
+        <a href="settings.html" class="active">⚙️ Settings</a>
+    </nav>
+
+    <main>
+
+        <section class="page-title">
+            <h1>School Settings</h1>
+            <p>Manage your school's information and preferences.</p>
+        </section>
+
+        <div id="message"
+             class="settings-status"
+             role="status"
+             aria-live="polite"></div>
+
+        <div class="settings-note">
+            <strong>Important:</strong>
+            These settings are saved in this browser until you connect
+            the page to a school settings table in Supabase.
+            Browser storage is not shared across devices or users.
+        </div>
+
+        <form id="settingsForm">
+
+            <div class="settings-grid">
+
+                <!-- SCHOOL INFORMATION -->
+
+                <section class="settings-card">
+                    <h2>🏫 School Information</h2>
+
+                    <div class="form-group">
+                        <label for="schoolName">School Name *</label>
+                        <input
+                            type="text"
+                            id="schoolName"
+                            maxlength="150"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="motto">School Motto</label>
+                        <input
+                            type="text"
+                            id="motto"
+                            maxlength="200">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolType">School Type</label>
+                        <select id="schoolType">
+                            <option value="Primary">Primary School</option>
+                            <option value="Junior">Junior School</option>
+                            <option value="Combined">Combined School</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolCode">School Code</label>
+                        <input
+                            type="text"
+                            id="schoolCode"
+                            maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Physical Address</label>
+                        <input
+                            type="text"
+                            id="address"
+                            maxlength="250">
+                    </div>
+                </section>
+
+                <!-- CONTACT INFORMATION -->
+
+                <section class="settings-card">
+                    <h2>📞 Contact Information</h2>
+
+                    <div class="form-group">
+                        <label for="phone">School Phone</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            maxlength="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">School Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            maxlength="150">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="headteacher">Headteacher's Name</label>
+                        <input
+                            type="text"
+                            id="headteacher"
+                            maxlength="150">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="county">County</label>
+                        <select id="county">
+                            <option value="">Select county</option>
+                            <option>Trans Nzoia</option>
+                            <option>Uasin Gishu</option>
+                            <option>Bungoma</option>
+                            <option>Nairobi</option>
+                            <option>Kiambu</option>
+                            <option>Nakuru</option>
+                            <option>Kakamega</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- ACADEMIC SETTINGS -->
+
+                <section class="settings-card">
+                    <h2>📚 Academic Settings</h2>
+
+                    <div class="form-group">
+                        <label for="academicYear">Academic Year *</label>
+                        <input
+                            type="number"
+                            id="academicYear"
+                            min="2000"
+                            max="2100"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="term">Current Term</label>
+                        <select id="term">
+                            <option value="Term 1">Term 1</option>
+                            <option value="Term 2">Term 2</option>
+                            <option value="Term 3">Term 3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="curriculum">Curriculum</label>
+                        <select id="curriculum">
+                            <option value="CBC">CBC / CBE</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="grading">Grading System</label>
+                        <select id="grading">
+                            <option value="Competency">Competency-based</option>
+                            <option value="Marks">Marks / Percentage</option>
+                            <option value="Points">Points</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- SYSTEM PREFERENCES -->
+
+                <section class="settings-card">
+                    <h2>⚙️ System Preferences</h2>
+
+                    <div class="form-group">
+                        <label for="theme">Interface Theme</label>
+                        <select id="theme">
+                            <option value="blue">White and Blue</option>
+                            <option value="green">White and Green</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <select id="currency">
+                            <option value="KES">Kenyan Shilling (KES)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateFormat">Date Format</label>
+                        <select id="dateFormat">
+                            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timezone">Time Zone</label>
+                        <select id="timezone">
+                            <option value="Africa/Nairobi">
+                                East Africa Time (Kenya)
+                            </option>
+                        </select>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="settings-actions">
+                <button type="submit" id="saveButton">
+                    Save Settings
+                </button>
+
+                <button type="button"
+                        class="btn-secondary"
+                        onclick="resetSettings()">
+                    Reset Form
+                </button>
+            </div>
+
+        </form>
+
+        <section class="settings-card" style="margin-top:25px;">
+            <h2>ℹ️ System Information</h2>
+
+            <p><strong>System:</strong> St Carels School Management System</p>
+            <p><strong>School:</strong> <span id="displaySchool">St Carels Umoja Kwanza</span></p>
+            <p><strong>Motto:</strong> Excellency via faith</p>
+            <p><strong>Database:</strong> Supabase connection to be configured</p>
+            <p><strong>Version:</strong> 1.0</p>
+        </section>
+
+    </main>
+</div>
+
+<footer>
+    &copy; <span id="year"></span> St Carels School.
+    Excellency via faith.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+const form = document.getElementById("settingsForm");
+const message = document.getElementById("message");
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+const defaults = {
+    schoolName: "St Carels Umoja Kwanza",
+    motto: "Excellency via faith",
+    schoolType: "Primary",
+    schoolCode: "",
+    address: "",
+    phone: "",
+    email: "",
+    headteacher: "",
+    county: "Trans Nzoia",
+    academicYear: new Date().getFullYear(),
+    term: "Term 3",
+    curriculum: "CBC",
+    grading: "Competency",
+    theme: "blue",
+    currency: "KES",
+    dateFormat: "DD/MM/YYYY",
+    timezone: "Africa/Nairobi"
+};
+
+const fieldNames = Object.keys(defaults);
+
+function showMessage(text, type = "alert-info") {
+    message.className = "settings-status alert " + type;
+    message.textContent = text;
+}
+
+function getSettings() {
+    const result = {};
+
+    fieldNames.forEach(key => {
+        const element = document.getElementById(key);
+        result[key] = element.value;
+    });
+
+    return result;
+}
+
+function applySettings(settings) {
+    fieldNames.forEach(key => {
+        const element = document.getElementById(key);
+
+        if (settings[key] !== undefined) {
+            element.value = settings[key];
+        }
+    });
+
+    document.getElementById("displaySchool").textContent =
+        settings.schoolName || defaults.schoolName;
+}
+
+function loadSettings() {
+    try {
+        const saved = localStorage.getItem("stCarelsSettings");
+        const settings = saved
+            ? { ...defaults, ...JSON.parse(saved) }
+            : defaults;
+
+        applySettings(settings);
+    } catch (error) {
+        applySettings(defaults);
+        showMessage(
+            "Unable to load saved settings. Default values have been loaded.",
+            "alert-danger"
+        );
+    }
+}
+
+form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const settings = getSettings();
+
+    if (!settings.schoolName.trim()) {
+        showMessage("Please enter the school name.", "alert-danger");
+        return;
+    }
+
+    try {
+        localStorage.setItem(
+            "stCarelsSettings",
+            JSON.stringify(settings)
+        );
+
+        document.getElementById("displaySchool").textContent =
+            settings.schoolName;
+
+        showMessage(
+            "Settings saved in this browser successfully. They are not yet saved to Supabase.",
+            "alert-success"
+        );
+    } catch (error) {
+        showMessage(
+            "Could not save settings in this browser.",
+            "alert-danger"
+        );
+    }
+});
+
+function resetSettings() {
+    if (!confirm("Restore the default settings in this form?")) {
+        return;
+    }
+
+    applySettings(defaults);
+
+    showMessage(
+        "Default values loaded. Click Save Settings to save them in this browser.",
+        "alert-info"
+    );
+}
+
+async function logout() {
+    if (!confirm("Are you sure you want to log out?")) {
+        return;
+    }
+
+    const db = window.supabaseClient;
+
+    if (db) {
+        const { error } = await db.auth.signOut();
+
+        if (error) {
+            showMessage(
+                "Logout failed: " + error.message,
+                "alert-danger"
+            );
+            return;
+        }
+    }
+
+    window.location.replace("login.html");
+}
+
+loadSettings();
+</script>
+
+</body>
+</html>
