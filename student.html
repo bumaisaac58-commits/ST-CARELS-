@@ -1,1665 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>BUMATECH - Students</title>
+    <title>Students | St Carels School</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    .topbar {
-      background: #0b5ed7;
-      color: white;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .topbar h1 {
-      font-size: 21px;
-    }
-
-    .back-btn {
-      background: white;
-      color: #0b5ed7;
-      border: none;
-      padding: 9px 13px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 18px;
-    }
-
-    .school-name {
-      color: #555;
-      margin-bottom: 18px;
-      font-size: 14px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .stat {
-      background: white;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-
-    .stat h2 {
-      color: #0b5ed7;
-      margin-bottom: 5px;
-    }
-
-    .stat p {
-      color: #666;
-      font-size: 13px;
-    }
-
-    .toolbar {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .toolbar input {
-      flex: 1;
-      min-width: 220px;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-    }
-
-    .toolbar input:focus {
-      border-color: #0b5ed7;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 8px;
-      padding: 12px 17px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-primary {
-      background: #0b5ed7;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #e9f1ff;
-      color: #0b5ed7;
-    }
-
-    .students-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 850px;
-    }
-
-    th,
-    td {
-      padding: 13px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    th {
-      background: #f1f6ff;
-      color: #174a8b;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .active {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .inactive {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .action-btn {
-      border: none;
-      padding: 7px 9px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-right: 4px;
-    }
-
-    .edit {
-      background: #e8f1ff;
-      color: #0758c9;
-    }
-
-    .delete {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 35px;
-      color: #777;
-    }
-
-    /* MODAL */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.5);
-      z-index: 100;
-      overflow-y: auto;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: white;
-      max-width: 700px;
-      margin: 30px auto;
-      border-radius: 15px;
-      padding: 22px;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-header h2 {
-      color: #0b5ed7;
-    }
-
-    .close {
-      border: none;
-      background: #eee;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    input,
-    select {
-      padding: 11px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: #0b5ed7;
-    }
-
-    .modal-actions {
-      margin-top: 20px;
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #666;
-    }
-
-    .message {
-      display: none;
-      margin-bottom: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .success {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    @media(max-width: 700px) {
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-group.full {
-        grid-column: auto;
-      }
-
-      .container {
-        padding: 10px;
-      }
-
-      .topbar h1 {
-        font-size: 18px;
-      }
-    }
-  </style>
+    <!-- Supabase JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <h1>🎓 BUMATECH</h1>
-    <button class="back-btn" onclick="goDashboard()">← Dashboard</button>
-  </div>
-
-  <div class="container">
-
-    <div class="school-name" id="schoolName">
-      Loading school...
+<header>
+    <div>
+        <h2>ST CARELS SCHOOL</h2>
+        <p>School Management System</p>
     </div>
 
-    <div id="message" class="message"></div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <h2 id="totalStudents">0</h2>
-        <p>Total Students</p>
-      </div>
-
-      <div class="stat">
-        <h2 id="activeStudents">0</h2>
-        <p>Active Students</p>
-      </div>
-
-      <div class="stat">
-        <h2 id="inactiveStudents">0</h2>
-        <p>Inactive Students</p>
-      </div>
-
-    </div>
-
-    <div class="toolbar">
-
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by name or admission number..."
-        oninput="filterStudents()"
-      >
-
-      <button
-        class="btn btn-primary"
-        onclick="openAddStudent()"
-      >
-        + Add Student
-      </button>
-
-    </div>
-
-    <div class="students-card">
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>Admission No.</th>
-              <th>Student Name</th>
-              <th>Gender</th>
-              <th>Class</th>
-              <th>Parent / Guardian</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody id="studentsTable">
-
-            <tr>
-              <td colspan="8" class="loading">
-                Loading students...
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ADD / EDIT STUDENT MODAL -->
-
-  <div class="modal" id="studentModal">
-
-    <div class="modal-content">
-
-      <div class="modal-header">
-
-        <h2 id="modalTitle">
-          Add Student
-        </h2>
-
-        <button
-          class="close"
-          onclick="closeModal()"
-        >
-          ×
-        </button>
-
-      </div>
-
-      <form id="studentForm">
-
-        <input
-          type="hidden"
-          id="studentId"
-        >
-
-        <div class="form-grid">
-
-          <div class="form-group">
-
-            <label>Admission Number *</label>
-
-            <input
-              type="text"
-              id="admissionNumber"
-              required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Gender *</label>
-
-            <select id="gender" required>
-
-              <option value="">
-                Select Gender
-              </option>
-
-              <option value="Male">
-                Male
-              </option>
-
-              <option value="Female">
-                Female
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>First Name *</label>
-
-            <input
-              type="text"
-              id="firstName"
-              required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Middle Name</label>
-
-            <input
-              type="text"
-              id="middleName"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Last Name *</label>
-
-            <input
-              type="text"
-              id="lastName"
-              required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Date of Birth</label>
-
-            <input
-              type="date"
-              id="dateOfBirth"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Class *</label>
-
-            <select
-              id="classId"
-              required
-            >
-
-              <option value="">
-                Select Class
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Admission Date</label>
-
-            <input
-              type="date"
-              id="admissionDate"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Parent / Guardian</label>
-
-            <input
-              type="text"
-              id="parentName"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Parent Phone</label>
-
-            <input
-              type="tel"
-              id="parentPhone"
-              placeholder="07XXXXXXXX"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>County</label>
-
-            <input
-              type="text"
-              id="county"
-              placeholder="e.g. Trans Nzoia"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Sub-County</label>
-
-            <input
-              type="text"
-              id="subCounty"
-              placeholder="e.g. Kwanza"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Status</label>
-
-            <select id="status">
-
-              <option value="Active">
-                Active
-              </option>
-
-              <option value="Inactive">
-                Inactive
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="closeModal()"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >
-            Save Student
-          </button>
-
-        </div>
-
-      </form>
-
-    </div>
-
-  </div>
-
+    <button type="button" onclick="logout()">Logout</button>
+</header>
+
+<div class="dashboard-layout">
+
+    <nav class="sidebar">
+        <h3>MAIN MENU</h3>
+
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="students.html" class="active">👨‍🎓 Students</a>
+        <a href="teachers.html">👩‍🏫 Teachers</a>
+        <a href="classes.html">🏫 Classes</a>
+        <a href="attendance.html">📋 Attendance</a>
+        <a href="exams.html">📝 Examinations</a>
+        <a href="fees.html">💰 School Fees</a>
+        <a href="reports.html">📊 Reports</a>
+        <a href="settings.html">⚙️ Settings</a>
+    </nav>
+
+    <main>
+
+        <section class="page-title">
+            <h1>Student Management</h1>
+            <p>Register, search, and manage student records.</p>
+        </section>
+
+        <section class="cards">
+
+            <div class="card">
+                <p>Total Students</p>
+                <h2 id="totalStudents">0</h2>
+            </div>
+
+            <div class="card">
+                <p>Male Students</p>
+                <h2 id="maleStudents">0</h2>
+            </div>
+
+            <div class="card">
+                <p>Female Students</p>
+                <h2 id="femaleStudents">0</h2>
+            </div>
+
+            <div class="card">
+                <p>Page Status</p>
+                <h2 style="font-size:18px;">Ready</h2>
+            </div>
+
+        </section>
+
+        <!-- REGISTER STUDENT -->
+
+        <section class="panel">
+
+            <h2>➕ Register New Student</h2>
+
+            <div id="message" role="status" aria-live="polite"></div>
+
+            <form id="studentForm">
+
+                <div class="form-group">
+                    <label for="admission">Admission Number *</label>
+                    <input
+                        type="text"
+                        id="admission"
+                        required
+                        maxlength="50"
+                        placeholder="e.g. SC001">
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Student Full Name *</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        required
+                        maxlength="150"
+                        placeholder="Enter student's full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender *</label>
+                    <select id="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="className">Class *</label>
+                    <select id="className" required>
+                        <option value="">Select class</option>
+                        <option>PP1</option>
+                        <option>PP2</option>
+                        <option>Grade 1</option>
+                        <option>Grade 2</option>
+                        <option>Grade 3</option>
+                        <option>Grade 4</option>
+                        <option>Grade 5</option>
+                        <option>Grade 6</option>
+                        <option>Grade 7</option>
+                        <option>Grade 8</option>
+                        <option>Grade 9</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob">
+                </div>
+
+                <div class="form-group">
+                    <label for="guardian">Parent/Guardian Name</label>
+                    <input
+                        type="text"
+                        id="guardian"
+                        maxlength="150"
+                        placeholder="Enter parent or guardian name">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Parent/Guardian Phone</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        maxlength="30"
+                        placeholder="Enter phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="studentStatus">Status</label>
+                    <select id="studentStatus">
+                        <option value="Active">Active</option>
+                        <option value="Transferred">Transferred</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="saveButton">
+                    Save Student
+                </button>
+
+                <button type="reset" class="btn-secondary">
+                    Clear Form
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- STUDENT RECORDS -->
+
+        <section class="panel">
+
+            <h2>📋 Student Records</h2>
+
+            <div class="form-group">
+                <label for="searchStudent">Search Students</label>
+                <input
+                    type="search"
+                    id="searchStudent"
+                    placeholder="Search by name, admission number, or class">
+            </div>
+
+            <p id="recordCount">Loading student records...</p>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Admission No.</th>
+                            <th>Full Name</th>
+                            <th>Gender</th>
+                            <th>Class</th>
+                            <th>Guardian</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+                        <tr>
+                            <td colspan="8">Preparing student records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<footer>
+    &copy; <span id="year"></span> St Carels School.
+    Excellency via faith.
+</footer>
 
 <script>
+/*
+ IMPORTANT:
+ Configure Supabase before using this page.
 
-const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+ Create a supabase.js file that initializes the
+ Supabase client and exposes it as window.supabaseClient.
 
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+ This page does not save student records until
+ a valid Supabase client and database table exist.
+*/
 
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
-let currentUser = null;
-let currentSchool = null;
+const form = document.getElementById("studentForm");
+const table = document.getElementById("studentTable");
+const message = document.getElementById("message");
+
 let students = [];
-let classes = [];
+let editingId = null;
 
-
-/* START */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  init
-);
-
-
-async function init() {
-
-  try {
-
-    const {
-      data: {
-        user
-      },
-      error
-    } = await supabaseClient.auth.getUser();
-
-
-    if (error || !user) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-    }
-
-
-    currentUser = user;
-
-
-    await loadSchool();
-
-    await loadClasses();
-
-    await loadStudents();
-
-  }
-
-  catch(error) {
-
-    console.error(error);
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-  }
-
+function showMessage(text, type = "alert-info") {
+    message.className = "alert " + type;
+    message.textContent = text;
 }
 
-
-/* SCHOOL */
-
-async function loadSchool() {
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-
-    .from("schools")
-
-    .select("*")
-
-    .eq(
-      "owner_id",
-      currentUser.id
-    )
-
-    .limit(1);
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    document.getElementById(
-      "schoolName"
-    ).textContent =
-      "No school has been created yet.";
-
-    return;
-
-  }
-
-
-  currentSchool = data[0];
-
-
-  document.getElementById(
-    "schoolName"
-  ).textContent =
-    currentSchool.name +
-    " • " +
-    (currentSchool.code || "");
-
+function getClient() {
+    return window.supabaseClient || null;
 }
-
-
-/* CLASSES */
-
-async function loadClasses() {
-
-  if (!currentSchool) return;
-
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-
-    .from("school_classes")
-
-    .select("*")
-
-    .eq(
-      "school_id",
-      currentSchool.id
-    );
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  classes = data || [];
-
-
-  const classSelect =
-    document.getElementById(
-      "classId"
-    );
-
-
-  classSelect.innerHTML =
-    '<option value="">Select Class</option>';
-
-
-  classes.forEach(cls => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = cls.id;
-
-    option.textContent =
-      cls.name ||
-      cls.class_name ||
-      cls.title ||
-      "Class";
-
-
-    classSelect.appendChild(option);
-
-  });
-
-}
-
-
-/* STUDENTS */
-
-async function loadStudents() {
-
-  if (!currentSchool) return;
-
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-
-    .from("students")
-
-    .select(`
-      *,
-      school_classes (
-        name,
-        class_name
-      )
-    `)
-
-    .eq(
-      "school_id",
-      currentSchool.id
-    )
-
-    .order(
-      "created_at",
-      {
-        ascending: false
-      }
-    );
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  students = data || [];
-
-
-  renderStudents();
-
-}
-
-
-/* DISPLAY */
-
-function renderStudents() {
-
-  const table =
-    document.getElementById(
-      "studentsTable"
-    );
-
-
-  if (students.length === 0) {
-
-    table.innerHTML = `
-      <tr>
-        <td colspan="8" class="empty">
-          No students registered yet.
-          Click <b>+ Add Student</b> to register the first student.
-        </td>
-      </tr>
-    `;
-
-  }
-
-  else {
-
-    table.innerHTML =
-      students.map(student => {
-
-        const fullName =
-          [
-            student.first_name,
-            student.middle_name,
-            student.last_name
-          ]
-          .filter(Boolean)
-          .join(" ");
-
-
-        const className =
-          student.school_classes?.name ||
-          student.school_classes?.class_name ||
-          "-";
-
-
-        return `
-
-          <tr>
-
-            <td>
-              ${escapeHTML(
-                student.admission_number
-              )}
-            </td>
-
-            <td>
-              <strong>
-                ${escapeHTML(fullName)}
-              </strong>
-            </td>
-
-            <td>
-              ${escapeHTML(
-                student.gender || "-"
-              )}
-            </td>
-
-            <td>
-              ${escapeHTML(className)}
-            </td>
-
-            <td>
-              ${escapeHTML(
-                student.parent_name || "-"
-              )}
-            </td>
-
-            <td>
-              ${escapeHTML(
-                student.parent_phone || "-"
-              )}
-            </td>
-
-            <td>
-
-              <span class="status ${
-                student.status === "Active"
-                  ? "active"
-                  : "inactive"
-              }">
-
-                ${escapeHTML(
-                  student.status
-                )}
-
-              </span>
-
-            </td>
-
-            <td>
-
-              <button
-                class="action-btn edit"
-                onclick="editStudent('${student.id}')"
-              >
-                Edit
-              </button>
-
-              <button
-                class="action-btn delete"
-                onclick="deleteStudent('${student.id}')"
-              >
-                Delete
-              </button>
-
-            </td>
-
-          </tr>
-
-        `;
-
-      }).join("");
-
-  }
-
-
-  updateStats();
-
-}
-
-
-/* STATISTICS */
-
-function updateStats() {
-
-  const total =
-    students.length;
-
-
-  const active =
-    students.filter(
-      s => s.status === "Active"
-    ).length;
-
-
-  const inactive =
-    students.filter(
-      s => s.status === "Inactive"
-    ).length;
-
-
-  document.getElementById(
-    "totalStudents"
-  ).textContent = total;
-
-
-  document.getElementById(
-    "activeStudents"
-  ).textContent = active;
-
-
-  document.getElementById(
-    "inactiveStudents"
-  ).textContent = inactive;
-
-}
-
-
-/* ADD */
-
-function openAddStudent() {
-
-  document.getElementById(
-    "studentForm"
-  ).reset();
-
-
-  document.getElementById(
-    "studentId"
-  ).value = "";
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Add Student";
-
-
-  document.getElementById(
-    "admissionDate"
-  ).value =
-    new Date()
-      .toISOString()
-      .split("T")[0];
-
-
-  document.getElementById(
-    "studentModal"
-  ).style.display =
-    "block";
-
-}
-
-
-/* EDIT */
-
-function editStudent(id) {
-
-  const student =
-    students.find(
-      s => s.id === id
-    );
-
-
-  if (!student) return;
-
-
-  document.getElementById(
-    "studentId"
-  ).value =
-    student.id;
-
-
-  document.getElementById(
-    "admissionNumber"
-  ).value =
-    student.admission_number || "";
-
-
-  document.getElementById(
-    "firstName"
-  ).value =
-    student.first_name || "";
-
-
-  document.getElementById(
-    "middleName"
-  ).value =
-    student.middle_name || "";
-
-
-  document.getElementById(
-    "lastName"
-  ).value =
-    student.last_name || "";
-
-
-  document.getElementById(
-    "gender"
-  ).value =
-    student.gender || "";
-
-
-  document.getElementById(
-    "dateOfBirth"
-  ).value =
-    student.date_of_birth || "";
-
-
-  document.getElementById(
-    "classId"
-  ).value =
-    student.class_id || "";
-
-
-  document.getElementById(
-    "parentName"
-  ).value =
-    student.parent_name || "";
-
-
-  document.getElementById(
-    "parentPhone"
-  ).value =
-    student.parent_phone || "";
-
-
-  document.getElementById(
-    "county"
-  ).value =
-    student.county || "";
-
-
-  document.getElementById(
-    "subCounty"
-  ).value =
-    student.sub_county || "";
-
-
-  document.getElementById(
-    "admissionDate"
-  ).value =
-    student.admission_date || "";
-
-
-  document.getElementById(
-    "status"
-  ).value =
-    student.status || "Active";
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Edit Student";
-
-
-  document.getElementById(
-    "studentModal"
-  ).style.display =
-    "block";
-
-}
-
-
-/* SAVE */
-
-document.getElementById(
-  "studentForm"
-).addEventListener(
-  "submit",
-  saveStudent
-);
-
-
-async function saveStudent(event) {
-
-  event.preventDefault();
-
-
-  if (!currentSchool) {
-
-    showMessage(
-      "No school found.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const id =
-    document.getElementById(
-      "studentId"
-    ).value;
-
-
-  const studentData = {
-
-    school_id:
-      currentSchool.id,
-
-    admission_number:
-      document.getElementById(
-        "admissionNumber"
-      ).value.trim(),
-
-    first_name:
-      document.getElementById(
-        "firstName"
-      ).value.trim(),
-
-    middle_name:
-      document.getElementById(
-        "middleName"
-      ).value.trim() || null,
-
-    last_name:
-      document.getElementById(
-        "lastName"
-      ).value.trim(),
-
-    gender:
-      document.getElementById(
-        "gender"
-      ).value,
-
-    date_of_birth:
-      document.getElementById(
-        "dateOfBirth"
-      ).value || null,
-
-    class_id:
-      document.getElementById(
-        "classId"
-      ).value || null,
-
-    parent_name:
-      document.getElementById(
-        "parentName"
-      ).value.trim() || null,
-
-    parent_phone:
-      document.getElementById(
-        "parentPhone"
-      ).value.trim() || null,
-
-    county:
-      document.getElementById(
-        "county"
-      ).value.trim() || null,
-
-    sub_county:
-      document.getElementById(
-        "subCounty"
-      ).value.trim() || null,
-
-    admission_date:
-      document.getElementById(
-        "admissionDate"
-      ).value || null,
-
-    status:
-      document.getElementById(
-        "status"
-      ).value
-
-  };
-
-
-  let result;
-
-
-  if (id) {
-
-    result =
-      await supabaseClient
-
-        .from("students")
-
-        .update(studentData)
-
-        .eq("id", id)
-
-        .eq(
-          "school_id",
-          currentSchool.id
-        );
-
-  }
-
-  else {
-
-    result =
-      await supabaseClient
-
-        .from("students")
-
-        .insert(
-          studentData
-        );
-
-  }
-
-
-  if (result.error) {
-
-    if (
-      result.error.code ===
-      "23505"
-    ) {
-
-      showMessage(
-        "That admission number already exists in this school.",
-        "error"
-      );
-
-    }
-
-    else {
-
-      showMessage(
-        result.error.message,
-        "error"
-      );
-
-    }
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    id
-      ? "Student updated successfully."
-      : "Student added successfully.",
-    "success"
-  );
-
-
-  await loadStudents();
-
-}
-
-
-/* DELETE */
-
-async function deleteStudent(id) {
-
-  const student =
-    students.find(
-      s => s.id === id
-    );
-
-
-  if (!student) return;
-
-
-  const fullName =
-    [
-      student.first_name,
-      student.middle_name,
-      student.last_name
-    ]
-    .filter(Boolean)
-    .join(" ");
-
-
-  if (
-    !confirm(
-      "Delete " +
-      fullName +
-      "?\n\nThis action cannot be undone."
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  const {
-    error
-  } = await supabaseClient
-
-    .from("students")
-
-    .delete()
-
-    .eq("id", id)
-
-    .eq(
-      "school_id",
-      currentSchool.id
-    );
-
-
-  if (error) {
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  showMessage(
-    "Student deleted successfully.",
-    "success"
-  );
-
-
-  await loadStudents();
-
-}
-
-
-/* SEARCH */
-
-function filterStudents() {
-
-  const search =
-    document.getElementById(
-      "searchInput"
-    )
-    .value
-    .toLowerCase()
-    .trim();
-
-
-  if (!search) {
-
-    renderStudents();
-
-    return;
-
-  }
-
-
-  const filtered =
-    students.filter(student => {
-
-      const name =
-        [
-          student.first_name,
-          student.middle_name,
-          student.last_name
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-
-      const admission =
-        (
-          student.admission_number ||
-          ""
-        ).toLowerCase();
-
-
-      return (
-        name.includes(search) ||
-        admission.includes(search)
-      );
-
-    });
-
-
-  const original =
-    students;
-
-
-  students =
-    filtered;
-
-
-  renderStudents();
-
-
-  students =
-    original;
-
-}
-
-
-/* CLOSE MODAL */
-
-function closeModal() {
-
-  document.getElementById(
-    "studentModal"
-  ).style.display =
-    "none";
-
-}
-
-
-/* DASHBOARD */
-
-function goDashboard() {
-
-  window.location.href =
-    "admin-dashboard.html";
-
-}
-
-
-/* MESSAGE */
-
-function showMessage(
-  message,
-  type
-) {
-
-  const box =
-    document.getElementById(
-      "message"
-    );
-
-
-  box.textContent =
-    message;
-
-
-  box.className =
-    "message " +
-    type;
-
-
-  box.style.display =
-    "block";
-
-
-  setTimeout(() => {
-
-    box.style.display =
-      "none";
-
-  }, 4000);
-
-}
-
-
-/* SECURITY */
 
 function escapeHTML(value) {
-
-  if (value === null ||
-      value === undefined) {
-
-    return "";
-
-  }
-
-
-  return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
 }
 
+function renderStudents() {
+    const query = document
+        .getElementById("searchStudent")
+        .value.trim().toLowerCase();
 
-/* CLOSE WHEN CLICKING OUTSIDE */
+    const filtered = students.filter(student =>
+        [
+            student.admission_number,
+            student.full_name,
+            student.class_name,
+            student.gender
+        ].some(value =>
+            String(value || "").toLowerCase().includes(query)
+        )
+    );
 
-window.onclick =
-  function(event) {
+    document.getElementById("totalStudents").textContent =
+        students.length;
 
-    const modal =
-      document.getElementById(
-        "studentModal"
-      );
+    document.getElementById("maleStudents").textContent =
+        students.filter(s => s.gender === "Male").length;
 
+    document.getElementById("femaleStudents").textContent =
+        students.filter(s => s.gender === "Female").length;
 
-    if (event.target === modal) {
+    document.getElementById("recordCount").textContent =
+        filtered.length + " student record(s)";
 
-      closeModal();
-
+    if (!filtered.length) {
+        table.innerHTML =
+            '<tr><td colspan="8">No student records found.</td></tr>';
+        return;
     }
 
-  };
+    table.innerHTML = filtered.map(student => `
+        <tr>
+            <td>${escapeHTML(student.admission_number)}</td>
+            <td>${escapeHTML(student.full_name)}</td>
+            <td>${escapeHTML(student.gender)}</td>
+            <td>${escapeHTML(student.class_name)}</td>
+            <td>${escapeHTML(student.guardian_name)}</td>
+            <td>${escapeHTML(student.guardian_phone)}</td>
+            <td>${escapeHTML(student.status)}</td>
+            <td>
+                <button type="button"
+                    onclick="editStudent('${encodeURIComponent(student.id)}')">
+                    Edit
+                </button>
+                <button type="button"
+                    class="btn-danger"
+                    onclick="deleteStudent('${encodeURIComponent(student.id)}')">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `).join("");
+}
 
+async function loadStudents() {
+    const db = getClient();
+
+    if (!db) {
+        table.innerHTML =
+            '<tr><td colspan="8">Supabase is not connected. Configure supabase.js first.</td></tr>';
+
+        document.getElementById("recordCount").textContent =
+            "Database connection required";
+
+        return;
+    }
+
+    const { data, error } = await db
+        .from("students")
+        .select("*")
+        .order("full_name");
+
+    if (error) {
+        showMessage(
+            "Could not load students: " + error.message,
+            "alert-danger"
+        );
+
+        table.innerHTML =
+            '<tr><td colspan="8">Could not load records. Check your database table and permissions.</td></tr>';
+
+        return;
+    }
+
+    students = data || [];
+    renderStudents();
+}
+
+form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const db = getClient();
+
+    if (!db) {
+        showMessage(
+            "Supabase is not connected. Configure supabase.js before saving records.",
+            "alert-danger"
+        );
+        return;
+    }
+
+    const record = {
+        admission_number: document.getElementById("admission").value.trim(),
+        full_name: document.getElementById("fullName").value.trim(),
+        gender: document.getElementById("gender").value,
+        class_name: document.getElementById("className").value,
+        date_of_birth: document.getElementById("dob").value || null,
+        guardian_name: document.getElementById("guardian").value.trim(),
+        guardian_phone: document.getElementById("phone").value.trim(),
+        status: document.getElementById("studentStatus").value
+    };
+
+    if (!record.admission_number || !record.full_name ||
+        !record.gender || !record.class_name) {
+        showMessage(
+            "Please fill in all required fields.",
+            "alert-danger"
+        );
+        return;
+    }
+
+    const saveButton = document.getElementById("saveButton");
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    try {
+        let result;
+
+        if (editingId !== null) {
+            result = await db
+                .from("students")
+                .update(record)
+                .eq("id", editingId);
+        } else {
+            result = await db
+                .from("students")
+                .insert([record]);
+        }
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        showMessage(
+            editingId !== null
+                ? "Student updated successfully."
+                : "Student registered successfully.",
+            "alert-success"
+        );
+
+        editingId = null;
+        form.reset();
+        saveButton.textContent = "Save Student";
+
+        await loadStudents();
+
+    } catch (error) {
+        showMessage(
+            "Could not save student: " + error.message,
+            "alert-danger"
+        );
+    } finally {
+        saveButton.disabled = false;
+        if (editingId === null) {
+            saveButton.textContent = "Save Student";
+        }
+    }
+});
+
+window.editStudent = function(encodedId) {
+    const id = decodeURIComponent(encodedId);
+    const student = students.find(s => String(s.id) === id);
+
+    if (!student) return;
+
+    editingId = student.id;
+
+    document.getElementById("admission").value =
+        student.admission_number || "";
+
+    document.getElementById("fullName").value =
+        student.full_name || "";
+
+    document.getElementById("gender").value =
+        student.gender || "";
+
+    document.getElementById("className").value =
+        student.class_name || "";
+
+    document.getElementById("dob").value =
+        student.date_of_birth || "";
+
+    document.getElementById("guardian").value =
+        student.guardian_name || "";
+
+    document.getElementById("phone").value =
+        student.guardian_phone || "";
+
+    document.getElementById("studentStatus").value =
+        student.status || "Active";
+
+    document.getElementById("saveButton").textContent =
+        "Update Student";
+
+    document.getElementById("studentForm").scrollIntoView({
+        behavior: "smooth"
+    });
+};
+
+window.deleteStudent = async function(encodedId) {
+    const db = getClient();
+
+    if (!db) {
+        showMessage("Supabase is not connected.", "alert-danger");
+        return;
+    }
+
+    const id = decodeURIComponent(encodedId);
+    const student = students.find(s => String(s.id) === id);
+
+    if (!student) return;
+
+    if (!confirm(
+        "Delete the record for " + student.full_name + "?"
+    )) {
+        return;
+    }
+
+    const { error } = await db
+        .from("students")
+        .delete()
+        .eq("id", student.id);
+
+    if (error) {
+        showMessage(
+            "Could not delete student: " + error.message,
+            "alert-danger"
+        );
+        return;
+    }
+
+    showMessage("Student record deleted.", "alert-success");
+    await loadStudents();
+};
+
+document.getElementById("searchStudent")
+    .addEventListener("input", renderStudents);
+
+form.addEventListener("reset", () => {
+    editingId = null;
+
+    setTimeout(() => {
+        document.getElementById("saveButton").textContent =
+            "Save Student";
+    }, 0);
+});
+
+async function logout() {
+    const db = getClient();
+
+    if (!confirm("Are you sure you want to log out?")) {
+        return;
+    }
+
+    if (db) {
+        const { error } = await db.auth.signOut();
+
+        if (error) {
+            showMessage(
+                "Logout failed: " + error.message,
+                "alert-danger"
+            );
+            return;
+        }
+    }
+
+    window.location.replace("login.html");
+}
+
+loadStudents();
 </script>
 
 </body>
