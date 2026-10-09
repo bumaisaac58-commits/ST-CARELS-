@@ -100,7 +100,7 @@
 
   <script>
     window.ST_CARELS_SUPABASE_URL = 'https://kgibditegnkghtvcmilc.supabase.co';
-    window.ST_CARELS_SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    window.ST_CARELS_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs';
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -148,7 +148,7 @@
       try {
         const db = window.supabaseClient;
         if (!db) {
-          throw new Error('Authentication service not available. Please set a valid Supabase project URL and public anon key.');
+          throw new Error('Authentication service not available. Please refresh the page.');
         }
 
         const { data, error } = await db.auth.signInWithPassword({ email, password });
@@ -156,6 +156,7 @@
         if (!data.user) throw new Error('Login failed: No user returned.');
 
         showMessage('Login successful! Redirecting...', 'success');
+        console.log('✅ User signed in:', data.user.email);
         setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
       } catch (error) {
         console.error('❌ Login error:', error);
