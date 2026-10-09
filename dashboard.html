@@ -87,6 +87,7 @@
   <script>
     'use strict';
 
+    const DEMO_SESSION_KEY = 'stcarels-demo-session';
     const db = window.supabaseClient || null;
 
     const systemData = {
@@ -106,6 +107,21 @@
       attendance: 'Record and review learner attendance.',
       reports: 'Prepare school performance reports.'
     };
+
+    function getDemoSession() {
+      try {
+        const raw = localStorage.getItem(DEMO_SESSION_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && parsed.email ? parsed : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function clearDemoSession() {
+      localStorage.removeItem(DEMO_SESSION_KEY);
+    }
 
     function openPage(page) {
       const home = document.getElementById('homePage');
@@ -143,8 +159,17 @@
     }
 
     async function protectDashboard() {
+      const demoSession = getDemoSession();
+
       try {
         if (!db) {
+          if (demoSession) {
+            document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
+            document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
+            loadDashboardData();
+            return;
+          }
+
           document.getElementById('userInfo').textContent = 'Demo mode: using local fallback authentication.';
           document.getElementById('systemStatus').textContent = '⚠️ No Supabase project is configured yet. Demo mode is enabled.';
           loadDashboardData();
@@ -153,6 +178,13 @@
 
         const { data, error } = await db.auth.getUser();
         if (error || !data.user) {
+          if (demoSession) {
+            document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
+            document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
+            loadDashboardData();
+            return;
+          }
+
           window.location.replace('Login.html');
           return;
         }
@@ -161,6 +193,13 @@
         document.getElementById('systemStatus').textContent = '✅ Supabase authentication verified.';
         loadDashboardData();
       } catch (error) {
+        if (demoSession) {
+          document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
+          document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
+          loadDashboardData();
+          return;
+        }
+
         document.getElementById('userInfo').textContent = 'Demo mode: dashboard loaded.';
         document.getElementById('systemStatus').textContent = '✅ System is online.';
         loadDashboardData();
@@ -169,6 +208,8 @@
 
     document.getElementById('logoutButton').addEventListener('click', async function () {
       this.disabled = true;
+
+      clearDemoSession();
 
       if (db) {
         try {
