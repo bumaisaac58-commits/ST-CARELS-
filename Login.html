@@ -190,11 +190,6 @@
     </div>
   </div>
 
-  <script>
-    window.ST_CARELS_SUPABASE_URL = 'https://YOUR_PROJECT_REF.supabase.co';
-    window.ST_CARELS_SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="Supabase.js"></script>
   <script>
@@ -242,7 +237,7 @@
         const db = window.supabaseClient;
 
         if (!db) {
-          throw new Error('Authentication service not available. Set the Supabase project URL and anon key before using login.');
+          throw new Error('Authentication service not available. Please refresh the page.');
         }
 
         const { data, error } = await db.auth.signInWithPassword({
