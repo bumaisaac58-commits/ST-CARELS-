@@ -2,8 +2,8 @@
    1. Set SUPABASE_URL and SUPABASE_ANON_KEY below.
    2. Run supabase_setup.sql in your Supabase SQL Editor.
 */
-const SUPABASE_URL = https://kgibditegnkghtvcmilc.supabase.co/rest/v1/
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs
+const SUPABASE_URL =https://kgibditegnkghtvcmilc.supabase.co/rest/v1/
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY"eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs
 const STORAGE_KEY = "BUMATECH_setup";
 
 const db = supabase.createClient(
