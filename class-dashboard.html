@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>St Carels Academy | Class Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f6fc;
+    color: #243247;
+}
+
+.header {
+    background: #064b96;
+    color: white;
+    padding: 22px 15px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 8px 0 0;
+}
+
+.motto {
+    font-style: italic;
+    color: #dceaff;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    padding: 18px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+button, .btn {
+    display: inline-block;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 15px;
+    background: #0756b5;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover, .btn:hover {
+    background: #033b7c;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 15px;
+    margin: 22px 0;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 5px solid #0756b5;
+    box-shadow: 0 3px 12px #0000000a;
+}
+
+.card h2 {
+    color: #0756b5;
+    font-size: 28px;
+    margin: 0;
+}
+
+.card p {
+    color: #627086;
+    margin-bottom: 0;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #0000000a;
+}
+
+.panel h3 {
+    color: #0756b5;
+    margin-top: 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 7px;
+    border: 1px solid #ccd6e3;
+    border-radius: 7px;
+    background: white;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.secondary {
+    background: #e6efff;
+    color: #0756b5;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th, td {
+    padding: 13px;
+    border-bottom: 1px solid #e4eaf2;
+    text-align: left;
+}
+
+th {
+    background: #eaf2ff;
+    color: #064b96;
+}
+
+.empty {
+    text-align: center;
+    color: #64748b;
+}
+
+footer {
+    background: #064b96;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    line-height: 1.7;
+}
+
+.message {
+    color: #087443;
+    font-size: 14px;
+}
+
+@media(max-width: 500px) {
+    .header h1 {
+        font-size: 21px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .panel {
+        padding: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>ST CARELS ACADEMY</h1>
+    <p>UMOJA KWANZA</p>
+    <p class="motto">"Excellency via faith"</p>
+    <p>CLASS MANAGEMENT DASHBOARD</p>
+</header>
+
+<main class="container">
+
+    <div class="topbar">
+        <div>
+            <h2>Class Dashboard</h2>
+            <p>Manage classes, learners and class teachers.</p>
+        </div>
+
+        <a href="dashboard.html" class="btn secondary">
+            ← Main Dashboard
+        </a>
+    </div>
+
+    <section class="panel">
+        <h3>Class Information</h3>
+
+        <div class="form-grid">
+            <div>
+                <label for="className">Select Class</label>
+                <select id="className">
+                    <option>PP1</option>
+                    <option>PP2</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="stream">Stream</label>
+                <select id="stream">
+                    <option>East</option>
+                    <option>West</option>
+                    <option>North</option>
+                    <option>South</option>
+                    <option>General</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="teacher">Class Teacher</label>
+                <input id="teacher" placeholder="Teacher's full name">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button onclick="saveClass()">Save Class Details</button>
+        </div>
+
+        <p id="classMessage" class="message"></p>
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <h2 id="total">0</h2>
+            <p>Total Learners</p>
+        </div>
+
+        <div class="card">
+            <h2 id="boys">0</h2>
+            <p>Boys</p>
+        </div>
+
+        <div class="card">
+            <h2 id="girls">0</h2>
+            <p>Girls</p>
+        </div>
+
+        <div class="card">
+            <h2 id="teacherStatus">No</h2>
+            <p>Teacher Assigned</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h3>Register a Learner</h3>
+
+        <form id="learnerForm">
+            <div class="form-grid">
+                <div>
+                    <label for="adm">Admission Number</label>
+                    <input id="adm" required placeholder="e.g. SCA001">
+                </div>
+
+                <div>
+                    <label for="name">Learner's Full Name</label>
+                    <input id="name" required placeholder="Full name">
+                </div>
+
+                <div>
+                    <label for="gender">Gender</label>
+                    <select id="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="Boy">Boy</option>
+                        <option value="Girl">Girl</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Add Learner</button>
+                <button type="button" class="secondary"
+                        onclick="exportCSV()">Export Learners</button>
+            </div>
+
+            <p id="learnerMessage" class="message"></p>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h3>Registered Learners</h3>
+
+        <input id="search" type="search"
+               placeholder="Search learners..."
+               oninput="displayLearners()">
+
+        <br><br>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Admission No.</th>
+                        <th>Learner Name</th>
+                        <th>Gender</th>
+                        <th>Class</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="learnerTable">
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No learners registered yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h3>Quick Links</h3>
+
+        <div class="actions">
+            <a class="btn" href="students.html">Students</a>
+            <a class="btn" href="teachers.html">Teachers</a>
+            <a class="btn" href="attendance.html">Attendance</a>
+            <a class="btn" href="marks.html">Examination Marks</a>
+            <a class="btn" href="dashboard.html">Main Dashboard</a>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <strong>ST CARELS ACADEMY UMOJA KWANZA</strong><br>
+    Excellency via faith<br>
+    School Management System © 2026
+</footer>
+
+<script>
+const className = document.getElementById("className");
+const stream = document.getElementById("stream");
+const teacher = document.getElementById("teacher");
+
+function key() {
+    return "stcarels_" + className.value + "_" + stream.value;
+}
+
+function getData() {
+    try {
+        return JSON.parse(localStorage.getItem(key())) ||
+            {teacher: "", learners: []};
+    } catch {
+        return {teacher: "", learners: []};
+    }
+}
+
+function saveData(data) {
+    localStorage.setItem(key(), JSON.stringify(data));
+}
+
+function saveClass() {
+    const data = getData();
+    data.teacher = teacher.value.trim();
+    saveData(data);
+
+    document.getElementById("classMessage").textContent =
+        "Class details saved successfully on this device.";
+
+    refresh();
+}
+
+document.getElementById("learnerForm").addEventListener(
+    "submit", function(e) {
+        e.preventDefault();
+
+        const admission = document.getElementById("adm").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const gender = document.getElementById("gender").value;
+
+        const data = getData();
+
+        if (data.learners.some(x =>
+            x.admission.toLowerCase() === admission.toLowerCase())) {
+            document.getElementById("learnerMessage").textContent =
+                "This admission number already exists in this class.";
+            return;
+        }
+
+        data.learners.push({admission, name, gender});
+        saveData(data);
+
+        this.reset();
+
+        document.getElementById("learnerMessage").textContent =
+            "Learner registered successfully.";
+
+        refresh();
+    }
+);
+
+function displayLearners() {
+    const data = getData();
+    const q = document.getElementById("search").value.toLowerCase();
+
+    const list = data.learners.filter(x =>
+        x.name.toLowerCase().includes(q) ||
+        x.admission.toLowerCase().includes(q)
+    );
+
+    const table = document.getElementById("learnerTable");
+
+    if (!list.length) {
+        table.innerHTML =
+            '<tr><td colspan="5" class="empty">No learners found.</td></tr>';
+        return;
+    }
+
+    table.innerHTML = list.map(x => {
+        const i = data.learners.indexOf(x);
+
+        return `<tr>
+            <td>${escapeHTML(x.admission)}</td>
+            <td>${escapeHTML(x.name)}</td>
+            <td>${escapeHTML(x.gender)}</td>
+            <td>${escapeHTML(className.value)}</td>
+            <td><button onclick="removeLearner(${i})">Delete</button></td>
+        </tr>`;
+    }).join("");
+}
+
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+    })[c]);
+}
+
+function removeLearner(i) {
+    if (!confirm("Delete this learner's record?")) return;
+
+    const data = getData();
+    data.learners.splice(i, 1);
+    saveData(data);
+    refresh();
+}
+
+function refresh() {
+    const data = getData();
+
+    teacher.value = data.teacher || "";
+
+    document.getElementById("total").textContent =
+        data.learners.length;
+
+    document.getElementById("boys").textContent =
+        data.learners.filter(x => x.gender === "Boy").length;
+
+    document.getElementById("girls").textContent =
+        data.learners.filter(x => x.gender === "Girl").length;
+
+    document.getElementById("teacherStatus").textContent =
+        data.teacher ? "Yes" : "No";
+
+    displayLearners();
+}
+
+function exportCSV() {
+    const data = getData();
+
+    if (!data.learners.length) {
+        alert("No learners to export.");
+        return;
+    }
+
+    const rows = [
+        ["Admission Number", "Learner Name", "Gender", "Class", "Stream"],
+        ...data.learners.map(x => [
+            x.admission, x.name, x.gender, className.value, stream.value
+        ])
+    ];
+
+    const csv = rows.map(row =>
+        row.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "st-carels-learners.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+className.addEventListener("change", refresh);
+stream.addEventListener("change", refresh);
+
+refresh();
+</script>
+
+</body>
+</html>
