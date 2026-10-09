@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | MwalimuEase</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+            color: #243247;
+        }
+
+        .header {
+            background: #0755b5;
+            color: white;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .header small {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .logout {
+            background: white;
+            color: #0755b5;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 18px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #dce4ef;
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            margin-top: 0;
+            color: #0755b5;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 5px solid #0755b5;
+            box-shadow: 0 2px 8px #dce4ef;
+        }
+
+        .stat-card h3 {
+            font-size: 25px;
+            margin: 5px 0;
+            color: #0755b5;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .section-title {
+            color: #0755b5;
+            margin: 25px 0 15px;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+            gap: 15px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #243247;
+            background: white;
+            padding: 22px 12px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #dce4ef;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #e6f0ff;
+            transform: translateY(-3px);
+        }
+
+        .icon {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .notice {
+            background: #e5efff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 25px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #65758b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .header h2 {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div>
+        <h2>MWALIMUEASE</h2>
+        <small>Teacher's Dashboard</small>
+    </div>
+
+    <button class="logout" onclick="logout()">Log Out</button>
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+        <h2 id="teacherName">Welcome, Teacher!</h2>
+        <p id="schoolName">School Management System</p>
+        <p>Manage your classes, students, lessons and academic records.</p>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <p>My Students</p>
+            <h3 id="studentCount">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>My Subjects</p>
+            <h3 id="subjectCount">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>My Classes</p>
+            <h3 id="classCount">0</h3>
+        </div>
+    </section>
+
+    <h3 class="section-title">TEACHING TOOLS</h3>
+
+    <section class="menu">
+
+        <a href="students.html">
+            <span class="icon">👨‍🎓</span>
+            My Students
+        </a>
+
+        <a href="marks.html">
+            <span class="icon">📝</span>
+            Enter Marks
+        </a>
+
+        <a href="subjects.html">
+            <span class="icon">📚</span>
+            My Subjects
+        </a>
+
+        <a href="timetable.html">
+            <span class="icon">🗓️</span>
+            Timetable
+        </a>
+
+        <a href="attendance.html">
+            <span class="icon">✅</span>
+            Attendance
+        </a>
+
+        <a href="assignments.html">
+            <span class="icon">📋</span>
+            Assignments
+        </a>
+
+        <a href="lesson-notes.html">
+            <span class="icon">📖</span>
+            Lesson Notes
+        </a>
+
+        <a href="exam-results.html">
+            <span class="icon">📊</span>
+            Exam Results
+        </a>
+
+        <a href="teacher-profile.html">
+            <span class="icon">👤</span>
+            My Profile
+        </a>
+
+    </section>
+
+    <h3 class="section-title">IMPORTANT NOTICE</h3>
+
+    <div class="notice">
+        <strong>Teacher's Reminder</strong>
+        <p>
+            Update student attendance, record assessment marks,
+            prepare lesson notes and follow the school timetable.
+        </p>
+    </div>
+
+</main>
+
+<footer>
+    &copy; 2026 MwalimuEase School Management System
+    <br>
+    Excellency via faith
+</footer>
+
+<script src="supabase.js"></script>
+
+<script>
+    async function loadTeacherDashboard() {
+        try {
+            if (typeof db === "undefined") {
+                console.warn("Supabase database client not configured.");
+                return;
+            }
+
+            const { data: { user }, error } =
+                await db.auth.getUser();
+
+            if (error || !user) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            document.getElementById("teacherName").textContent =
+                "Welcome, " +
+                (user.user_metadata?.full_name || "Teacher") + "!";
+
+            const { data: profile } = await db
+                .from("profiles")
+                .select("school_name")
+                .eq("id", user.id)
+                .maybeSingle();
+
+            if (profile?.school_name) {
+                document.getElementById("schoolName").textContent =
+                    profile.school_name;
+            }
+
+        } catch (error) {
+            console.error("Dashboard loading error:", error);
+        }
+    }
+
+    async function logout() {
+        if (typeof db === "undefined") {
+            window.location.href = "login.html";
+            return;
+        }
+
+        const { error } = await db.auth.signOut();
+
+        if (error) {
+            alert("Unable to log out. Please try again.");
+            return;
+        }
+
+        window.location.href = "login.html";
+    }
+
+    loadTeacherDashboard();
+</script>
+
+</body>
+</html>
