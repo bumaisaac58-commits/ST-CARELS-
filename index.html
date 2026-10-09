@@ -1,220 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St Carels School Management System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <title>St Carels School Management System</title>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0b4f9c, #1565c0);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222;
+    }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .container {
+      width: 95%;
+      max-width: 450px;
+    }
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #0b4f9c, #1565c0);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #222;
-        }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
 
-        .container {
-            width: 95%;
-            max-width: 450px;
-        }
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #0b4f9c;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      font-weight: bold;
+    }
 
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-        }
+    h1 {
+      color: #0b4f9c;
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
 
-        .logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: #0b4f9c;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 28px;
-            font-weight: bold;
-        }
+    .school-name {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-        h1 {
-            color: #0b4f9c;
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
+    .motto {
+      color: #666;
+      font-style: italic;
+      margin-bottom: 30px;
+    }
 
-        .school-name {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+    .welcome {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 25px;
+    }
 
-        .motto {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 30px;
-        }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
 
-        .welcome {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 25px;
-        }
+    .login-btn {
+      background: #0b4f9c;
+      color: white;
+    }
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 12px 0;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
+    .login-btn:hover {
+      background: #083b75;
+    }
 
-        .login-btn {
-            background: #0b4f9c;
-            color: white;
-        }
+    .dashboard-btn {
+      background: #e8f1fb;
+      color: #0b4f9c;
+    }
 
-        .login-btn:hover {
-            background: #083b75;
-        }
+    .dashboard-btn:hover {
+      background: #d5e6f8;
+    }
 
-        .dashboard-btn {
-            background: #e8f1fb;
-            color: #0b4f9c;
-        }
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 25px;
+    }
 
-        .dashboard-btn:hover {
-            background: #d5e6f8;
-        }
+    .feature {
+      background: #f5f7fa;
+      padding: 14px 8px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #444;
+    }
 
-        .features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 25px;
-        }
+    .feature strong {
+      display: block;
+      color: #0b4f9c;
+      margin-bottom: 5px;
+    }
 
-        .feature {
-            background: #f5f7fa;
-            padding: 14px 8px;
-            border-radius: 10px;
-            font-size: 13px;
-            color: #444;
-        }
+    footer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
 
-        .feature strong {
-            display: block;
-            color: #0b4f9c;
-            margin-bottom: 5px;
-        }
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 22px;
+      }
 
-        footer {
-            margin-top: 25px;
-            font-size: 12px;
-            color: #888;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 400px) {
-            h1 {
-                font-size: 22px;
-            }
-
-            .card {
-                padding: 28px 18px;
-            }
-        }
-    </style>
+      .card {
+        padding: 28px 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="container">
-
+  <div class="container">
     <div class="card">
+      <div class="logo">SC</div>
+      <h1>ST CARELS</h1>
+      <div class="school-name">St Carels Umoja Kwanza</div>
+      <div class="motto">"Excellency via faith"</div>
 
-        <div class="logo">
-            SC
+      <p class="welcome">
+        Welcome to the St Carels School Management System.
+        Manage learners, teachers, classes, examinations,
+        marks and school administration from one platform.
+      </p>
+
+      <a href="login.html" class="btn login-btn">🔐 Login to System</a>
+      <a href="dashboard.html" class="btn dashboard-btn">📊 Open Dashboard</a>
+
+      <div class="features">
+        <div class="feature">
+          <strong>👨‍🎓 Students</strong>
+          Student Management
         </div>
 
-        <h1>ST CARELS</h1>
-
-        <div class="school-name">
-            St Carels Umoja Kwanza
+        <div class="feature">
+          <strong>👨‍🏫 Teachers</strong>
+          Teacher Management
         </div>
 
-        <div class="motto">
-            "Excellency via faith"
+        <div class="feature">
+          <strong>📊 Marks</strong>
+          Academic Records
         </div>
 
-        <p class="welcome">
-            Welcome to the St Carels School Management System.
-            Manage learners, teachers, classes, examinations,
-            marks and school administration from one platform.
-        </p>
-
-        <!-- Login -->
-        <a href="login.html" class="btn login-btn">
-            🔐 Login to System
-        </a>
-
-        <!-- Dashboard -->
-        <a href="dashboard.html" class="btn dashboard-btn">
-            📊 Open Dashboard
-        </a>
-
-        <div class="features">
-
-            <div class="feature">
-                <strong>👨‍🎓 Students</strong>
-                Student Management
-            </div>
-
-            <div class="feature">
-                <strong>👨‍🏫 Teachers</strong>
-                Teacher Management
-            </div>
-
-            <div class="feature">
-                <strong>📊 Marks</strong>
-                Academic Records
-            </div>
-
-            <div class="feature">
-                <strong>📅 Timetable</strong>
-                School Timetable
-            </div>
-
+        <div class="feature">
+          <strong>📅 Timetable</strong>
+          School Timetable
         </div>
+      </div>
 
-        <footer>
-            St Carels School academy Management System<br>
-            © 2026 St Carels Umoja Kwanza<br>
-            All Rights Reserved
-        </footer>
-
+      <footer>
+        St Carels School academy Management System<br>
+        © 2026 St Carels Umoja Kwanza<br>
+        All Rights Reserved
+      </footer>
     </div>
-
-</div>
-
+  </div>
 </body>
 </html>
