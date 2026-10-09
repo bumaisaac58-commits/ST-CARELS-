@@ -1,14 +1,21 @@
 (function () {
-  // ============================================
-  // ST CARELS SUPABASE INTEGRATION
-  // ============================================
+  const getConfigValue = (name, fallback) => {
+    const value = window[name];
+    return value && String(value).trim() ? String(value).trim() : fallback;
+  };
 
-  const SUPABASE_URL = 'https://kgibditegnkghtvcmilc.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs';
+  const SUPABASE_URL = getConfigValue('ST_CARELS_SUPABASE_URL', 'https://YOUR_PROJECT_REF.supabase.co');
+  const SUPABASE_ANON_KEY = getConfigValue('ST_CARELS_SUPABASE_ANON_KEY', 'YOUR_SUPABASE_ANON_KEY');
 
   if (!window.supabase) {
     window.supabaseClient = null;
     console.error('❌ Supabase JS SDK not loaded. Ensure the CDN script is loaded before this file.');
+    return;
+  }
+
+  if (SUPABASE_URL.includes('YOUR_PROJECT_REF') || SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY')) {
+    window.supabaseClient = null;
+    console.error('❌ Supabase is not configured. Set window.ST_CARELS_SUPABASE_URL and window.ST_CARELS_SUPABASE_ANON_KEY before loading Supabase.js.');
     return;
   }
 
@@ -25,7 +32,6 @@
     console.log('✅ St Carels Supabase initialized successfully!');
     console.log('📍 Project URL:', SUPABASE_URL);
 
-    // Initialize auth state listener
     window.supabaseClient.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         console.log('✅ User signed in:', session?.user?.email ?? 'unknown');
@@ -41,6 +47,7 @@
     window.supabaseClient = null;
   }
 })();
+
 (function () {
   if (!window.supabaseClient) {
     console.error('❌ Supabase client not initialized.');

@@ -190,6 +190,11 @@
     </div>
   </div>
 
+  <script>
+    window.ST_CARELS_SUPABASE_URL = 'https://YOUR_PROJECT_REF.supabase.co';
+    window.ST_CARELS_SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="Supabase.js"></script>
   <script>
@@ -237,7 +242,7 @@
         const db = window.supabaseClient;
 
         if (!db) {
-          throw new Error('Authentication service not available. Please refresh the page.');
+          throw new Error('Authentication service not available. Set the Supabase project URL and anon key before using login.');
         }
 
         const { data, error } = await db.auth.signInWithPassword({
@@ -263,7 +268,7 @@
       } catch (error) {
         console.error('❌ Login error:', error);
         let errorMsg = error.message || 'Invalid email or password.';
-        
+
         if (error.message.includes('Invalid login credentials')) {
           errorMsg = 'Invalid email or password.';
         } else if (error.message.includes('Email not confirmed')) {
@@ -278,7 +283,6 @@
 
     loginForm.addEventListener('submit', handleLogin);
 
-    // Check if user is already logged in
     (async () => {
       try {
         const db = window.supabaseClient;
