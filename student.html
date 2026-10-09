@@ -6,9 +6,8 @@
 
     <title>Students | St Carels School</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Style.css">
 
-    <!-- Supabase JavaScript library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -29,7 +28,7 @@
         <h3>MAIN MENU</h3>
 
         <a href="dashboard.html">🏠 Dashboard</a>
-        <a href="students.html" class="active">👨‍🎓 Students</a>
+        <a href="student.html" class="active">👨‍🎓 Students</a>
         <a href="teachers.html">👩‍🏫 Teachers</a>
         <a href="classes.html">🏫 Classes</a>
         <a href="attendance.html">📋 Attendance</a>
@@ -69,8 +68,6 @@
             </div>
 
         </section>
-
-        <!-- REGISTER STUDENT -->
 
         <section class="panel">
 
@@ -159,19 +156,12 @@
                     </select>
                 </div>
 
-                <button type="submit" id="saveButton">
-                    Save Student
-                </button>
-
-                <button type="reset" class="btn-secondary">
-                    Clear Form
-                </button>
+                <button type="submit" id="saveButton">Save Student</button>
+                <button type="reset" class="btn-secondary">Clear Form</button>
 
             </form>
 
         </section>
-
-        <!-- STUDENT RECORDS -->
 
         <section class="panel">
 
@@ -223,331 +213,228 @@
     Excellency via faith.
 </footer>
 
-<script><script src="supabase.js"></script>
-/*
- IMPORTANT:
- Configure Supabase before using this page.
+<script src="Supabase.js"></script>
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
 
- Create a supabase.js file that initializes the
- Supabase client and exposes it as window.supabaseClient.
+    const form = document.getElementById("studentForm");
+    const table = document.getElementById("studentTable");
+    const message = document.getElementById("message");
 
- This page does not save student records until
- a valid Supabase client and database table exist.
-*/
+    let students = [];
+    let editingId = null;
 
-document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-const form = document.getElementById("studentForm");
-const table = document.getElementById("studentTable");
-const message = document.getElementById("message");
-
-let students = [];
-let editingId = null;
-
-function showMessage(text, type = "alert-info") {
-    message.className = "alert " + type;
-    message.textContent = text;
-}
-
-function getClient() {
-    return window.supabaseClient || null;
-}
-
-function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[char]);
-}
-
-function renderStudents() {
-    const query = document
-        .getElementById("searchStudent")
-        .value.trim().toLowerCase();
-
-    const filtered = students.filter(student =>
-        [
-            student.admission_number,
-            student.full_name,
-            student.class_name,
-            student.gender
-        ].some(value =>
-            String(value || "").toLowerCase().includes(query)
-        )
-    );
-
-    document.getElementById("totalStudents").textContent =
-        students.length;
-
-    document.getElementById("maleStudents").textContent =
-        students.filter(s => s.gender === "Male").length;
-
-    document.getElementById("femaleStudents").textContent =
-        students.filter(s => s.gender === "Female").length;
-
-    document.getElementById("recordCount").textContent =
-        filtered.length + " student record(s)";
-
-    if (!filtered.length) {
-        table.innerHTML =
-            '<tr><td colspan="8">No student records found.</td></tr>';
-        return;
+    function showMessage(text, type = "alert-info") {
+        message.className = "alert " + type;
+        message.textContent = text;
     }
 
-    table.innerHTML = filtered.map(student => `
-        <tr>
-            <td>${escapeHTML(student.admission_number)}</td>
-            <td>${escapeHTML(student.full_name)}</td>
-            <td>${escapeHTML(student.gender)}</td>
-            <td>${escapeHTML(student.class_name)}</td>
-            <td>${escapeHTML(student.guardian_name)}</td>
-            <td>${escapeHTML(student.guardian_phone)}</td>
-            <td>${escapeHTML(student.status)}</td>
-            <td>
-                <button type="button"
-                    onclick="editStudent('${encodeURIComponent(student.id)}')">
-                    Edit
-                </button>
-                <button type="button"
-                    class="btn-danger"
-                    onclick="deleteStudent('${encodeURIComponent(student.id)}')">
-                    Delete
-                </button>
-            </td>
-        </tr>
-    `).join("");
-}
-
-async function loadStudents() {
-    const db = getClient();
-
-    if (!db) {
-        table.innerHTML =
-            '<tr><td colspan="8">Supabase is not connected. Configure supabase.js first.</td></tr>';
-
-        document.getElementById("recordCount").textContent =
-            "Database connection required";
-
-        return;
+    function getClient() {
+        return window.supabaseClient || null;
     }
 
-    const { data, error } = await db
-        .from("students")
-        .select("*")
-        .order("full_name");
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>\"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
 
-    if (error) {
-        showMessage(
-            "Could not load students: " + error.message,
-            "alert-danger"
+    function renderStudents() {
+        const query = document.getElementById("searchStudent").value.trim().toLowerCase();
+
+        const filtered = students.filter(student =>
+            [student.admission_number, student.full_name, student.class_name, student.gender].some(value =>
+                String(value || "").toLowerCase().includes(query)
+            )
         );
 
-        table.innerHTML =
-            '<tr><td colspan="8">Could not load records. Check your database table and permissions.</td></tr>';
+        document.getElementById("totalStudents").textContent = students.length;
+        document.getElementById("maleStudents").textContent = students.filter(s => s.gender === "Male").length;
+        document.getElementById("femaleStudents").textContent = students.filter(s => s.gender === "Female").length;
+        document.getElementById("recordCount").textContent = filtered.length + " student record(s)";
 
-        return;
-    }
-
-    students = data || [];
-    renderStudents();
-}
-
-form.addEventListener("submit", async event => {
-    event.preventDefault();
-
-    const db = getClient();
-
-    if (!db) {
-        showMessage(
-            "Supabase is not connected. Configure supabase.js before saving records.",
-            "alert-danger"
-        );
-        return;
-    }
-
-    const record = {
-        admission_number: document.getElementById("admission").value.trim(),
-        full_name: document.getElementById("fullName").value.trim(),
-        gender: document.getElementById("gender").value,
-        class_name: document.getElementById("className").value,
-        date_of_birth: document.getElementById("dob").value || null,
-        guardian_name: document.getElementById("guardian").value.trim(),
-        guardian_phone: document.getElementById("phone").value.trim(),
-        status: document.getElementById("studentStatus").value
-    };
-
-    if (!record.admission_number || !record.full_name ||
-        !record.gender || !record.class_name) {
-        showMessage(
-            "Please fill in all required fields.",
-            "alert-danger"
-        );
-        return;
-    }
-
-    const saveButton = document.getElementById("saveButton");
-    saveButton.disabled = true;
-    saveButton.textContent = "Saving...";
-
-    try {
-        let result;
-
-        if (editingId !== null) {
-            result = await db
-                .from("students")
-                .update(record)
-                .eq("id", editingId);
-        } else {
-            result = await db
-                .from("students")
-                .insert([record]);
-        }
-
-        if (result.error) {
-            throw result.error;
-        }
-
-        showMessage(
-            editingId !== null
-                ? "Student updated successfully."
-                : "Student registered successfully.",
-            "alert-success"
-        );
-
-        editingId = null;
-        form.reset();
-        saveButton.textContent = "Save Student";
-
-        await loadStudents();
-
-    } catch (error) {
-        showMessage(
-            "Could not save student: " + error.message,
-            "alert-danger"
-        );
-    } finally {
-        saveButton.disabled = false;
-        if (editingId === null) {
-            saveButton.textContent = "Save Student";
-        }
-    }
-});
-
-window.editStudent = function(encodedId) {
-    const id = decodeURIComponent(encodedId);
-    const student = students.find(s => String(s.id) === id);
-
-    if (!student) return;
-
-    editingId = student.id;
-
-    document.getElementById("admission").value =
-        student.admission_number || "";
-
-    document.getElementById("fullName").value =
-        student.full_name || "";
-
-    document.getElementById("gender").value =
-        student.gender || "";
-
-    document.getElementById("className").value =
-        student.class_name || "";
-
-    document.getElementById("dob").value =
-        student.date_of_birth || "";
-
-    document.getElementById("guardian").value =
-        student.guardian_name || "";
-
-    document.getElementById("phone").value =
-        student.guardian_phone || "";
-
-    document.getElementById("studentStatus").value =
-        student.status || "Active";
-
-    document.getElementById("saveButton").textContent =
-        "Update Student";
-
-    document.getElementById("studentForm").scrollIntoView({
-        behavior: "smooth"
-    });
-};
-
-window.deleteStudent = async function(encodedId) {
-    const db = getClient();
-
-    if (!db) {
-        showMessage("Supabase is not connected.", "alert-danger");
-        return;
-    }
-
-    const id = decodeURIComponent(encodedId);
-    const student = students.find(s => String(s.id) === id);
-
-    if (!student) return;
-
-    if (!confirm(
-        "Delete the record for " + student.full_name + "?"
-    )) {
-        return;
-    }
-
-    const { error } = await db
-        .from("students")
-        .delete()
-        .eq("id", student.id);
-
-    if (error) {
-        showMessage(
-            "Could not delete student: " + error.message,
-            "alert-danger"
-        );
-        return;
-    }
-
-    showMessage("Student record deleted.", "alert-success");
-    await loadStudents();
-};
-
-document.getElementById("searchStudent")
-    .addEventListener("input", renderStudents);
-
-form.addEventListener("reset", () => {
-    editingId = null;
-
-    setTimeout(() => {
-        document.getElementById("saveButton").textContent =
-            "Save Student";
-    }, 0);
-});
-
-async function logout() {
-    const db = getClient();
-
-    if (!confirm("Are you sure you want to log out?")) {
-        return;
-    }
-
-    if (db) {
-        const { error } = await db.auth.signOut();
-
-        if (error) {
-            showMessage(
-                "Logout failed: " + error.message,
-                "alert-danger"
-            );
+        if (!filtered.length) {
+            table.innerHTML = '<tr><td colspan="8">No student records found.</td></tr>';
             return;
         }
+
+        table.innerHTML = filtered.map(student => `
+            <tr>
+                <td>${escapeHTML(student.admission_number)}</td>
+                <td>${escapeHTML(student.full_name)}</td>
+                <td>${escapeHTML(student.gender)}</td>
+                <td>${escapeHTML(student.class_name)}</td>
+                <td>${escapeHTML(student.guardian_name)}</td>
+                <td>${escapeHTML(student.guardian_phone)}</td>
+                <td>${escapeHTML(student.status)}</td>
+                <td>
+                    <button type="button" onclick="editStudent('${encodeURIComponent(student.id)}')">Edit</button>
+                    <button type="button" class="btn-danger" onclick="deleteStudent('${encodeURIComponent(student.id)}')">Delete</button>
+                </td>
+            </tr>
+        `).join("");
     }
 
-    window.location.replace("login.html");
-}
+    async function loadStudents() {
+        const db = getClient();
 
-loadStudents();
+        if (!db) {
+            table.innerHTML = '<tr><td colspan="8">Supabase is not connected. Configure Supabase.js first.</td></tr>';
+            document.getElementById("recordCount").textContent = "Database connection required";
+            return;
+        }
+
+        const { data, error } = await db.from("students").select("*").order("full_name");
+
+        if (error) {
+            showMessage("Could not load students: " + error.message, "alert-danger");
+            table.innerHTML = '<tr><td colspan="8">Could not load records. Check your database table and permissions.</td></tr>';
+            return;
+        }
+
+        students = data || [];
+        renderStudents();
+    }
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const db = getClient();
+
+        if (!db) {
+            showMessage("Supabase is not connected. Configure Supabase.js before saving records.", "alert-danger");
+            return;
+        }
+
+        const record = {
+            admission_number: document.getElementById("admission").value.trim(),
+            full_name: document.getElementById("fullName").value.trim(),
+            gender: document.getElementById("gender").value,
+            class_name: document.getElementById("className").value,
+            date_of_birth: document.getElementById("dob").value || null,
+            guardian_name: document.getElementById("guardian").value.trim(),
+            guardian_phone: document.getElementById("phone").value.trim(),
+            status: document.getElementById("studentStatus").value
+        };
+
+        if (!record.admission_number || !record.full_name || !record.gender || !record.class_name) {
+            showMessage("Please fill in all required fields.", "alert-danger");
+            return;
+        }
+
+        const saveButton = document.getElementById("saveButton");
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+        try {
+            let result;
+
+            if (editingId !== null) {
+                result = await db.from("students").update(record).eq("id", editingId);
+            } else {
+                result = await db.from("students").insert([record]);
+            }
+
+            if (result.error) {
+                throw result.error;
+            }
+
+            showMessage(editingId !== null ? "Student updated successfully." : "Student registered successfully.", "alert-success");
+
+            editingId = null;
+            form.reset();
+            saveButton.textContent = "Save Student";
+            await loadStudents();
+
+        } catch (error) {
+            showMessage("Could not save student: " + error.message, "alert-danger");
+        } finally {
+            saveButton.disabled = false;
+            if (editingId === null) {
+                saveButton.textContent = "Save Student";
+            }
+        }
+    });
+
+    window.editStudent = function(encodedId) {
+        const id = decodeURIComponent(encodedId);
+        const student = students.find(s => String(s.id) === id);
+
+        if (!student) return;
+
+        editingId = student.id;
+        document.getElementById("admission").value = student.admission_number || "";
+        document.getElementById("fullName").value = student.full_name || "";
+        document.getElementById("gender").value = student.gender || "";
+        document.getElementById("className").value = student.class_name || "";
+        document.getElementById("dob").value = student.date_of_birth || "";
+        document.getElementById("guardian").value = student.guardian_name || "";
+        document.getElementById("phone").value = student.guardian_phone || "";
+        document.getElementById("studentStatus").value = student.status || "Active";
+        document.getElementById("saveButton").textContent = "Update Student";
+        document.getElementById("studentForm").scrollIntoView({ behavior: "smooth" });
+    };
+
+    window.deleteStudent = async function(encodedId) {
+        const db = getClient();
+
+        if (!db) {
+            showMessage("Supabase is not connected.", "alert-danger");
+            return;
+        }
+
+        const id = decodeURIComponent(encodedId);
+        const student = students.find(s => String(s.id) === id);
+
+        if (!student) return;
+
+        if (!confirm("Delete the record for " + student.full_name + "?")) {
+            return;
+        }
+
+        const { error } = await db.from("students").delete().eq("id", student.id);
+
+        if (error) {
+            showMessage("Could not delete student: " + error.message, "alert-danger");
+            return;
+        }
+
+        showMessage("Student record deleted.", "alert-success");
+        await loadStudents();
+    };
+
+    document.getElementById("searchStudent").addEventListener("input", renderStudents);
+
+    form.addEventListener("reset", () => {
+        editingId = null;
+        setTimeout(() => {
+            document.getElementById("saveButton").textContent = "Save Student";
+        }, 0);
+    });
+
+    async function logout() {
+        const db = getClient();
+
+        if (!confirm("Are you sure you want to log out?")) {
+            return;
+        }
+
+        if (db) {
+            const { error } = await db.auth.signOut();
+            if (error) {
+                showMessage("Logout failed: " + error.message, "alert-danger");
+                return;
+            }
+        }
+
+        window.location.replace("Login.html");
+    }
+
+    loadStudents();
 </script>
 
 </body>
