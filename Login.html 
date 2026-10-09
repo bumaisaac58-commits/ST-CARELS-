@@ -277,21 +277,3 @@
 
 </body>
 </html>
-
-How to use it
-
-Create these files in the same folder:
-
-st-carels/
-│
-├── index.html
-├── login.html
-├── dashboard.html
-└── style.css
-
-For now, the test login is:
-
-Email: "admin@stcarels.com"
-Password: "admin123"
-
-After that, I can give you the "dashboard.html" that opens automatically after login, with Students, Teachers, Classes, Subjects, Marks, Fees, Attendance and Reports.
