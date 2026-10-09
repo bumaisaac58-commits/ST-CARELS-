@@ -1,0 +1,39 @@
+// ==========================================
+// ST CARELS SCHOOL MANAGEMENT SYSTEM
+// SUPABASE DATABASE CONNECTION
+// ==========================================
+
+// 1. Replace these placeholders with your
+// actual Supabase project credentials.
+
+const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+// 2. Check that the credentials are configured.
+
+if (
+    SUPABASE_URL === "YOUR_SUPABASE_PROJECT_URL" ||
+    SUPABASE_PUBLISHABLE_KEY ===
+        "YOUR_SUPABASE_PUBLISHABLE_KEY"
+) {
+    console.warn(
+        "Please configure your Supabase URL and publishable key."
+    );
+} else {
+    // 3. Create the Supabase client.
+
+    const client = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+    // 4. Make the client available to your pages.
+
+    window.supabaseClient = client;
+
+    console.log(
+        "St Carels Supabase connection initialized."
+    );
+}
