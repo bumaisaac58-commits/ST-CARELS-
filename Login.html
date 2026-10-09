@@ -153,6 +153,8 @@
   </div>
 
   <script>
+    const DEMO_SESSION_KEY = 'stcarels-demo-session';
+
     function togglePassword() {
       const password = document.getElementById('password');
       const button = document.querySelector('.show-password');
@@ -163,6 +165,10 @@
 
     function forgotPassword() {
       alert('Please contact the school administrator to reset your password.');
+    }
+
+    function setDemoSession(email) {
+      localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({ email, loggedInAt: Date.now() }));
     }
 
     document.getElementById('loginForm').addEventListener('submit', function (event) {
@@ -183,6 +189,7 @@
       if (validDemoUser) {
         message.style.color = 'green';
         message.textContent = 'Login successful...';
+        setDemoSession(email);
 
         setTimeout(function () {
           window.location.href = 'dashboard.html';
