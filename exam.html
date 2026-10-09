@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams | St Carels School</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            margin: 0;
+            color: #243247;
+        }
+
+        header {
+            background: #0755a5;
+            color: white;
+            padding: 18px;
+            text-align: center;
+        }
+
+        header h2 {
+            margin: 0 0 6px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #0755a5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000012;
+        }
+
+        h3 {
+            color: #0755a5;
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccd5e0;
+            border-radius: 6px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        button {
+            border: none;
+            padding: 11px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .primary {
+            background: #0755a5;
+            color: white;
+        }
+
+        .success {
+            background: #168447;
+            color: white;
+        }
+
+        .danger {
+            background: #c62828;
+            color: white;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e1e6ed;
+            text-align: left;
+        }
+
+        th {
+            background: #e8f1fc;
+            color: #0755a5;
+        }
+
+        .message {
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .summary div {
+            padding: 16px;
+            background: #e8f1fc;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #687386;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>ST CARELS SCHOOL</h2>
+    <p>Excellency via faith</p>
+    <h3 style="color:white;">Examination Management</h3>
+</header>
+
+<main class="container">
+
+    <a href="dashboard.html" class="back">← Back to Dashboard</a>
+
+    <section class="card">
+        <h3>Create Examination</h3>
+
+        <form id="examForm">
+            <div class="form-grid">
+
+                <div>
+                    <label for="examName">Examination Name</label>
+                    <input id="examName" required
+                           placeholder="e.g. Term 3 Examination">
+                </div>
+
+                <div>
+                    <label for="examTerm">Term</label>
+                    <select id="examTerm" required>
+                        <option value="">Select Term</option>
+                        <option>Term 1</option>
+                        <option>Term 2</option>
+                        <option>Term 3</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="examYear">Year</label>
+                    <input type="number" id="examYear"
+                           value="2026" min="2000" max="2100" required>
+                </div>
+
+                <div>
+                    <label for="examClass">Class</label>
+                    <select id="examClass" required>
+                        <option value="">Select Class</option>
+                        <option>PP1</option>
+                        <option>PP2</option>
+                        <option>Grade 1</option>
+                        <option>Grade 2</option>
+                        <option>Grade 3</option>
+                        <option>Grade 4</option>
+                        <option>Grade 5</option>
+                        <option>Grade 6</option>
+                        <option>Grade 7</option>
+                        <option>Grade 8</option>
+                        <option>Grade 9</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="examSubject">Subject</label>
+                    <input id="examSubject" required
+                           placeholder="e.g. Mathematics">
+                </div>
+
+                <div>
+                    <label for="examDate">Examination Date</label>
+                    <input type="date" id="examDate" required>
+                </div>
+
+                <div>
+                    <label for="maxMarks">Maximum Marks</label>
+                    <input type="number" id="maxMarks"
+                           value="100" min="1" required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary">
+                Create Examination
+            </button>
+
+            <p id="examMessage" class="message" role="status"></p>
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Examination Summary</h3>
+
+        <div class="summary">
+            <div>
+                <strong>Examinations</strong>
+                <p id="examCount">0</p>
+            </div>
+
+            <div>
+                <strong>Marks Records</strong>
+                <p id="marksCount">0</p>
+            </div>
+
+            <div>
+                <strong>Average Score</strong>
+                <p id="averageScore">0%</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3>Examination List</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Term/Year</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Max Marks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="examTableBody"></tbody>
+            </table>
+        </div>
+
+        <p id="emptyExams">No examinations have been created yet.</p>
+    </section>
+
+    <section class="card">
+        <h3>Enter Student Marks</h3>
+
+        <form id="marksForm">
+            <div class="form-grid">
+
+                <div>
+                    <label for="marksExam">Examination</label>
+                    <select id="marksExam" required>
+                        <option value="">Select Examination</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="studentAdm">Admission Number</label>
+                    <input id="studentAdm" required
+                           placeholder="e.g. SC001">
+                </div>
+
+                <div>
+                    <label for="studentName">Student Name</label>
+                    <input id="studentName" required>
+                </div>
+
+                <div>
+                    <label for="studentMarks">Marks Obtained</label>
+                    <input id="studentMarks" type="number"
+                           min="0" step="0.01" required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="success">
+                Save Marks
+            </button>
+
+            <p id="marksMessage" class="message" role="status"></p>
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Student Examination Results</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Admission No.</th>
+                        <th>Student Name</th>
+                        <th>Examination</th>
+                        <th>Class</th>
+                        <th>Marks</th>
+                        <th>Percentage</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultsTableBody"></tbody>
+            </table>
+        </div>
+
+        <button type="button" class="primary"
+                onclick="window.print()">
+            Print Results
+        </button>
+
+        <button type="button" class="success"
+                id="exportButton">
+            Export Results CSV
+        </button>
+    </section>
+
+</main>
+
+<footer>
+    St Carels School Management System &copy; 2026
+</footer>
+
+<script>
+(function () {
+    "use strict";
+
+    const EXAMS_KEY = "stCarelsExams";
+    const MARKS_KEY = "stCarelsExamMarks";
+
+    let exams = loadData(EXAMS_KEY);
+    let marks = loadData(MARKS_KEY);
+
+    function loadData(key) {
+        try {
+            const data = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveData() {
+        try {
+            localStorage.setItem(EXAMS_KEY, JSON.stringify(exams));
+            localStorage.setItem(MARKS_KEY, JSON.stringify(marks));
+            return true;
+        } catch (error) {
+            alert("Unable to save data. Check your browser storage.");
+            return false;
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function (character) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[character];
+        });
+    }
+
+    function getExam(id) {
+        return exams.find(function (exam) {
+            return exam.id === id;
+        });
+    }
+
+    function renderExams() {
+        const body = document.getElementById("examTableBody");
+        const select = document.getElementById("marksExam");
+
+        body.innerHTML = "";
+        select.innerHTML = '<option value="">Select Examination</option>';
+
+        exams.forEach(function (exam) {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${escapeHTML(exam.name)}</td>
+                <td>${escapeHTML(exam.term)} ${escapeHTML(exam.year)}</td>
+                <td>${escapeHTML(exam.className)}</td>
+                <td>${escapeHTML(exam.subject)}</td>
+                <td>${escapeHTML(exam.date)}</td>
+                <td>${escapeHTML(exam.maxMarks)}</td>
+                <td>
+                    <button type="button" class="danger"
+                        data-delete-exam="${escapeHTML(exam.id)}">
+                        Delete
+                    </button>
+                </td>
+            `;
+
+            body.appendChild(row);
+
+            const option = document.createElement("option");
+            option.value = exam.id;
+            option.textContent =
+                exam.name + " - " + exam.className + " - " + exam.subject;
+            select.appendChild(option);
+        });
+
+        document.getElementById("emptyExams").hidden = exams.length > 0;
+        document.getElementById("examCount").textContent = exams.length;
+
+        renderResults();
+    }
+
+    function renderResults() {
+        const body = document.getElementById("resultsTableBody");
+        body.innerHTML = "";
+
+        marks.forEach(function (record) {
+            const exam = getExam(record.examId);
+            if (!exam) return;
+
+            const percentage =
+                (Number(record.score) / Number(exam.maxMarks)) * 100;
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${escapeHTML(record.admission)}</td>
+                <td>${escapeHTML(record.student)}</td>
+                <td>${escapeHTML(exam.name)}</td>
+                <td>${escapeHTML(exam.className)}</td>
+                <td>${escapeHTML(record.score)} / ${escapeHTML(exam.maxMarks)}</td>
+                <td>${percentage.toFixed(1)}%</td>
+                <td>
+                    <button type="button" class="danger"
+                        data-delete-mark="${escapeHTML(record.id)}">
+                        Delete
+                    </button>
+                </td>
+            `;
+
+            body.appendChild(row);
+        });
+
+        document.getElementById("marksCount").textContent = marks.length;
+
+        const percentages = marks.map(function (record) {
+            const exam = getExam(record.examId);
+            return exam ? Number(record.score) / Number(exam.maxMarks) * 100 : null;
+        }).filter(function (value) {
+            return value !== null && Number.isFinite(value);
+        });
+
+        const average = percentages.length
+            ? percentages.reduce(function (sum, value) {
+                return sum + value;
+            }, 0) / percentages.length
+            : 0;
+
+        document.getElementById("averageScore").textContent =
+            average.toFixed(1) + "%";
+    }
+
+    document.getElementById("examForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const exam = {
+            id: "exam_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
+            name: document.getElementById("examName").value.trim(),
+            term: document.getElementById("examTerm").value,
+            year: document.getElementById("examYear").value,
+            className: document.getElementById("examClass").value,
+            subject: document.getElementById("examSubject").value.trim(),
+            date: document.getElementById("examDate").value,
+            maxMarks: Number(document.getElementById("maxMarks").value)
+        };
+
+        if (!exam.name || !exam.subject || !exam.date ||
+            !Number.isFinite(exam.maxMarks) || exam.maxMarks <= 0) {
+            document.getElementById("examMessage").textContent =
+                "Please enter valid examination details.";
+            return;
+        }
+
+        exams.push(exam);
+
+        if (!saveData()) {
+            exams.pop();
+            return;
+        }
+
+        document.getElementById("examMessage").textContent =
+            "Examination created successfully.";
+
+        this.reset();
+        document.getElementById("examYear").value = "2026";
+        document.getElementById("maxMarks").value = "100";
+
+        renderExams();
+    });
+
+    document.getElementById("marksForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const exam = getExam(document.getElementById("marksExam").value);
+        const admission = document.getElementById("studentAdm").value.trim();
+        const student = document.getElementById("studentName").value.trim();
+        const score = Number(document.getElementById("studentMarks").value);
+
+        if (!exam || !admission || !student ||
+            !Number.isFinite(score) || score < 0 || score > exam.maxMarks) {
+            document.getElementById("marksMessage").textContent =
+                "Select an examination and enter valid marks within the maximum score.";
+            return;
+        }
+
+        const existing = marks.find(function (record) {
+            return record.examId === exam.id &&
+                record.admission.toLowerCase() === admission.toLowerCase();
+        });
+
+        if (existing) {
+            document.getElementById("marksMessage").textContent =
+                "Marks already exist for this learner and examination. Delete the old record before adding another.";
+            return;
+        }
+
+        const record = {
+            id: "mark_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
+            examId: exam.id,
+            admission: admission,
+            student: student,
+            score: score
+        };
+
+        marks.push(record);
+
+        if (!saveData()) {
+            marks.pop();
+            return;
+        }
+
+        document.getElementById("marksMessage").textContent =
+            "Marks saved successfully.";
+
+        this.reset();
+        renderResults();
+    });
+
+    document.getElementById("examTableBody").addEventListener("click", function (event) {
+        const button = event.target.closest("[data-delete-exam]");
+        if (!button) return;
+
+        const id = button.dataset.deleteExam;
+
+        if (!confirm("Delete this examination and its associated marks?")) return;
+
+        const oldExams = exams;
+        const oldMarks = marks;
+
+        exams = exams.filter(function (exam) {
+            return exam.id !== id;
+        });
+
+        marks = marks.filter(function (record) {
+            return record.examId !== id;
+        });
+
+        if (!saveData()) {
+            exams = oldExams;
+            marks = oldMarks;
+            return;
+        }
+
+        renderExams();
+    });
+
+    document.getElementById("resultsTableBody").addEventListener("click", function (event) {
+        const button = event.target.closest("[data-delete-mark]");
+        if (!button) return;
+
+        if (!confirm("Delete this marks record?")) return;
+
+        const oldMarks = marks;
+        marks = marks.filter(function (record) {
+            return record.id !== button.dataset.deleteMark;
+        });
+
+        if (!saveData()) {
+            marks = oldMarks;
+            return;
+        }
+
+        renderResults();
+    });
+
+    document.getElementById("exportButton").addEventListener("click", function () {
+        const rows = [
+            ["Admission Number", "Student Name", "Examination", "Class",
+             "Subject", "Marks", "Maximum Marks", "Percentage"]
+        ];
+
+        marks.forEach(function (record) {
+            const exam = getExam(record.examId);
+            if (!exam) return;
+
+            rows.push([
+                record.admission,
+                record.student,
+                exam.name,
+                exam.className,
+                exam.subject,
+                record.score,
+                exam.maxMarks,
+                ((record.score / exam.maxMarks) * 100).toFixed(1) + "%"
+            ]);
+        });
+
+        function csvCell(value) {
+            return '"' + String(value).replace(/"/g, '""') + '"';
+        }
+
+        const csv = rows.map(function (row) {
+            return row.map(csvCell).join(",");
+        }).join("\r\n");
+
+        const blob = new Blob(["\uFEFF" + csv], {
+            type: "text/csv;charset=utf-8;"
+        });
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "st-carels-exam-results.csv";
+        link.click();
+
+        setTimeout(function () {
+            URL.revokeObjectURL(url);
+        }, 1000);
+    });
+
+    renderExams();
+})();
+</script>
+
+</body>
+</html>
