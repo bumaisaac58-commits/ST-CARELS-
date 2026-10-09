@@ -5,11 +5,23 @@
   };
 
   const SUPABASE_URL = getConfigValue('ST_CARELS_SUPABASE_URL', 'https://kgibditegnkghtvcmilc.supabase.co');
-  const SUPABASE_ANON_KEY = getConfigValue('ST_CARELS_SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs');
+  const SUPABASE_ANON_KEY = getConfigValue('ST_CARELS_SUPABASE_ANON_KEY', 'YOUR_SUPABASE_ANON_KEY');
 
   if (!window.supabase) {
     window.supabaseClient = null;
     console.error('❌ Supabase JS SDK not loaded. Ensure the CDN script is loaded before this file.');
+    return;
+  }
+
+  if (!SUPABASE_URL || SUPABASE_URL.includes('/rest/v1')) {
+    window.supabaseClient = null;
+    console.error('❌ Invalid Supabase URL. Use the project root URL, not the /rest/v1 endpoint. Example: https://your-project.supabase.co');
+    return;
+  }
+
+  if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY')) {
+    window.supabaseClient = null;
+    console.error('❌ Invalid Supabase anon key. Paste the real public key from Supabase Project Settings > API.');
     return;
   }
 
@@ -50,10 +62,7 @@
 
   window.stCarelsSupabase = {
     async signIn(email, password) {
-      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
 
       if (error) {
         console.error('❌ Sign-in failed:', error.message);
@@ -96,69 +105,6 @@
       }
 
       return user;
-    },
-
-    async select(table, columns = '*', filters = null) {
-      let query = window.supabaseClient.from(table).select(columns);
-
-      if (filters) {
-        Object.entries(filters).forEach(([key, value]) => {
-          query = query.eq(key, value);
-        });
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error(`❌ Failed to fetch from ${table}:`, error.message);
-        throw error;
-      }
-
-      return data;
-    },
-
-    async insert(table, row) {
-      const { data, error } = await window.supabaseClient
-        .from(table)
-        .insert(row)
-        .select();
-
-      if (error) {
-        console.error(`❌ Failed to insert into ${table}:`, error.message);
-        throw error;
-      }
-
-      return data;
-    },
-
-    async update(table, row, matchColumn, matchValue) {
-      const { data, error } = await window.supabaseClient
-        .from(table)
-        .update(row)
-        .eq(matchColumn, matchValue)
-        .select();
-
-      if (error) {
-        console.error(`❌ Failed to update ${table}:`, error.message);
-        throw error;
-      }
-
-      return data;
-    },
-
-    async delete(table, matchColumn, matchValue) {
-      const { data, error } = await window.supabaseClient
-        .from(table)
-        .delete()
-        .eq(matchColumn, matchValue)
-        .select();
-
-      if (error) {
-        console.error(`❌ Failed to delete from ${table}:`, error.message);
-        throw error;
-      }
-
-      return data;
     }
   };
 
