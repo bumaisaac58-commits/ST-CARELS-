@@ -4,190 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>St Carels School Management System</title>
-  <link rel="stylesheet" href="Style.css" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #0b4f9c, #1565c0);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #222;
-    }
-
-    .container {
-      width: 95%;
-      max-width: 450px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 35px 25px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    }
-
-    .logo {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: #0b4f9c;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    h1 {
-      color: #0b4f9c;
-      font-size: 26px;
-      margin-bottom: 8px;
-    }
-
-    .school-name {
-      font-size: 17px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .motto {
-      color: #666;
-      font-style: italic;
-      margin-bottom: 30px;
-    }
-
-    .welcome {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin: 12px 0;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
-
-    .login-btn {
-      background: #0b4f9c;
-      color: white;
-    }
-
-    .login-btn:hover {
-      background: #083b75;
-    }
-
-    .dashboard-btn {
-      background: #e8f1fb;
-      color: #0b4f9c;
-    }
-
-    .dashboard-btn:hover {
-      background: #d5e6f8;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    .feature {
-      background: #f5f7fa;
-      padding: 14px 8px;
-      border-radius: 10px;
-      font-size: 13px;
-      color: #444;
-    }
-
-    .feature strong {
-      display: block;
-      color: #0b4f9c;
-      margin-bottom: 5px;
-    }
-
-    footer {
-      margin-top: 25px;
-      font-size: 12px;
-      color: #888;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 22px;
-      }
-
-      .card {
-        padding: 28px 18px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="card">
+  <div class="login-page">
+    <div class="login-container">
       <div class="logo">SC</div>
       <h1>ST CARELS</h1>
-      <div class="school-name">St Carels Umoja Kwanza</div>
-      <div class="motto">"Excellency via faith"</div>
+      <p class="school-name">St Carels Umoja Kwanza</p>
+      <p class="school-name">School Management System</p>
 
-      <p class="welcome">
-        Welcome to the St Carels School Management System.
-        Manage learners, teachers, classes, examinations,
-        marks and school administration from one platform.
-      </p>
-
-      <a href="login.html" class="btn login-btn">🔐 Login to System</a>
-      <a href="dashboard.html" class="btn dashboard-btn">📊 Open Dashboard</a>
-
-      <div class="features">
-        <div class="feature">
-          <strong>👨‍🎓 Students</strong>
-          Student Management
-        </div>
-
-        <div class="feature">
-          <strong>👨‍🏫 Teachers</strong>
-          Teacher Management
-        </div>
-
-        <div class="feature">
-          <strong>📊 Marks</strong>
-          Academic Records
-        </div>
-
-        <div class="feature">
-          <strong>📅 Timetable</strong>
-          School Timetable
-        </div>
+      <div class="demo-notice">
+        <strong>Demo Account:</strong><br>
+        Email: admin@stcarels.com<br>
+        Password: admin123
       </div>
 
-      <footer>
-        St Carels School academy Management System<br>
-        © 2026 St Carels Umoja Kwanza<br>
-        All Rights Reserved
-      </footer>
+      <div class="footer" style="margin-top: 16px;">
+        <p>Excellency via faith</p>
+      </div>
     </div>
   </div>
 </body>

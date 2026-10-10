@@ -1,239 +1,433 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St Carels Academy | Dashboard</title>
-  <link rel="stylesheet" href="Style.css" />
-</head>
-<body>
-  <nav>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="class-dashboard.html">Classes</a>
-    <a href="teacher-dashboard.html">Teachers</a>
-    <a href="student.html">Students</a>
-    <a href="reports.html">Reports</a>
-    <a href="settings.html">Settings</a>
-    <a href="login.html">Logout</a>
-  </nav>
+* {
+  box-sizing: border-box;
+}
 
-  <header>
-    <div>
-      <h2>ST CARELS ACADEMY</h2>
-      <p>School Management System | Excellency via faith</p>
-    </div>
-    <button class="logout" id="logoutButton" type="button">Logout</button>
-  </header>
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
 
-  <div class="layout">
-    <nav class="sidebar" aria-label="Main navigation">
-      <h3>MAIN MENU</h3>
-      <button class="active" data-page="home" type="button">🏠 Dashboard</button>
-      <button data-page="students" type="button">👨‍🎓 Students</button>
-      <button data-page="teachers" type="button">👩‍🏫 Teachers</button>
-      <button data-page="classes" type="button">🏫 Classes</button>
-      <button data-page="subjects" type="button">📚 Subjects</button>
-      <button data-page="marks" type="button">📝 Exam Marks</button>
-      <button data-page="fees" type="button">💰 School Fees</button>
-      <button data-page="attendance" type="button">📋 Attendance</button>
-      <button data-page="reports" type="button">📊 Reports</button>
-    </nav>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #0d47a1, #1976d2);
+  color: #1f2937;
+}
 
-    <main>
-      <section id="homePage">
-        <div class="welcome">
-          <h1>School Dashboard</h1>
-          <p id="userInfo">Welcome to St Carels School Management System</p>
-        </div>
+button, input, a {
+  font: inherit;
+}
 
-        <div class="cards">
-          <div class="card"><p>Total Students</p><h2 id="totalStudentsCount">0</h2></div>
-          <div class="card"><p>Total Teachers</p><h2 id="totalTeachersCount">0</h2></div>
-          <div class="card"><p>Classes</p><h2 id="totalClassesCount">0</h2></div>
-          <div class="card"><p>Subjects</p><h2 id="totalSubjectsCount">0</h2></div>
-        </div>
+/* login page */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
 
-        <div class="panel">
-          <h2>Quick Actions</h2>
-          <div class="quick-actions">
-            <button class="action" data-page="students" type="button">+ Students</button>
-            <button class="action" data-page="teachers" type="button">+ Teachers</button>
-            <button class="action" data-page="marks" type="button">Enter Marks</button>
-            <button class="action" data-page="fees" type="button">Record Fees</button>
-            <button class="action" data-page="attendance" type="button">Take Attendance</button>
-            <button class="action" data-page="reports" type="button">View Reports</button>
-          </div>
-        </div>
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
 
-        <div class="panel">
-          <h2>System Status</h2>
-          <div class="notice" id="systemStatus">✅ System is online and ready to use.</div>
-        </div>
-      </section>
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: #0d47a1;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 28px;
+}
 
-      <section id="pageContent">
-        <div class="welcome">
-          <h1 id="sectionTitle">Management</h1>
-          <p id="sectionDescription">School management section.</p>
-        </div>
+h1 {
+  margin: 0 0 6px;
+  text-align: center;
+  color: #0d47a1;
+  font-size: 24px;
+}
 
-        <div class="panel">
-          <h2 id="panelTitle">Welcome</h2>
-          <p id="panelDescription">This section is ready for its management features.</p>
-          <div class="notice">
-            Database records and management forms will appear here after integration with Supabase.
-          </div>
-        </div>
+.school-name {
+  margin: 0 0 28px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
 
-        <button class="action" id="backButton" type="button">← Back to Dashboard</button>
-      </section>
-    </main>
-  </div>
+.form-group {
+  margin-bottom: 18px;
+}
 
-  <footer>© 2026 St Carels Academy | Excellency via faith</footer>
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="Supabase.js"></script>
-  <script>
-    'use strict';
+input {
+  width: 100%;
+  padding: 14px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+}
 
-    const DEMO_SESSION_KEY = 'stcarels-demo-session';
-    const db = window.supabaseClient || null;
+input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
 
-    const systemData = {
-      students: 0,
-      teachers: 0,
-      classes: 0,
-      subjects: 0
-    };
+input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
 
-    const descriptions = {
-      students: 'Register and manage learner information.',
-      teachers: 'Manage teacher profiles and assignments.',
-      classes: 'Organise PP1, PP2 and Grades 1–9.',
-      subjects: 'Manage subjects and teacher allocations.',
-      marks: 'Manage assessments and examination results.',
-      fees: 'Manage fee balances and payments.',
-      attendance: 'Record and review learner attendance.',
-      reports: 'Prepare school performance reports.'
-    };
+.password-box {
+  position: relative;
+}
 
-    function getDemoSession() {
-      try {
-        const raw = localStorage.getItem(DEMO_SESSION_KEY);
-        if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        return parsed && parsed.email ? parsed : null;
-      } catch (error) {
-        return null;
-      }
-    }
+.password-box input {
+  padding-right: 52px;
+}
 
-    function clearDemoSession() {
-      localStorage.removeItem(DEMO_SESSION_KEY);
-    }
+.show-password {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  cursor: pointer;
+  color: #1976d2;
+  font-size: 13px;
+  user-select: none;
+}
 
-    function openPage(page) {
-      const home = document.getElementById('homePage');
-      const content = document.getElementById('pageContent');
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #0d47a1;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s ease;
+}
 
-      document.querySelectorAll('.sidebar button').forEach((button) => {
-        button.classList.toggle('active', button.dataset.page === page);
-      });
+.login-btn:hover:not(:disabled) {
+  background: #083579;
+}
 
-      if (page === 'home') {
-        home.style.display = 'block';
-        content.style.display = 'none';
-        return;
-      }
+.login-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
 
-      home.style.display = 'none';
-      content.style.display = 'block';
-      document.getElementById('sectionTitle').textContent = page.charAt(0).toUpperCase() + page.slice(1);
-      document.getElementById('panelTitle').textContent = (page.charAt(0).toUpperCase() + page.slice(1)) + ' Management';
-      document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
-      document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
-    }
+.forgot {
+  text-align: right;
+  margin: 12px 0 20px;
+}
 
-    document.querySelectorAll('[data-page]').forEach((button) => {
-      button.addEventListener('click', () => openPage(button.dataset.page));
-    });
+.forgot a {
+  color: #1976d2;
+  text-decoration: none;
+  font-size: 14px;
+}
 
-    document.getElementById('backButton').addEventListener('click', () => openPage('home'));
+.message {
+  margin-top: 14px;
+  text-align: center;
+  color: #d32f2f;
+  font-size: 14px;
+  min-height: 20px;
+  padding: 8px;
+  border-radius: 4px;
+}
 
-    function loadDashboardData() {
-      document.getElementById('totalStudentsCount').textContent = systemData.students;
-      document.getElementById('totalTeachersCount').textContent = systemData.teachers;
-      document.getElementById('totalClassesCount').textContent = systemData.classes;
-      document.getElementById('totalSubjectsCount').textContent = systemData.subjects;
-    }
+.message.success {
+  color: #27ae60;
+  background: #d5f4e6;
+}
 
-    async function protectDashboard() {
-      const demoSession = getDemoSession();
+.message.error {
+  color: #d32f2f;
+  background: #fadbd8;
+}
 
-      try {
-        if (!db) {
-          if (demoSession) {
-            document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
-            document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
-            loadDashboardData();
-            return;
-          }
+.message.loading {
+  color: #1976d2;
+  background: #d6eaf8;
+}
 
-          document.getElementById('userInfo').textContent = 'Demo mode: using local fallback authentication.';
-          document.getElementById('systemStatus').textContent = '⚠️ No Supabase project is configured yet. Demo mode is enabled.';
-          loadDashboardData();
-          return;
-        }
+.footer {
+  margin-top: 24px;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+}
 
-        const { data, error } = await db.auth.getUser();
-        if (error || !data.user) {
-          if (demoSession) {
-            document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
-            document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
-            loadDashboardData();
-            return;
-          }
+.demo-notice {
+  background: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 16px;
+  border-left: 4px solid #ffc107;
+}
 
-          window.location.replace('login.html');
-          return;
-        }
+/* dashboard */
+header {
+  background: #0d47a1;
+  color: white;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-        document.getElementById('userInfo').textContent = 'Signed in as ' + data.user.email;
-        document.getElementById('systemStatus').textContent = '✅ Supabase authentication verified.';
-        loadDashboardData();
-      } catch (error) {
-        if (demoSession) {
-          document.getElementById('userInfo').textContent = 'Signed in as ' + demoSession.email;
-          document.getElementById('systemStatus').textContent = '✅ Demo mode authentication verified.';
-          loadDashboardData();
-          return;
-        }
+header h2 {
+  margin: 0;
+  font-size: 20px;
+}
 
-        document.getElementById('userInfo').textContent = 'Demo mode: dashboard loaded.';
-        document.getElementById('systemStatus').textContent = '✅ System is online.';
-        loadDashboardData();
-      }
-    }
+header p {
+  margin: 5px 0 0;
+  font-size: 12px;
+}
 
-    document.getElementById('logoutButton').addEventListener('click', async function () {
-      this.disabled = true;
+.logout {
+  background: white;
+  color: #0d47a1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-      clearDemoSession();
+.layout {
+  display: flex;
+  min-height: calc(100vh - 75px);
+}
 
-      if (db) {
-        try {
-          const { error } = await db.auth.signOut();
-          if (error) { throw error; }
-        } catch (error) {
-          console.warn('Logout error:', error);
-        }
-      }
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: white;
+  padding: 20px 12px;
+  border-right: 1px solid #e2e8f0;
+}
 
-      window.location.replace('login.html');
-    });
+.sidebar h3 {
+  color: #0d47a1;
+  padding: 10px;
+  margin: 0 0 12px;
+}
 
-    protectDashboard();
-  </script>
-</body>
-</html>
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 13px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+  background: #e3f2fd;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 25px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h1 {
+  text-align: left;
+  font-size: 25px;
+  margin-bottom: 8px;
+  color: #0d47a1;
+}
+
+.welcome p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-left: 4px solid #1976d2;
+}
+
+.card p {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  color: #0d47a1;
+  font-size: 27px;
+  margin: 0;
+}
+
+.panel {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.panel h2 {
+  color: #0d47a1;
+  margin-bottom: 15px;
+  font-size: 19px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.action {
+  padding: 16px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #0d47a1;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.action:hover {
+  background: #e3f2fd;
+}
+
+#pageContent {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.notice {
+  padding: 14px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar {
+    width: 190px;
+  }
+
+  main {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 15px;
+  }
+
+  header h2 {
+    font-size: 17px;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .sidebar h3 {
+    display: none;
+  }
+
+  .sidebar button {
+    width: auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  main {
+    padding: 15px;
+  }
+
+  .cards {
+    gap: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .card h2 {
+    font-size: 23px;
+  }
+
+  .quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
