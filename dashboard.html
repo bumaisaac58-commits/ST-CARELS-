@@ -1,43 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="style.css">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St Carels School Management System</title>
-  <link rel="stylesheet" href="style.css" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>St Carels Umoja | School Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #1e293b;
+}
+
+header {
+    background: #0b3d91;
+    color: white;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.school-title h2 {
+    margin: 0 0 5px;
+    font-size: 21px;
+}
+
+.school-title p {
+    margin: 0;
+    font-size: 13px;
+    color: #dbeafe;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-actions button {
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#logoutBtn {
+    background: #ffffff;
+    color: #0b3d91;
+    font-weight: bold;
+}
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+    width: 230px;
+    background: #ffffff;
+    padding: 20px 12px;
+    border-right: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+.sidebar h3 {
+    font-size: 12px;
+    color: #64748b;
+    padding-left: 12px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 13px 12px;
+    margin-bottom: 5px;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #e8f0ff;
+    color: #0b3d91;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    padding: 24px;
+    min-width: 0;
+}
+
+.welcome {
+    margin-bottom: 24px;
+}
+
+.welcome h1 {
+    margin: 0 0 8px;
+    font-size: 26px;
+}
+
+.welcome p {
+    color: #64748b;
+    margin: 0;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #00000008;
+    border-bottom: 3px solid #2563eb;
+}
+
+.stat-card .icon {
+    font-size: 26px;
+}
+
+.stat-card h3 {
+    font-size: 13px;
+    color: #64748b;
+    margin: 12px 0 8px;
+}
+
+.stat-card strong {
+    font-size: 28px;
+    color: #0b3d91;
+}
+
+.section-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px #00000008;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-top: 0;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.quick-links a {
+    text-decoration: none;
+    color: #0b3d91;
+    background: #eff6ff;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.quick-links a:hover {
+    background: #dbeafe;
+}
+
+.activity {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.activity:last-child {
+    border-bottom: none;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    padding: 20px;
+}
+
+@media (max-width: 1000px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        padding: 12px;
+    }
+
+    .sidebar h3 {
+        grid-column: 1 / -1;
+    }
+
+    .sidebar a {
+        margin: 0;
+        padding: 11px 8px;
+        font-size: 12px;
+    }
+
+    main {
+        padding: 16px;
+    }
+
+    .welcome h1 {
+        font-size: 22px;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-card strong {
+        font-size: 23px;
+    }
+
+    .school-title h2 {
+        font-size: 18px;
+    }
+}
+</style>
 </head>
-<body><nav>
-    <a href="dashboard.html">Dashboard</a>
 
-    <a href="class-dashboard.html">Classes</a>
+<body>
 
-    <a href="teacher-dashboard.html">Teachers</a>
-
-    <a href="students.html">Students</a>
-
-    <a href="report.html">Reports</a>
-
-    <a href="setting.html">Settings</a>
-
-    <a href="login.html">Logout</a>
-</nav>
-  <div class="login-page">
-    <div class="login-container">
-      <div class="logo">SC</div>
-      <h1>ST CARELS</h1>
-      <p class="school-name">St Carels Umoja Kwanza</p>
-      <p class="school-name">School Management System</p>
-
-      <div class="demo-notice">
-        <strong>Demo Account:</strong><br>
-        Email: admin@stcarels.com<br>
-        Password: admin123
-      </div>
-
-      <div class="footer" style="margin-top: 16px;">
-        <p>Excellency via faith</p>
-      </div>
+<header>
+    <div class="school-title">
+        <h2>🏫 St Carels Umoja Kwanza</h2>
+        <p>Excellency via faith | School Management System</p>
     </div>
-  </div>
+
+    <div class="header-actions">
+        <span id="userLabel">Administrator</span>
+        <button id="logoutBtn" type="button">Logout</button>
+    </div>
+</header>
+
+<div class="layout">
+
+    <nav class="sidebar">
+        <h3>MAIN MENU</h3>
+
+        <a class="active" href="dashboard.html">📊 Dashboard</a>
+        <a href="students.html">👨‍🎓 Students</a>
+        <a href="teachers.html">👩‍🏫 Teachers</a>
+        <a href="classes.html">🏫 Classes</a>
+        <a href="exam.html">📝 Exams & Marks</a>
+        <a href="report.html">📈 Academic Reports</a>
+        <a href="timetable.html">📅 Timetable</a>
+        <a href="fees.html">💰 Fees Management</a>
+        <a href="support-staff.html">👥 Support Staff</a>
+        <a href="settings.html">⚙️ Settings</a>
+    </nav>
+
+    <main>
+        <div class="welcome">
+            <h1>School Dashboard</h1>
+            <p>Welcome to St Carels Umoja Kwanza School Management System.</p>
+        </div>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="icon">👨‍🎓</div>
+                <h3>Total Students</h3>
+                <strong id="studentCount">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">👩‍🏫</div>
+                <h3>Total Teachers</h3>
+                <strong id="teacherCount">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">🏫</div>
+                <h3>Classes</h3>
+                <strong>11</strong>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📝</div>
+                <h3>Examinations</h3>
+                <strong id="examCount">0</strong>
+            </div>
+        </section>
+
+        <div class="section-grid">
+
+            <section class="panel">
+                <h2>Quick Access</h2>
+
+                <div class="quick-links">
+                    <a href="students.html">➕ Register Student</a>
+                    <a href="teachers.html">➕ Add Teacher</a>
+                    <a href="exam.html">📝 Enter Examination Marks</a>
+                    <a href="report.html">📊 View Academic Reports</a>
+                    <a href="timetable.html">📅 Manage Timetable</a>
+                    <a href="fees.html">💰 Manage School Fees</a>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>School Information</h2>
+
+                <div class="activity">
+                    <strong>School:</strong><br>
+                    St Carels Umoja Kwanza
+                </div>
+
+                <div class="activity">
+                    <strong>Motto:</strong><br>
+                    Excellency via faith
+                </div>
+
+                <div class="activity">
+                    <strong>Classes:</strong><br>
+                    PP1, PP2 and Grades 1–9
+                </div>
+
+                <div class="activity">
+                    <strong>Academic Year:</strong><br>
+                    <span id="academicYear"></span>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="panel">
+            <h2>System Status</h2>
+            <p id="systemStatus">
+                Dashboard opened. Student and teacher totals will update when connected to your database.
+            </p>
+        </section>
+
+    </main>
+</div>
+
+<footer>
+    © <span id="year"></span> St Carels Umoja Kwanza.
+    Excellency via faith.
+</footer>
+
+<script>
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+document.getElementById("academicYear").textContent =
+    new Date().getFullYear();
+
+document.getElementById("logoutBtn").addEventListener("click", function () {
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    if (confirmLogout) {
+        window.location.href = "login.html";
+    }
+});
+</script>
+
 </body>
 </html>
