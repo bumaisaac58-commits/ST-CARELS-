@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects | St Carels Umoja Kwanza</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #0756a3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h2 {
+            margin: 0 0 6px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        nav {
+            background: #ffffff;
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            box-shadow: 0 2px 5px #0001;
+        }
+
+        nav a {
+            color: #0756a3;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        h3 {
+            color: #0756a3;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 16px;
+            background: #0756a3;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+            padding: 8px 10px;
+        }
+
+        .search {
+            margin-bottom: 15px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #e8f2ff;
+            color: #0756a3;
+        }
+
+        .count {
+            font-weight: bold;
+            color: #0756a3;
+        }
+
+        .message {
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>ST CARELS UMOJA KWANZA</h2>
+    <p>School Management System | Excellency via faith</p>
+</header>
+
+<nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="teachers.html">Teachers</a>
+    <a href="subjects.html">Subjects</a>
+    <a href="class-dashboard.html">Classes</a>
+    <a href="exam.html">Examinations</a>
+    <a href="report.html">Reports</a>
+</nav>
+
+<main class="container">
+
+    <section class="card">
+        <h3>Add New Subject</h3>
+
+        <form id="subjectForm">
+
+            <label for="subjectName">Subject Name</label>
+            <input
+                type="text"
+                id="subjectName"
+                placeholder="e.g. Mathematics"
+                required
+            >
+
+            <label for="subjectCode">Subject Code</label>
+            <input
+                type="text"
+                id="subjectCode"
+                placeholder="e.g. MAT"
+                required
+            >
+
+            <label for="subjectLevel">Class / Level</label>
+            <select id="subjectLevel" required>
+                <option value="">Select class</option>
+                <option>PP1</option>
+                <option>PP2</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+                <option>Grade 7</option>
+                <option>Grade 8</option>
+                <option>Grade 9</option>
+            </select>
+
+            <label for="subjectTeacher">Subject Teacher</label>
+            <input
+                type="text"
+                id="subjectTeacher"
+                placeholder="Enter teacher's name"
+            >
+
+            <button type="submit" class="add-btn">
+                + Add Subject
+            </button>
+
+            <p id="message" class="message" role="status"></p>
+
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Registered Subjects</h3>
+
+        <p>Total subjects: <span id="subjectCount" class="count">0</span></p>
+
+        <input
+            type="search"
+            id="searchSubject"
+            class="search"
+            placeholder="Search subjects, codes, classes or teachers..."
+            aria-label="Search subjects"
+        >
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Code</th>
+                        <th>Class</th>
+                        <th>Teacher</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="subjectTable">
+                    <tr>
+                        <td colspan="5">Loading subjects...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    &copy; 2026 St Carels Umoja Kwanza School.
+    All rights reserved.
+</footer>
+
+<script>
+    const form = document.getElementById("subjectForm");
+    const table = document.getElementById("subjectTable");
+    const count = document.getElementById("subjectCount");
+    const search = document.getElementById("searchSubject");
+    const message = document.getElementById("message");
+
+    const STORAGE_KEY = "stCarelsSubjects";
+
+    let subjects = [];
+
+    function loadSubjects() {
+        try {
+            subjects = JSON.parse(
+                localStorage.getItem(STORAGE_KEY) || "[]"
+            );
+
+            if (!Array.isArray(subjects)) {
+                subjects = [];
+            }
+        } catch (error) {
+            subjects = [];
+        }
+
+        renderSubjects();
+    }
+
+    function saveSubjects() {
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(subjects)
+            );
+            return true;
+        } catch (error) {
+            message.textContent =
+                "Unable to save. Check your browser storage.";
+            return false;
+        }
+    }
+
+    function renderSubjects() {
+        const query = search.value.trim().toLowerCase();
+
+        const filtered = subjects.filter(subject =>
+            [
+                subject.name,
+                subject.code,
+                subject.level,
+                subject.teacher
+            ].some(value =>
+                String(value || "").toLowerCase().includes(query)
+            )
+        );
+
+        count.textContent = subjects.length;
+        table.replaceChildren();
+
+        if (filtered.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 5;
+            cell.textContent = subjects.length
+                ? "No matching subjects found."
+                : "No subjects added yet.";
+
+            row.appendChild(cell);
+            table.appendChild(row);
+            return;
+        }
+
+        filtered.forEach(subject => {
+            const row = document.createElement("tr");
+
+            [
+                subject.name,
+                subject.code,
+                subject.level,
+                subject.teacher || "Not assigned"
+            ].forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            const actionCell = document.createElement("td");
+            const deleteButton = document.createElement("button");
+
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "delete-btn";
+
+            deleteButton.addEventListener("click", () => {
+                const confirmed = confirm(
+                    "Are you sure you want to delete " +
+                    subject.name + "?"
+                );
+
+                if (!confirmed) return;
+
+                const previous = subjects;
+
+                subjects = subjects.filter(
+                    item => item.id !== subject.id
+                );
+
+                if (!saveSubjects()) {
+                    subjects = previous;
+                    return;
+                }
+
+                message.textContent = "Subject deleted successfully.";
+                renderSubjects();
+            });
+
+            actionCell.appendChild(deleteButton);
+            row.appendChild(actionCell);
+            table.appendChild(row);
+        });
+    }
+
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const name = document.getElementById("subjectName")
+            .value.trim();
+
+        const code = document.getElementById("subjectCode")
+            .value.trim().toUpperCase();
+
+        const level = document.getElementById("subjectLevel").value;
+
+        const teacher = document.getElementById("subjectTeacher")
+            .value.trim();
+
+        if (!name || !code || !level) {
+            message.textContent =
+                "Please enter the subject name, code and class.";
+            return;
+        }
+
+        const duplicate = subjects.some(subject =>
+            subject.name.toLowerCase() === name.toLowerCase() &&
+            subject.level === level
+        );
+
+        if (duplicate) {
+            message.textContent =
+                "This subject already exists for the selected class.";
+            return;
+        }
+
+        const newSubject = {
+            id: Date.now().toString() + Math.random().toString(36).slice(2),
+            name,
+            code,
+            level,
+            teacher
+        };
+
+        subjects.push(newSubject);
+
+        if (!saveSubjects()) {
+            subjects.pop();
+            return;
+        }
+
+        form.reset();
+        message.textContent = "Subject added successfully!";
+        renderSubjects();
+    });
+
+    search.addEventListener("input", renderSubjects);
+
+    loadSubjects();
+</script>
+
+</body>
+</html>
