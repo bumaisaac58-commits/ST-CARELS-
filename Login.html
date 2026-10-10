@@ -1,9 +1,51 @@
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url='login.html'" />
-    <title>Redirecting...</title>
-  </head>
-  <body></body>
+<html>
+<head>
+  <title>Dashboard - St Carels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2>St Carels School Management</h2>
+    <button class="logout" onclick="logout()">Logout</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>Menu</h3>
+      <button onclick="showPage('dashboard')">Dashboard</button>
+      <button onclick="showPage('student')">Students</button>
+      <button onclick="showPage('teacher')">Teachers</button>
+      <button onclick="showPage('exam')">Exams</button>
+      <button onclick="showPage('reports')">Reports</button>
+      <button onclick="showPage('settings')">Settings</button>
+    </aside>
+
+    <main id="pageContent"></main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    async function checkAuth() {
+      if (!window.supabaseClient) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      const user = await window.stCarelsSupabase.getUser();
+      if (!user) {
+        window.location.href = 'login.html';
+      }
+    }
+
+    async function logout() {
+      await window.stCarelsSupabase.signOut();
+      window.location.href = 'login.html';
+    }
+
+    checkAuth();
+  </script>
+</body>
 </html>
