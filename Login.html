@@ -286,7 +286,19 @@ form.addEventListener("submit", async function (event) {
 
         showMessage("Login successful. Opening dashboard...", false);
 
-        window.location.replace("dashboard.html");
+        window.location.replace("dashboard.html");logoutBtn.addEventListener("click", async () => {
+    logoutBtn.disabled = true;
+
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+        alert("Logout failed: " + error.message);
+        logoutBtn.disabled = false;
+        return;
+    }
+
+    window.location.href = "./login.html";
+});
 
     } catch (error) {
         showMessage(
