@@ -1,43 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><link rel="stylesheet" href="style.css">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St Carels School Management System</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body><nav>
-    <a href="dashboard.html">Dashboard</a>
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St Carels School Management System</title><link rel="stylesheet" href="style.css">
 
-    <a href="class-dashboard.html">Classes</a>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f0f5ff;
+        text-align: center;
+    }
 
-    <a href="teacher-dashboard.html">Teachers</a>
+    .container {
+        max-width: 500px;
+        margin: 80px auto;
+        padding: 30px 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-    <a href="students.html">Students</a>
+    h1 {
+        color: #0d47a1;
+    }
 
-    <a href="report.html">Reports</a>
+    p {
+        color: #444;
+        line-height: 1.6;
+    }
 
-    <a href="setting.html">Settings</a>
+    .login-button {
+        display: inline-block;
+        background: #0d47a1;
+        color: white;
+        padding: 15px 30px;
+        margin-top: 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+    }
 
-    <a href="login.html">Logout</a>
-</nav>
-  <div class="login-page">
-    <div class="login-container">
-      <div class="logo">SC</div>
-      <h1>ST CARELS</h1>
-      <p class="school-name">St Carels Umoja Kwanza</p>
-      <p class="school-name">School Management System</p>
+    .login-button:hover {
+        background: #1976d2;
+    }
 
-      <div class="demo-notice">
-        <strong>Demo Account:</strong><br>
-        Email: admin@stcarels.com<br>
-        Password: admin123
-      </div>
+    footer {
+        margin-top: 30px;
+        color: #666;
+        font-size: 13px;
+    }
+</style>
 
-      <div class="footer" style="margin-top: 16px;">
+</head><body><div class="container">
+    <h1>ST CARELS SCHOOL</h1>
+
+    <h2>School Management System</h2>
+
+    <p>Welcome to St Carels School Management System.</p>
+
+    <p>Manage students, teachers, classes and examinations.</p>
+
+    <a href="login.html" class="login-button">
+        LOG IN
+    </a>
+
+    <footer>
         <p>Excellency via faith</p>
-      </div>
-    </div>
-  </div>
+    </footer>
+</div>
+
 </body>
 </html>
