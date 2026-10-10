@@ -1,75 +1,283 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>St Carels School Management System</title><link rel="stylesheet" href="style.css">
 
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f0f5ff;
-        text-align: center;
-    }
+    <title>St Carels Academy | School Management System</title>
 
-    .container {
-        max-width: 500px;
-        margin: 80px auto;
-        padding: 30px 20px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
+    <meta name="description"
+          content="St Carels Academy Umoja Kwanza School Management System">
 
-    h1 {
-        color: #0d47a1;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    p {
-        color: #444;
-        line-height: 1.6;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #243247;
+            line-height: 1.6;
+        }
 
-    .login-button {
-        display: inline-block;
-        background: #0d47a1;
-        color: white;
-        padding: 15px 30px;
-        margin-top: 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: bold;
-    }
+        header {
+            background: #0756a5;
+            color: white;
+            padding: 22px 15px;
+            text-align: center;
+        }
 
-    .login-button:hover {
-        background: #1976d2;
-    }
+        header h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
 
-    footer {
-        margin-top: 30px;
-        color: #666;
-        font-size: 13px;
-    }
-</style>
+        header p {
+            font-size: 14px;
+        }
 
-</head><body><div class="container">
-    <h1>ST CARELS SCHOOL</h1>
+        .motto {
+            color: #ffe082;
+            font-style: italic;
+            margin-top: 5px;
+        }
 
-    <h2>School Management System</h2>
+        nav {
+            background: #063b75;
+            padding: 12px;
+            text-align: center;
+        }
 
-    <p>Welcome to St Carels School Management System.</p>
+        nav a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
 
-    <p>Manage students, teachers, classes and examinations.</p>
+        nav a:hover {
+            background: #0756a5;
+            border-radius: 5px;
+        }
 
-    <a href="login.html" class="login-button">
-        LOG IN
+        .hero {
+            background: white;
+            margin: 20px auto;
+            padding: 35px 20px;
+            text-align: center;
+            max-width: 1000px;
+            width: 94%;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        .hero h2 {
+            color: #0756a5;
+            margin-bottom: 12px;
+            font-size: 26px;
+        }
+
+        .hero p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #0756a5;
+            color: white;
+            padding: 12px 22px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #063b75;
+        }
+
+        .secondary {
+            background: #198754;
+        }
+
+        .section {
+            max-width: 1000px;
+            width: 94%;
+            margin: 25px auto;
+        }
+
+        .section h2 {
+            text-align: center;
+            color: #0756a5;
+            margin-bottom: 18px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #0000000d;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #0756a5;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card a {
+            color: #0756a5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .notice {
+            background: #e7f1ff;
+            padding: 20px;
+            border-left: 5px solid #0756a5;
+            border-radius: 5px;
+        }
+
+        footer {
+            background: #063b75;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: 35px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 21px;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            nav a {
+                padding: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>ST CARELS ACADEMY</h1>
+    <p>UMOJA KWANZA</p>
+    <p class="motto">Excellency via faith</p>
+    <p>School Management System</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+    <a href="#modules">School Services</a>
+    <a href="login.html">Login</a>
+</nav>
+
+<section class="hero">
+    <h2>Welcome to St Carels Academy</h2>
+
+    <p>
+        Welcome to the St Carels Academy Umoja Kwanza
+        School Management System. Our platform supports
+        school administration, academic management,
+        learner records and staff management.
+    </p>
+
+    <a href="login.html" class="button">Login to System</a>
+
+    <a href="signup.html" class="button secondary">
+        Register Account
     </a>
+</section>
 
-    <footer>
-        <p>Excellency via faith</p>
-    </footer>
-</div>
+<section class="section" id="about">
+    <h2>About Our School System</h2>
+
+    <div class="notice">
+        <p>
+            This platform is designed to help authorised school
+            administrators and teachers manage school information
+            conveniently. Access to private school records should
+            require secure authentication.
+        </p>
+    </div>
+</section>
+
+<section class="section" id="modules">
+    <h2>School Management Modules</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>👨‍🎓 Students</h3>
+            <p>Manage learner registration and student records.</p>
+            <a href="students.html">Open Students</a>
+        </div>
+
+        <div class="card">
+            <h3>👩‍🏫 Teachers</h3>
+            <p>Manage teacher details and staff records.</p>
+            <a href="teachers.html">Open Teachers</a>
+        </div>
+
+        <div class="card">
+            <h3>📚 Academics</h3>
+            <p>Organise classes, subjects and academic activities.</p>
+            <a href="academics.html">Open Academics</a>
+        </div>
+
+        <div class="card">
+            <h3>📝 Examination Results</h3>
+            <p>Manage marks and review learner performance.</p>
+            <a href="marks.html">Open Examination Results</a>
+        </div>
+
+        <div class="card">
+            <h3>💰 School Fees</h3>
+            <p>Manage fee records and payment information.</p>
+            <a href="fees.html">Open School Fees</a>
+        </div>
+
+        <div class="card">
+            <h3>📊 Administration</h3>
+            <p>Access school administration tools.</p>
+            <a href="dashboard.html">Open Dashboard</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>&copy; <span id="year"></span> St Carels Academy Umoja Kwanza.</p>
+    <p>Excellency via faith</p>
+    <p>School Management System</p>
+</footer>
+
+<script>
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+</script>
 
 </body>
 </html>
