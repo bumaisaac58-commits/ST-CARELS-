@@ -43,7 +43,147 @@ footer{text-align:center;padding:17px;color:#59708a;font-size:13px}
 @media print{header .no-print,.controls-panel,.subjects-panel,.actions,.notice,footer{display:none!important}body{background:#fff}main{padding:0;max-width:none}.panel{border:0;box-shadow:none;padding:0}.table-wrap{overflow:visible;border:0}table{min-width:0;width:100%;font-size:10px}th{print-color-adjust:exact;-webkit-print-color-adjust:exact}td,th{break-inside:avoid}.cell{min-height:30px;padding:4px;font-size:10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}.table-head{margin-bottom:8px}}
 </style>
 </head>
-<body>
+<body><body>
+
+<header>
+    <h1>ST CARELS UMOJA KWANZA</h1>
+    <p>Excellency via faith</p>
+    <h2>BLOCK TIMETABLE GENERATOR</h2>
+</header>
+
+<nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="teachers.html">Teachers</a>
+    <a href="subjects.html">Subjects</a>
+    <a href="timetable.html">Timetable</a>
+    <a href="login.html">Logout</a>
+</nav>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Timetable Settings</h2>
+
+        <label for="className">Select Class</label>
+        <select id="className">
+            <option>PP1</option>
+            <option>PP2</option>
+            <option>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+            <option>Grade 4</option>
+            <option>Grade 5</option>
+            <option>Grade 6</option>
+            <option>Grade 7</option>
+            <option>Grade 8</option>
+            <option>Grade 9</option>
+        </select>
+
+        <label for="term">Select Term</label>
+        <select id="term">
+            <option>Term 1</option>
+            <option>Term 2</option>
+            <option>Term 3</option>
+        </select>
+
+        <label for="startTime">Starting Time</label>
+        <input type="time" id="startTime" value="08:00">
+
+        <label for="duration">Block Duration (minutes)</label>
+        <input type="number" id="duration" value="80" min="15">
+
+        <button onclick="generateTimetable()">
+            Generate Timetable
+        </button>
+
+        <button onclick="window.print()">
+            Print Timetable
+        </button>
+    </section>
+
+    <section class="card">
+        <h2 id="timetableTitle">Weekly Block Timetable</h2>
+
+        <div class="table-wrap">
+            <table id="timetable">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                    </tr>
+                </thead>
+
+                <tbody id="timetableBody">
+                    <tr>
+                        <td>8:00–9:20</td>
+                        <td>Mathematics</td>
+                        <td>English</td>
+                        <td>Science</td>
+                        <td>Kiswahili</td>
+                        <td>Mathematics</td>
+                    </tr>
+                    <tr>
+                        <td>9:20–10:40</td>
+                        <td>English</td>
+                        <td>Mathematics</td>
+                        <td>Kiswahili</td>
+                        <td>Science</td>
+                        <td>English</td>
+                    </tr>
+                    <tr>
+                        <td>10:40–11:10</td>
+                        <td colspan="5">MORNING BREAK</td>
+                    </tr>
+                    <tr>
+                        <td>11:10–12:30</td>
+                        <td>Science</td>
+                        <td>CRE</td>
+                        <td>Mathematics</td>
+                        <td>English</td>
+                        <td>Social Studies</td>
+                    </tr>
+                    <tr>
+                        <td>12:30–1:10</td>
+                        <td colspan="5">LUNCH</td>
+                    </tr>
+                    <tr>
+                        <td>1:10–2:30</td>
+                        <td>Creative Arts</td>
+                        <td>Social Studies</td>
+                        <td>PE</td>
+                        <td>CRE</td>
+                        <td>Agriculture</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>St Carels Umoja Kwanza School Management System</p>
+    <p>Excellency via faith</p>
+</footer>
+
+<script>
+function generateTimetable() {
+    const className = document.getElementById("className").value;
+    const term = document.getElementById("term").value;
+
+    document.getElementById("timetableTitle").textContent =
+        className + " Block Timetable - " + term;
+
+    alert("Timetable title updated for " + className + ".");
+}
+</script>
+
+</body>
 <header>
   <div class="brand"><div class="crest">📘</div><div><h1>ST CARELS ACADEMY UMOJA KWANZA</h1><p>School Management System · <em>Excellency via faith</em></p></div></div>
   <div class="title"><h2>🗓️ Timetable Generator</h2><p>Create · Edit · Save · Print</p></div>
