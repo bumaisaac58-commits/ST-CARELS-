@@ -1,8 +1,11 @@
+
+
+
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html, body {<link rel="stylesheet" href="style.css">
   margin: 0;
   padding: 0;
   min-height: 100%;
