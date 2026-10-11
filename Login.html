@@ -253,7 +253,12 @@ const db = supabase.createClient(
 SUPABASE_URL,"https://kgibditegnkghtvcmilc.supabase.co/rest/v1/"
     SUPABASE_PUBLISHABLE_KEY
 );
-
+const ACCOUNTS = {
+  admin: {user:'Admin@stcarels.com', pass:'Till4638226', name:'ST. CARELS Admin', dashboard:'admin.html', email:'Admin@stcarels.com'},
+  admin2: {user:'admin', pass:'admin123', name:'Head Teacher Backup', dashboard:'admin.html'},
+  teacher1: {user:'TSC12345', pass:'teacher123', name:'Mary Njeri - English', dashboard:'teacher.html'},
+  accountant: {user:'accounts', pass:'till4638226', name:'Accountant Till 4638226', dashboard:'fees.html'}
+};
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
