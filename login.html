@@ -1,214 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St Carels Academy - Login</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0d47a1, #1976d2);
-      color: #1f2937;
-    }
-    .login-container {
-      width: 100%;
-      max-width: 420px;
-      background: #fff;
-      border-radius: 20px;
-      padding: 32px 24px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-    }
-    .logo {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      background: #0d47a1;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 28px;
-    }
-    h1 {
-      margin: 0 0 6px;
-      text-align: center;
-      color: #0d47a1;
-      font-size: 24px;
-    }
-    .school-name {
-      margin: 0 0 28px;
-      text-align: center;
-      color: #666;
-      font-size: 14px;
-    }
-    .form-group { margin-bottom: 18px; }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #333;
-    }
-    input {
-      width: 100%;
-      padding: 14px 12px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-      outline: none;
-    }
-    input:focus {
-      border-color: #1976d2;
-      box-shadow: 0 0 0 2px rgba(25,118,210,0.1);
-    }
-    .password-box { position: relative; }
-    .password-box input { padding-right: 52px; }
-    .show-password {
-      position: absolute;
-      right: 14px;
-      top: 14px;
-      cursor: pointer;
-      color: #1976d2;
-      font-size: 13px;
-      user-select: none;
-    }
-    .login-btn {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #0d47a1;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 4px;
-    }
-    .login-btn:hover { background: #083579; }
-    .forgot {
-      text-align: right;
-      margin: 12px 0 20px;
-    }
-    .forgot a {
-      color: #1976d2;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .message {
-      margin-top: 14px;
-      text-align: center;
-      color: #d32f2f;
-      font-size: 14px;
-      min-height: 20px;
-    }
-    .footer {
-      margin-top: 24px;
-      text-align: center;
-      color: #777;
-      font-size: 12px;
-    }
-    .demo-credentials {
-      margin-top: 20px;
-      padding: 12px;
-      background: #e3f2fd;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #0d47a1;
-      border-left: 4px solid #0d47a1;
-    }
-  </style>
+<head<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | St Carels Academy</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 32px 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: #0d47a1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+h1 {
+    text-align: center;
+    color: #0d47a1;
+    font-size: 23px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin: 8px 0 28px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25,118,210,0.12);
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 65px;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    border: none;
+    background: transparent;
+    color: #1976d2;
+    cursor: pointer;
+}
+
+.forgot {
+    text-align: right;
+    margin: 0 0 20px;
+}
+
+a {
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-btn {
+    width: 100%;
+    background: #0d47a1;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #083579;
+}
+
+.login-btn:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+#message {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 25px;
+}
+</style>
 </head>
+
 <body>
-  <div class="login-container">
+
+<div class="login-box">
+
     <div class="logo">SC</div>
+
     <h1>St Carels Academy</h1>
-    <p class="school-name">School Management System</p>
+
+    <p class="subtitle">School Management System</p>
 
     <form id="loginForm">
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="Enter your email" required />
-      </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-box">
-          <input type="password" id="password" placeholder="Enter your password" required />
-          <span class="show-password" onclick="togglePassword()">Show</span>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+                autocomplete="username"
+                required
+            >
         </div>
-      </div>
 
-      <div class="forgot">
-        <a href="#" onclick="forgotPassword(); return false;">Forgot Password?</a>
-      </div>
+        <div class="form-group">
+            <label for="password">Password</label>
 
-      <button type="submit" class="login-btn">LOGIN</button>
-      <div id="message" class="message" aria-live="polite"></div>
+            <div class="password-wrap">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    id="togglePassword"
+                >Show</button>
+            </div>
+        </div>
+
+        <div class="forgot">
+            <a href="#" id="forgotPassword">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginButton">
+            LOGIN
+        </button>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
     </form>
 
-    <div class="demo-credentials">
-      <strong>Demo Login:</strong><br>
-      Email: admin@stcarels.com<br>
-      Password: admin123
-    </div>
-
     <div class="footer">
-      <p>Excellency via faith</p>
-      <p>© 2026 St Carels Academy</p>
+        <p>Excellency via faith</p>
+        <p>© 2026 St Carels Academy</p>
     </div>
-  </div>
 
-  <script>
-    function togglePassword() {
-      const password = document.getElementById('password');
-      const button = document.querySelector('.show-password');
-      const isPassword = password.type === 'password';
-      password.type = isPassword ? 'text' : 'password';
-      button.textContent = isPassword ? 'Hide' : 'Show';
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+"use strict";
+
+/* REPLACE THESE WITH YOUR ACTUAL SUPABASE DETAILS */
+
+const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+const db = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+const form = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const message = document.getElementById("message");
+
+function showMessage(text, error = true) {
+    message.textContent = text;
+    message.style.color = error ? "#c62828" : "#218838";
+}
+
+/* SHOW OR HIDE PASSWORD */
+
+document.getElementById("togglePassword").addEventListener(
+    "click",
+    function () {
+        const show = passwordInput.type === "password";
+
+        passwordInput.type = show ? "text" : "password";
+        this.textContent = show ? "Hide" : "Show";
     }
+);
 
-    function forgotPassword() {
-      alert('Please contact the school administrator to reset your password.');
-    }
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-      event.preventDefault();
+/* SECURE SUPABASE SIGN-IN */
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const message = document.getElementById('message');
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-      if (!email || !password) {
-        message.style.color = '#d32f2f';
-        message.textContent = 'Please enter your email and password.';
+    showMessage("");
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+        showMessage("Please enter your email and password.");
         return;
-      }
+    }
 
-      const validDemoUser = email === 'admin@stcarels.com' && password === 'admin123';
+    loginButton.disabled = true;
+    loginButton.textContent = "Signing in...";
 
-      if (validDemoUser) {
-        message.style.color = 'green';
-        message.textContent = 'Login successful...';
+    try {
+        const { data, error } = await db.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-        // Save session to localStorage
-        localStorage.setItem('stCarelsUserEmail', email);
+        if (error || !data.user || !data.session) {
+            showMessage(
+                "Login failed. Check your details and try again."
+            );
+            return;
+        }
 
-        setTimeout(function () {
-          window.location.href = 'dashboard.html';
-        }, 700);
-      } else {
-        message.style.color = '#d32f2f';
-        message.textContent = 'Invalid email or password.';
-      }
-    });
-  </script>
+        showMessage("Login successful. Opening dashboard...", false);
+
+        window.location.replace("dashboard.html");
+
+    } catch (error) {
+        showMessage(
+            "Connection failed. Check your internet and Supabase settings."
+        );
+    } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "LOGIN";
+    }
+});
+
+/* PASSWORD RESET */
+
+document.getElementById("forgotPassword").addEventListener(
+    "click",
+    async function (event) {
+        event.preventDefault();
+
+        const email = emailInput.value.trim();
+
+        if (!email) {
+            showMessage("Enter your email address first.");
+            emailInput.focus();
+            return;
+        }
+
+        const redirectUrl = new URL(
+            "reset-password.html",
+            window.location.href
+        ).href;
+
+        try {
+            const { error } = await db.auth.resetPasswordForEmail(
+                email,
+                { redirectTo: redirectUrl }
+            );
+
+            if (error) {
+                showMessage("Unable to send the reset request.");
+                return;
+            }
+
+            showMessage(
+                "If an account exists, password-reset instructions will be sent.",
+                false
+            );
+
+        } catch {
+            showMessage("Connection failed. Please try again.");
+        }
+    }
+);
+
+/* CHECK EXISTING SESSION */
+
+(async function checkSession() {
+    try {
+        const { data, error } = await db.auth.getSession();
+
+        if (!error && data.session) {
+            window.location.replace("dashboard.html");
+        }
+    } catch {
+        // Keep the login form available.
+    }
+})();
+</script>
+
 </body>
 </html>
