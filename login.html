@@ -179,8 +179,7 @@
     function forgotPassword() {
       alert('Please contact the school administrator to reset your password.');
     }
-
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
+document.getElementById('loginForm').addEventListener('submit', function (event) {
       event.preventDefault();
 
       const email = document.getElementById('email').value.trim();
