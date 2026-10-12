@@ -1,165 +1,326 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>St Carels Academy | Dashboard</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div>
-          <h2>ST CARELS ACADEMY</h2>
-          <p>School Management System | Excellency via faith</p>
-        </div>
-        <button id="logoutButton" class="logout-btn" type="button">Logout</button>
-      </header>
+/* =========================================
+   ST CARELS SCHOOL MANAGEMENT SYSTEM
+   STYLE.CSS
+========================================= */
 
-      <div class="layout">
-        <nav class="sidebar" aria-label="Main navigation">
-          <h3>MAIN MENU</h3>
-          <button class="nav-btn active" data-page="home" type="button">🏠 Dashboard</button>
-          <button class="nav-btn" data-page="Students" type="button">👨‍🎓 Students</button>
-          <button class="nav-btn" data-page="Teachers" type="button">👩‍🏫 Teachers</button>
-          <button class="nav-btn" data-page="Classes" type="button">🏫 Classes</button>
-          <button class="nav-btn" data-page="Subjects" type="button">📚 Subjects</button>
-          <button class="nav-btn" data-page="Marks" type="button">📝 Examination Marks</button>
-          <button class="nav-btn" data-page="Fees" type="button">💰 School Fees</button>
-          <button class="nav-btn" data-page="Attendance" type="button">📋 Attendance</button>
-          <button class="nav-btn" data-page="Reports" type="button">📊 Reports</button>
-        </nav>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        <main class="main-content">
-          <section id="homePage">
-            <div class="welcome-panel">
-              <h1>School Dashboard</h1>
-              <p id="userInfo">Verifying your account...</p>
-            </div>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
 
-            <div class="stats-grid">
-              <div class="stat-card">
-                <p>Total Students</p>
-                <h2 id="totalStudents">0</h2>
-              </div>
-              <div class="stat-card">
-                <p>Total Teachers</p>
-                <h2>0</h2>
-              </div>
-              <div class="stat-card">
-                <p>Classes</p>
-                <h2>0</h2>
-              </div>
-              <div class="stat-card">
-                <p>Subjects</p>
-                <h2>0</h2>
-              </div>
-            </div>
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #075985, #2563eb);
+}
 
-            <div class="panel">
-              <h2>Quick Actions</h2>
-              <div class="quick-actions">
-                <button class="action-btn" data-page="Students" type="button">+ Students</button>
-                <button class="action-btn" data-page="Teachers" type="button">+ Teachers</button>
-                <button class="action-btn" data-page="Marks" type="button">Enter Marks</button>
-                <button class="action-btn" data-page="Fees" type="button">Record Fees</button>
-                <button class="action-btn" data-page="Attendance" type="button">Take Attendance</button>
-                <button class="action-btn" data-page="Reports" type="button">View Reports</button>
-              </div>
-            </div>
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 35px 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
 
-            <div class="panel">
-              <h2>System Status</h2>
-              <div class="notice" id="systemStatus">Checking authentication...</div>
-            </div>
-          </section>
+.login-box h1 {
+  color: #075985;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
 
-          <section id="pageContent" class="hidden">
-            <div class="welcome-panel">
-              <h1 id="sectionTitle">Management</h1>
-              <p id="sectionDescription">School management section.</p>
-            </div>
+.login-box h2 {
+  color: #2563eb;
+  margin-bottom: 8px;
+}
 
-            <div class="panel">
-              <h2 id="panelTitle">Welcome</h2>
-              <p id="panelDescription">This section is ready for its management features.</p>
-              <div class="notice">
-                Database records and management forms will appear here after the corresponding Supabase tables and permissions are configured.
-              </div>
-            </div>
+.login-box p {
+  margin-bottom: 20px;
+  color: #64748b;
+}
 
-            <button class="action-btn secondary" id="backButton" type="button">← Back to Dashboard</button>
-          </section>
-        </main>
-      </div>
+.login-box input {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
 
-      <footer>© 2026 St Carels Academy | Excellency via faith</footer>
-    </div>
+.login-box input:focus {
+  border-color: #2563eb;
+}
 
-    <script>
-      const descriptions = {
-        Students: 'Register and manage learner information.',
-        Teachers: 'Manage teacher profiles and assignments.',
-        Classes: 'Organise PP1, PP2 and Grades 1–9.',
-        Subjects: 'Manage subjects and teacher allocations.',
-        Marks: 'Manage assessments and examination results.',
-        Fees: 'Manage fee balances and payments.',
-        Attendance: 'Record and review learner attendance.',
-        Reports: 'Prepare school performance and administrative reports.'
-      };
+.login-box button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-      function openPage(page) {
-        const home = document.getElementById('homePage');
-        const content = document.getElementById('pageContent');
+.login-box button:hover {
+  background: #1d4ed8;
+}
 
-        document.querySelectorAll('.nav-btn').forEach((button) => {
-          button.classList.toggle('active', button.dataset.page === page);
-        });
+#loginMessage {
+  color: #dc2626;
+  margin-top: 10px;
+}
 
-        if (page === 'home') {
-          home.classList.remove('hidden');
-          content.classList.add('hidden');
-          return;
-        }
+header {
+  background: #0d47a1;
+  color: white;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-        home.classList.add('hidden');
-        content.classList.remove('hidden');
-        document.getElementById('sectionTitle').textContent = page;
-        document.getElementById('panelTitle').textContent = page + ' Management';
-        document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
-        document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
-      }
+header h2 {
+  font-size: 20px;
+}
 
-      document.querySelectorAll('[data-page]').forEach((button) => {
-        button.addEventListener('click', () => openPage(button.dataset.page));
-      });
+header p {
+  font-size: 12px;
+  margin-top: 5px;
+}
 
-      document.getElementById('backButton').addEventListener('click', () => openPage('home'));
+.logout {
+  background: white;
+  color: #0d47a1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-      function checkLocalSession() {
-        const userEmail = localStorage.getItem('stCarelsUserEmail');
-        if (!userEmail) {
-          window.location.replace('login.html');
-          return null;
-        }
-        return userEmail;
-      }
+.layout {
+  display: flex;
+  min-height: calc(100vh - 75px);
+}
 
-      function protectDashboard() {
-        const userEmail = checkLocalSession();
-        if (!userEmail) return;
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: white;
+  padding: 20px 12px;
+  border-right: 1px solid #e2e8f0;
+}
 
-        document.getElementById('userInfo').textContent = 'Signed in as ' + userEmail;
-        document.getElementById('systemStatus').textContent = 'Running in demo mode. Configure Supabase for production data storage.';
-        document.getElementById('totalStudents').textContent = '24';
-      }
+.sidebar h3 {
+  color: #0d47a1;
+  padding: 10px;
+  margin-bottom: 12px;
+}
 
-      document.getElementById('logoutButton').addEventListener('click', () => {
-        localStorage.removeItem('stCarelsUserEmail');
-        window.location.replace('login.html');
-      });
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 13px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
 
-      protectDashboard();
-    </script>
-  </body>
-</html>
+.sidebar button:hover,
+.sidebar button.active {
+  background: #e3f2fd;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 25px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h1 {
+  font-size: 25px;
+  margin-bottom: 8px;
+  color: #0d47a1;
+}
+
+.welcome p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border-left: 4px solid #1976d2;
+}
+
+.card p {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  color: #0d47a1;
+  font-size: 27px;
+}
+
+.panel {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.panel h2 {
+  color: #0d47a1;
+  margin-bottom: 15px;
+  font-size: 19px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.action {
+  padding: 16px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #0d47a1;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.action:hover {
+  background: #e3f2fd;
+}
+
+#pageContent {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.notice {
+  padding: 14px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar {
+    width: 190px;
+  }
+
+  main {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 15px;
+  }
+
+  header h2 {
+    font-size: 17px;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .sidebar h3 {
+    display: none;
+  }
+
+  .sidebar button {
+    width: auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  main {
+    padding: 15px;
+  }
+
+  .cards {
+    gap: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .card h2 {
+    font-size: 23px;
+  }
+
+  .quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
