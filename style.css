@@ -1,436 +1,165 @@
-
-
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {<link rel="stylesheet" href="style.css">
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(135deg, #0d47a1, #1976d2);
-  color: #1f2937;
-}
-
-button, input, a {
-  font: inherit;
-}
-
-/* login page */
-.login-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.login-container {
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  border-radius: 20px;
-  padding: 32px 24px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-}
-
-.logo {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 16px;
-  border-radius: 50%;
-  background: #0d47a1;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 28px;
-}
-
-h1 {
-  margin: 0 0 6px;
-  text-align: center;
-  color: #0d47a1;
-  font-size: 24px;
-}
-
-.school-name {
-  margin: 0 0 28px;
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #333;
-}
-
-input {
-  width: 100%;
-  padding: 14px 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 15px;
-  outline: none;
-}
-
-input:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-}
-
-input:disabled {
-  background: #f5f5f5;
-  cursor: not-allowed;
-}
-
-.password-box {
-  position: relative;
-}
-
-.password-box input {
-  padding-right: 52px;
-}
-
-.show-password {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  cursor: pointer;
-  color: #1976d2;
-  font-size: 13px;
-  user-select: none;
-}
-
-.login-btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background: #0d47a1;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 4px;
-  transition: background 0.2s ease;
-}
-
-.login-btn:hover:not(:disabled) {
-  background: #083579;
-}
-
-.login-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.forgot {
-  text-align: right;
-  margin: 12px 0 20px;
-}
-
-.forgot a {
-  color: #1976d2;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.message {
-  margin-top: 14px;
-  text-align: center;
-  color: #d32f2f;
-  font-size: 14px;
-  min-height: 20px;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-.message.success {
-  color: #27ae60;
-  background: #d5f4e6;
-}
-
-.message.error {
-  color: #d32f2f;
-  background: #fadbd8;
-}
-
-.message.loading {
-  color: #1976d2;
-  background: #d6eaf8;
-}
-
-.footer {
-  margin-top: 24px;
-  text-align: center;
-  color: #777;
-  font-size: 12px;
-}
-
-.demo-notice {
-  background: #fff3cd;
-  color: #856404;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  margin-top: 16px;
-  border-left: 4px solid #ffc107;
-}
-
-/* dashboard */
-header {
-  background: #0d47a1;
-  color: white;
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-header h2 {
-  margin: 0;
-  font-size: 20px;
-}
-
-header p {
-  margin: 5px 0 0;
-  font-size: 12px;
-}
-
-.logout {
-  background: white;
-  color: #0d47a1;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.layout {
-  display: flex;
-  min-height: calc(100vh - 75px);
-}
-
-.sidebar {
-  width: 230px;
-  flex-shrink: 0;
-  background: white;
-  padding: 20px 12px;
-  border-right: 1px solid #e2e8f0;
-}
-
-.sidebar h3 {
-  color: #0d47a1;
-  padding: 10px;
-  margin: 0 0 12px;
-}
-
-.sidebar button {
-  display: block;
-  width: 100%;
-  padding: 13px 12px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: #334155;
-  text-align: left;
-  cursor: pointer;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.sidebar button:hover,
-.sidebar button.active {
-  background: #e3f2fd;
-  color: #0d47a1;
-  font-weight: bold;
-}
-
-main {
-  flex: 1;
-  min-width: 0;
-  padding: 25px;
-}
-
-.welcome {
-  margin-bottom: 25px;
-}
-
-.welcome h1 {
-  text-align: left;
-  font-size: 25px;
-  margin-bottom: 8px;
-  color: #0d47a1;
-}
-
-.welcome p {
-  color: #64748b;
-  font-size: 14px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border-left: 4px solid #1976d2;
-}
-
-.card p {
-  font-size: 13px;
-  color: #64748b;
-  margin-bottom: 12px;
-}
-
-.card h2 {
-  color: #0d47a1;
-  font-size: 27px;
-  margin: 0;
-}
-
-.panel {
-  background: white;
-  padding: 22px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.panel h2 {
-  color: #0d47a1;
-  margin-bottom: 15px;
-  font-size: 19px;
-}
-
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.action {
-  padding: 16px 10px;
-  border: 1px solid #dbeafe;
-  border-radius: 10px;
-  background: #f8fbff;
-  color: #0d47a1;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.action:hover {
-  background: #e3f2fd;
-}
-
-#pageContent {
-  display: none;
-}
-
-footer {
-  text-align: center;
-  padding: 18px;
-  font-size: 12px;
-  color: #64748b;
-}
-
-.notice {
-  padding: 14px;
-  border-radius: 8px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-@media (max-width: 1000px) {
-  .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .sidebar {
-    width: 190px;
-  }
-
-  main {
-    padding: 18px;
-  }
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 15px;
-  }
-
-  header h2 {
-    font-size: 17px;
-  }
-
-  .layout {
-    display: block;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
-    gap: 6px;
-    padding: 10px;
-    border-right: none;
-    border-bottom: 1px solid #e2e8f0;
-  }
-
-  .sidebar h3 {
-    display: none;
-  }
-
-  .sidebar button {
-    width: auto;
-    white-space: nowrap;
-    margin: 0;
-  }
-
-  main {
-    padding: 15px;
-  }
-
-  .cards {
-    gap: 10px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  .card h2 {
-    font-size: 23px;
-  }
-
-  .quick-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>St Carels Academy | Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <h2>ST CARELS ACADEMY</h2>
+          <p>School Management System | Excellency via faith</p>
+        </div>
+        <button id="logoutButton" class="logout-btn" type="button">Logout</button>
+      </header>
+
+      <div class="layout">
+        <nav class="sidebar" aria-label="Main navigation">
+          <h3>MAIN MENU</h3>
+          <button class="nav-btn active" data-page="home" type="button">🏠 Dashboard</button>
+          <button class="nav-btn" data-page="Students" type="button">👨‍🎓 Students</button>
+          <button class="nav-btn" data-page="Teachers" type="button">👩‍🏫 Teachers</button>
+          <button class="nav-btn" data-page="Classes" type="button">🏫 Classes</button>
+          <button class="nav-btn" data-page="Subjects" type="button">📚 Subjects</button>
+          <button class="nav-btn" data-page="Marks" type="button">📝 Examination Marks</button>
+          <button class="nav-btn" data-page="Fees" type="button">💰 School Fees</button>
+          <button class="nav-btn" data-page="Attendance" type="button">📋 Attendance</button>
+          <button class="nav-btn" data-page="Reports" type="button">📊 Reports</button>
+        </nav>
+
+        <main class="main-content">
+          <section id="homePage">
+            <div class="welcome-panel">
+              <h1>School Dashboard</h1>
+              <p id="userInfo">Verifying your account...</p>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <p>Total Students</p>
+                <h2 id="totalStudents">0</h2>
+              </div>
+              <div class="stat-card">
+                <p>Total Teachers</p>
+                <h2>0</h2>
+              </div>
+              <div class="stat-card">
+                <p>Classes</p>
+                <h2>0</h2>
+              </div>
+              <div class="stat-card">
+                <p>Subjects</p>
+                <h2>0</h2>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Quick Actions</h2>
+              <div class="quick-actions">
+                <button class="action-btn" data-page="Students" type="button">+ Students</button>
+                <button class="action-btn" data-page="Teachers" type="button">+ Teachers</button>
+                <button class="action-btn" data-page="Marks" type="button">Enter Marks</button>
+                <button class="action-btn" data-page="Fees" type="button">Record Fees</button>
+                <button class="action-btn" data-page="Attendance" type="button">Take Attendance</button>
+                <button class="action-btn" data-page="Reports" type="button">View Reports</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>System Status</h2>
+              <div class="notice" id="systemStatus">Checking authentication...</div>
+            </div>
+          </section>
+
+          <section id="pageContent" class="hidden">
+            <div class="welcome-panel">
+              <h1 id="sectionTitle">Management</h1>
+              <p id="sectionDescription">School management section.</p>
+            </div>
+
+            <div class="panel">
+              <h2 id="panelTitle">Welcome</h2>
+              <p id="panelDescription">This section is ready for its management features.</p>
+              <div class="notice">
+                Database records and management forms will appear here after the corresponding Supabase tables and permissions are configured.
+              </div>
+            </div>
+
+            <button class="action-btn secondary" id="backButton" type="button">← Back to Dashboard</button>
+          </section>
+        </main>
+      </div>
+
+      <footer>© 2026 St Carels Academy | Excellency via faith</footer>
+    </div>
+
+    <script>
+      const descriptions = {
+        Students: 'Register and manage learner information.',
+        Teachers: 'Manage teacher profiles and assignments.',
+        Classes: 'Organise PP1, PP2 and Grades 1–9.',
+        Subjects: 'Manage subjects and teacher allocations.',
+        Marks: 'Manage assessments and examination results.',
+        Fees: 'Manage fee balances and payments.',
+        Attendance: 'Record and review learner attendance.',
+        Reports: 'Prepare school performance and administrative reports.'
+      };
+
+      function openPage(page) {
+        const home = document.getElementById('homePage');
+        const content = document.getElementById('pageContent');
+
+        document.querySelectorAll('.nav-btn').forEach((button) => {
+          button.classList.toggle('active', button.dataset.page === page);
+        });
+
+        if (page === 'home') {
+          home.classList.remove('hidden');
+          content.classList.add('hidden');
+          return;
+        }
+
+        home.classList.add('hidden');
+        content.classList.remove('hidden');
+        document.getElementById('sectionTitle').textContent = page;
+        document.getElementById('panelTitle').textContent = page + ' Management';
+        document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
+        document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
+      }
+
+      document.querySelectorAll('[data-page]').forEach((button) => {
+        button.addEventListener('click', () => openPage(button.dataset.page));
+      });
+
+      document.getElementById('backButton').addEventListener('click', () => openPage('home'));
+
+      function checkLocalSession() {
+        const userEmail = localStorage.getItem('stCarelsUserEmail');
+        if (!userEmail) {
+          window.location.replace('login.html');
+          return null;
+        }
+        return userEmail;
+      }
+
+      function protectDashboard() {
+        const userEmail = checkLocalSession();
+        if (!userEmail) return;
+
+        document.getElementById('userInfo').textContent = 'Signed in as ' + userEmail;
+        document.getElementById('systemStatus').textContent = 'Running in demo mode. Configure Supabase for production data storage.';
+        document.getElementById('totalStudents').textContent = '24';
+      }
+
+      document.getElementById('logoutButton').addEventListener('click', () => {
+        localStorage.removeItem('stCarelsUserEmail');
+        window.location.replace('login.html');
+      });
+
+      protectDashboard();
+    </script>
+  </body>
+</html>

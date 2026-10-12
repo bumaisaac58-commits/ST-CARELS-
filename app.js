@@ -1,329 +1,203 @@
-// ========================================
-// ST CARELS SCHOOL MANAGEMENT SYSTEM
-// Main Application JavaScript
-// ========================================
-
-// Check whether Supabase is configured
-if (typeof window.supabaseClient === "undefined") {
-    console.error(
-        "Supabase is not connected. Check your supabase.js file."
-    );
+* {
+  box-sizing: border-box;
 }
 
-// Get Supabase client
-const db = window.supabaseClient;
-
-// Helper: Display messages
-function showMessage(message, type = "info") {
-    let box = document.getElementById("app-message");
-
-    if (!box) {
-        box = document.createElement("div");
-        box.id = "app-message";
-
-        box.style.padding = "12px";
-        box.style.margin = "10px 0";
-        box.style.borderRadius = "8px";
-
-        document.body.prepend(box);
-    }
-
-    box.textContent = message;
-
-    box.style.backgroundColor =
-        type === "error" ? "#fee2e2" :
-        type === "success" ? "#dcfce7" : "#dbeafe";
-
-    box.style.color =
-        type === "error" ? "#991b1b" :
-        type === "success" ? "#166534" : "#1e40af";
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
 }
 
-// ========================================
-// 1. LOGIN
-// ========================================
-
-async function loginUser(email, password) {
-    if (!db) {
-        showMessage("Database is not connected.", "error");
-        return;
-    }
-
-    try {
-        const { data, error } = await db.auth.signInWithPassword({
-            email: email.trim(),
-            password: password
-        });
-
-        if (error) throw error;
-
-        showMessage("Login successful!", "success");
-
-        window.location.href = "dashboard.html";
-
-        return data;
-    } catch (error) {
-        showMessage(error.message, "error");
-        return null;
-    }
+button {
+  font: inherit;
 }
 
-// Connect to a login form with id="login-form"
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("login-form");
-
-    if (loginForm) {
-        loginForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const email =
-                loginForm.querySelector('[name="email"]')?.value || "";
-
-            const password =
-                loginForm.querySelector('[name="password"]')?.value || "";
-
-            await loginUser(email, password);
-        });
-    }
-});
-
-// ========================================
-// 2. CHECK LOGIN SESSION
-// ========================================
-
-async function checkLogin() {
-    if (!db) return null;
-
-    try {
-        const { data, error } = await db.auth.getSession();
-
-        if (error) throw error;
-
-        return data.session;
-    } catch (error) {
-        console.error("Session check failed:", error.message);
-        return null;
-    }
+.page-shell {
+  min-height: 100vh;
 }
 
-// ========================================
-// 3. LOGOUT
-// ========================================
-
-async function logoutUser() {
-    if (!db) return;
-
-    try {
-        const { error } = await db.auth.signOut();
-
-        if (error) throw error;
-
-        window.location.href = "login.html";
-    } catch (error) {
-        showMessage(error.message, "error");
-    }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #0d47a1;
+  color: white;
+  padding: 18px 24px;
 }
 
-// Connect logout button
-document.addEventListener("DOMContentLoaded", () => {
-    const logoutButton = document.getElementById("logout-button");
-
-    if (logoutButton) {
-        logoutButton.addEventListener("click", logoutUser);
-    }
-});
-
-// ========================================
-// 4. REGISTER A STUDENT
-// ========================================
-
-async function addStudent(student) {
-    if (!db) {
-        showMessage("Database is not connected.", "error");
-        return null;
-    }
-
-    try {
-        const session = await checkLogin();
-
-        if (!session) {
-            showMessage("Please log in first.", "error");
-            return null;
-        }
-
-        const { data, error } = await db
-            .from("students")
-            .insert([{
-                admission_number: student.admission_number,
-                full_name: student.full_name,
-                class_name: student.class_name,
-                gender: student.gender
-            }])
-            .select();
-
-        if (error) throw error;
-
-        showMessage("Student registered successfully!", "success");
-
-        return data;
-    } catch (error) {
-        showMessage(error.message, "error");
-        return null;
-    }
+.topbar h2 {
+  margin: 0;
+  font-size: 1.6rem;
 }
 
-// ========================================
-// 5. DISPLAY STUDENTS
-// ========================================
-
-async function loadStudents() {
-    if (!db) return [];
-
-    try {
-        const { data, error } = await db
-            .from("students")
-            .select("*")
-            .order("full_name", { ascending: true });
-
-        if (error) throw error;
-
-        const tableBody = document.getElementById("students-list");
-
-        if (tableBody) {
-            tableBody.innerHTML = "";
-
-            data.forEach((student) => {
-                const row = document.createElement("tr");
-
-                [
-                    student.admission_number,
-                    student.full_name,
-                    student.class_name,
-                    student.gender
-                ].forEach((value) => {
-                    const cell = document.createElement("td");
-                    cell.textContent = value ?? "";
-                    row.appendChild(cell);
-                });
-
-                tableBody.appendChild(row);
-            });
-        }
-
-        return data;
-    } catch (error) {
-        showMessage(
-            "Unable to load students: " + error.message,
-            "error"
-        );
-
-        return [];
-    }
+.topbar p {
+  margin: 5px 0 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
 }
 
-// ========================================
-// 6. CONNECT STUDENT REGISTRATION FORM
-// ========================================
-
-document.addEventListener("DOMContentLoaded", () => {
-    const studentForm = document.getElementById("student-form");
-
-    if (studentForm) {
-        studentForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const student = {
-                admission_number:
-                    studentForm.querySelector('[name="admission_number"]')?.value.trim(),
-
-                full_name:
-                    studentForm.querySelector('[name="full_name"]')?.value.trim(),
-
-                class_name:
-                    studentForm.querySelector('[name="class_name"]')?.value,
-
-                gender:
-                    studentForm.querySelector('[name="gender"]')?.value
-            };
-
-            if (
-                !student.admission_number ||
-                !student.full_name ||
-                !student.class_name ||
-                !student.gender
-            ) {
-                showMessage("Please fill in all student details.", "error");
-                return;
-            }
-
-            const result = await addStudent(student);
-
-            if (result) {
-                studentForm.reset();
-                await loadStudents();
-            }
-        });
-    }
-
-    // Load records when the students list exists
-    if (document.getElementById("students-list")) {
-        loadStudents();
-    }
-});
-
-// ========================================
-// 7. UPDATE DASHBOARD STATISTICS
-// ========================================
-
-async function updateDashboard() {
-    if (!db) return;
-
-    try {
-        const { count, error } = await db
-            .from("students")
-            .select("*", { count: "exact", head: true });
-
-        if (error) throw error;
-
-        const studentCount = document.getElementById("total-students");
-
-        if (studentCount) {
-            studentCount.textContent = count ?? 0;
-        }
-    } catch (error) {
-        console.error("Dashboard update failed:", error.message);
-    }
+.logout-btn,
+.action-btn,
+.nav-btn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-// ========================================
-// 8. AUTOMATIC PAGE INITIALIZATION
-// ========================================
+.logout-btn {
+  background: white;
+  color: #0d47a1;
+  padding: 10px 16px;
+  font-weight: bold;
+}
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const page = window.location.pathname.toLowerCase();
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 120px);
+}
 
-    const protectedPages = [
-        "dashboard.html",
-        "students.html",
-        "exam.html",
-        "report.html",
-        "setting.html"
-    ];
+.sidebar {
+  background: #eaf2ff;
+  padding: 20px 16px;
+  border-right: 1px solid #dfe9fa;
+}
 
-    const currentPage = page.split("/").pop();
+.sidebar h3 {
+  margin: 0 0 16px;
+  color: #0d47a1;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
 
-    if (protectedPages.includes(currentPage)) {
-        const session = await checkLogin();
+.nav-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: #1f2937;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
 
-        if (!session) {
-            window.location.replace("login.html");
-            return;
-        }
+.nav-btn.active,
+.nav-btn:hover {
+  background: #d7e8ff;
+  color: #0d47a1;
+}
 
-        if (currentPage === "dashboard.html") {
-            await updateDashboard();
-        }
-    }
-});
+.main-content {
+  padding: 24px;
+}
 
-console.log("St Carels School Management System loaded.");
+.welcome-panel,
+.panel,
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+.welcome-panel {
+  padding: 24px;
+  margin-bottom: 22px;
+}
+
+.welcome-panel h1 {
+  margin: 0 0 8px;
+  color: #0d47a1;
+}
+
+.welcome-panel p {
+  margin: 0;
+  color: #4b5563;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  padding: 20px;
+}
+
+.stat-card p {
+  margin: 0 0 8px;
+  color: #64748b;
+}
+
+.stat-card h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #0d47a1;
+}
+
+.panel {
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.panel h2 {
+  margin-top: 0;
+  color: #0d47a1;
+}
+
+.notice {
+  background: #edf6ff;
+  color: #0d47a1;
+  border-left: 4px solid #0d47a1;
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.action-btn {
+  background: #0d47a1;
+  color: white;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.action-btn.secondary {
+  background: #eaf2ff;
+  color: #0d47a1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  padding: 18px 20px 26px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #dfe9fa;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
