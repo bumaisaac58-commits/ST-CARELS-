@@ -15,13 +15,13 @@
 
   if (!SUPABASE_URL || SUPABASE_URL.includes('/rest/v1')) {
     window.supabaseClient = null;
-    console.error('❌ Invalid Supabase URL. Use the project root URL, not the /rest/v1 endpoint. Example: https://your-project.supabase.co');
+    console.error Supabase URL. Use the project root URL, not the /rest/v1 endpoint. Example: https://your-project.supabase.co');
     return;
   }
 
   if (!SUPABASE_ANON_KEY || !SUPABASE_ANON_KEY.includes('eyJ')) {
     window.supabaseClient = null;
-    console.error('❌ Invalid Supabase anon key. Paste the real public key from Supabase Project Settings > API.');
+    console.error(' public key from Supabase Project Settings > API.');
     return;
   }
 
@@ -100,7 +100,7 @@
       const { data: { user }, error } = await window.supabaseClient.auth.getUser();
 
       if (error) {
-        console.error('❌ Failed to get user:', error.message);
+        console.erro get user:', error.message);
         throw error;
       }
 
