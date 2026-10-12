@@ -1,200 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script type="module">
-  import { supabase } from "./supabase.js";
+<head><link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | St Carels School Management System</title>
 
-  const { data, error } = await supabase.auth.getSession();
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  if (error || !data.session) {
-    window.location.replace("./login.html");
-  }
-</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St Carels Academy | Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #1e293b;
+}
+
+header {
+    background: #0756b5;
+    color: white;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+header h2 {
+    font-size: 20px;
+}
+
+header p {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.logout {
+    background: white;
+    color: #0756b5;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 75px);
+}
+
+.sidebar {
+    width: 230px;
+    background: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 8px #dbe3ef;
+    flex-shrink: 0;
+}
+
+.sidebar h3 {
+    color: #0756b5;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #334155;
+    padding: 13px 12px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #e6f0ff;
+    color: #0756b5;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #64748b;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px 16px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #dbe3ef;
+    border-left: 4px solid #0756b5;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    color: #0756b5;
+    font-size: 26px;
+}
+
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #dbe3ef;
+    margin-bottom: 22px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.action-btn {
+    display: block;
+    text-align: center;
+    background: #eaf2ff;
+    color: #0756b5;
+    text-decoration: none;
+    padding: 16px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.action-btn:hover {
+    background: #0756b5;
+    color: white;
+}
+
+.notice {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .container {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    .sidebar h3 {
+        grid-column: 1 / -1;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .welcome h1 {
+        font-size: 22px;
+    }
+
+    .cards {
+        gap: 10px;
+    }
+
+    .card {
+        padding: 16px 12px;
+    }
+
+    .actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+</style>
 </head>
-<body>
-  <header>
-    <div>
-      <h2>ST CARELS ACADEMY</h2>
-      <p>School Management System | Excellency via faith</p>
-    </div>
-    <button class="logout" id="logoutButton" type="button">Logout</button>
-  </header>
 
-  <div class="layout">
-    <nav class="sidebar" aria-label="Main navigation">
-      <h3>MAIN MENU</h3>
-      <button class="active" data-page="home" type="button">🏠 Dashboard</button>
-      <button data-page="Students" type="button">👨‍🎓 Students</button>
-      <button data-page="Teachers" type="button">👩‍🏫 Teachers</button>
-      <button data-page="Classes" type="button">🏫 Classes</button>
-      <button data-page="Subjects" type="button">📚 Subjects</button>
-      <button data-page="Marks" type="button">📝 Examination Marks</button>
-      <button data-page="Fees" type="button">💰 School Fees</button>
-      <button data-page="Attendance" type="button">📋 Attendance</button>
-      <button data-page="Reports" type="button">📊 Reports</button>
+<body>
+
+<header>
+    <div>
+        <h2>ST CARELS SCHOOL</h2>
+        <p>School Management System</p>
+    </div>
+
+    <button class="logout" onclick="logout()">Logout</button>
+</header>
+
+<div class="container">
+
+    <nav class="sidebar">
+        <h3>MAIN MENU</h3>
+
+        <a href="dashboard.html" class="active">🏠 Dashboard</a>
+        <a href="students.html">👨‍🎓 Students</a>
+        <a href="teachers.html">👩‍🏫 Teachers</a>
+        <a href="classes.html">🏫 Classes</a>
+        <a href="attendance.html">📋 Attendance</a>
+        <a href="exams.html">📝 Examinations</a>
+        <a href="fees.html">💰 School Fees</a>
+        <a href="reports.html">📊 Reports</a>
+        <a href="settings.html">⚙️ Settings</a>
     </nav>
 
     <main>
-      <section id="homePage">
-        <div class="welcome">
-          <h1>School Dashboard</h1>
-          <p id="userInfo">Verifying your account...</p>
-        </div>
 
-        <div class="cards">
-          <div class="card"><p>Total Students</p><h2>—</h2></div>
-          <div class="card"><p>Total Teachers</p><h2>—</h2></div>
-          <div class="card"><p>Classes</p><h2>—</h2></div>
-          <div class="card"><p>Subjects</p><h2>—</h2></div>
-        </div>
+        <section class="welcome">
+            <h1>School Dashboard</h1>
+            <p>Welcome to St Carels School Management System.</p>
+            <p id="today" style="margin-top:8px;"></p>
+        </section>
 
-        <div class="panel">
-          <h2>Quick Actions</h2>
-          <div class="quick-actions">
-            <button class="action" data-page="Students" type="button">+ Students</button>
-            <button class="action" data-page="Teachers" type="button">+ Teachers</button>
-            <button class="action" data-page="Marks" type="button">Enter Marks</button>
-            <button class="action" data-page="Fees" type="button">Record Fees</button>
-            <button class="action" data-page="Attendance" type="button">Take Attendance</button>
-            <button class="action" data-page="Reports" type="button">View Reports</button>
-          </div>
-        </div>
+        <section class="cards">
 
-        <div class="panel">
-          <h2>System Status</h2>
-          <div class="notice" id="systemStatus">Checking authentication...</div>
-        </div>
-      </section>
+            <div class="card">
+                <p>Total Students</p>
+                <h2 id="studentsCount">0</h2>
+            </div>
 
-      <section id="pageContent">
-        <div class="welcome">
-          <h1 id="sectionTitle">Management</h1>
-          <p id="sectionDescription">School management section.</p>
-        </div>
+            <div class="card">
+                <p>Total Teachers</p>
+                <h2 id="teachersCount">0</h2>
+            </div>
 
-        <div class="panel">
-          <h2 id="panelTitle">Welcome</h2>
-          <p id="panelDescription">This section is ready for its management features.</p>
-          <div class="notice">
-            Database records and management forms will appear here after the corresponding Supabase tables and permissions are configured.
-          </div>
-        </div>
+            <div class="card">
+                <p>Total Classes</p>
+                <h2 id="classesCount">0</h2>
+            </div>
 
-        <button class="action" id="backButton" type="button">← Back to Dashboard</button>
-      </section>
+            <div class="card">
+                <p>Attendance Today</p>
+                <h2 id="attendanceCount">0</h2>
+            </div>
+
+        </section>
+
+        <section class="panel">
+            <h2>Quick Actions</h2>
+
+            <div class="actions">
+                <a href="students.html" class="action-btn">
+                    ➕ Add Student
+                </a>
+
+                <a href="teachers.html" class="action-btn">
+                    👩‍🏫 Manage Teachers
+                </a>
+
+                <a href="attendance.html" class="action-btn">
+                    📋 Record Attendance
+                </a>
+
+                <a href="exams.html" class="action-btn">
+                    📝 Enter Marks
+                </a>
+
+                <a href="fees.html" class="action-btn">
+                    💰 Record Fees
+                </a>
+
+                <a href="reports.html" class="action-btn">
+                    📊 View Reports
+                </a>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>System Information</h2>
+
+            <div class="notice">
+                <strong>School:</strong> St Carels Umoja Kwanza<br>
+                <strong>Motto:</strong> Excellency via faith<br>
+                <strong>System:</strong> School Management System<br>
+                <strong>Database:</strong> Supabase connection to be configured
+            </div>
+        </section>
+
     </main>
-  </div>
+</div>
 
-  <footer>© 2026 St Carels Academy | Excellency via faith</footer>
+<footer>
+    &copy; <span id="year"></span> St Carels School.
+    Excellency via faith.
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
-  <script>
-    'use strict';
-
-    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
-
-    const buildClient = () => {
-      if (window.supabase) {
-        return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-          auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true
-          }
-        });
-      }
-      return null;
-    };
-
-    const db = buildClient();
-
-    document.body.style.visibility = 'hidden';
-
-    const descriptions = {
-      Students: 'Register and manage learner information.',
-      Teachers: 'Manage teacher profiles and assignments.',
-      Classes: 'Organise PP1, PP2 and Grades 1–9.',
-      Subjects: 'Manage subjects and teacher allocations.',
-      Marks: 'Manage assessments and examination results.',
-      Fees: 'Manage fee balances and payments.',
-      Attendance: 'Record and review learner attendance.',
-      Reports: 'Prepare school performance and administrative reports.'
-    };
-
-    function openPage(page) {
-      const home = document.getElementById('homePage');
-      const content = document.getElementById('pageContent');
-
-      document.querySelectorAll('.sidebar button').forEach((button) => {
-        button.classList.toggle('active', button.dataset.page === page);
-      });
-
-      if (page === 'home') {
-        home.style.display = 'block';
-        content.style.display = 'none';
-        return;
-      }
-
-      home.style.display = 'none';
-      content.style.display = 'block';
-      document.getElementById('sectionTitle').textContent = page;
-      document.getElementById('panelTitle').textContent = page + ' Management';
-      document.getElementById('sectionDescription').textContent = descriptions[page] || 'School management section.';
-      document.getElementById('panelDescription').textContent = descriptions[page] || 'Manage school information from this section.';
-    }
-
-    document.querySelectorAll('[data-page]').forEach((button) => {
-      button.addEventListener('click', () => openPage(button.dataset.page));
+<script>
+document.getElementById("today").textContent =
+    "Today: " + new Date().toLocaleDateString("en-KE", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
     });
 
-    document.getElementById('backButton').addEventListener('click', () => openPage('home'));
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
-    async function protectDashboard() {
-      try {
-        if (!db) {
-          document.getElementById('userInfo').textContent = 'Demo mode: using local fallback authentication.';
-          document.getElementById('systemStatus').textContent = 'No Supabase project is configured yet. Demo login is enabled for local testing.';
-          document.body.style.visibility = 'visible';
-          return;
-        }
+/*
+These counters are placeholders.
+They will show actual records after the
+Supabase database is connected.
+*/
 
-        const { data, error } = await db.auth.getUser();
-        if (error || !data.user) {
-          window.location.replace('login.html');
-          return;
-        }
-
-        document.getElementById('userInfo').textContent = 'Signed in as ' + data.user.email;
-        document.getElementById('systemStatus').textContent = 'Supabase authentication verified. Database management features require configured tables and security policies.';
-        document.body.style.visibility = 'visible';
-      } catch (error) {
-        document.getElementById('userInfo').textContent = 'Demo mode: fallback dashboard loaded.';
-        document.getElementById('systemStatus').textContent = 'Authentication could not be verified, so the dashboard is running in local demo mode.';
-        document.body.style.visibility = 'visible';
-      }
+function logout() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "login.html";
     }
+}
+</script>
 
-    document.getElementById('logoutButton').addEventListener('click', async function () {
-      this.disabled = true;
-
-      if (db) {
-        try {
-          const { error } = await db.auth.signOut();
-          if (error) { throw error; }
-        } catch (error) {
-          console.warn('Logout error:', error);
-        }
-      }
-
-      window.location.replace('login.html');
-    });
-
-    protectDashboard();
-  </script>
 </body>
 </html>
