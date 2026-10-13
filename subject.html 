@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Subjects | St Carels School</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #0756b3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h2 {
+            margin: 0 0 6px;
+        }
+
+        nav {
+            background: #ffffff;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 2px 5px #ccd6e0;
+        }
+
+        nav a {
+            color: #0756b3;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 8px;
+            display: inline-block;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #dce5ef;
+            margin-bottom: 22px;
+        }
+
+        h3 {
+            color: #0756b3;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 14px 0 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #c5d4e5;
+            border-radius: 7px;
+            font-size: 16px;
+            background: white;
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .primary {
+            background: #0756b3;
+            color: white;
+            width: 100%;
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            margin: 0;
+        }
+
+        .message {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            overflow-wrap: anywhere;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 480px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e1e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #0756b3;
+            color: white;
+        }
+
+        .status {
+            padding: 12px;
+            background: #e7f1ff;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #61738a;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>ST CARELS SCHOOL</h2>
+    <p>School Management System</p>
+    <h3 style="color:white;">Subject Management</h3>
+</header>
+
+<nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="subject.html">Subjects</a>
+    <a href="report.html">Reports</a>
+    <a href="setting.html">Settings</a>
+    <a href="login.html" id="logoutLink">Login</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+        <h3>Add New Subject</h3>
+
+        <form id="subjectForm">
+
+            <label for="subjectName">Subject Name</label>
+            <input
+                type="text"
+                id="subjectName"
+                placeholder="e.g. Mathematics"
+                required
+            >
+
+            <label for="grade">Grade / Class</label>
+            <select id="grade" required>
+                <option value="">Select Grade</option>
+                <option>PP1</option>
+                <option>PP2</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+                <option>Grade 7</option>
+                <option>Grade 8</option>
+                <option>Grade 9</option>
+            </select>
+
+            <label for="subjectCode">Subject Code (Optional)</label>
+            <input
+                type="text"
+                id="subjectCode"
+                placeholder="e.g. MAT01"
+            >
+
+            <button type="submit" class="primary">
+                Save Subject
+            </button>
+
+            <div id="message" class="message"></div>
+
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Registered Subjects</h3>
+
+        <input
+            type="search"
+            id="searchSubject"
+            placeholder="Search subject or grade..."
+        >
+
+        <p id="connectionStatus" class="status">
+            Connecting to database...
+        </p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Grade</th>
+                        <th>Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="subjectList">
+                    <tr>
+                        <td colspan="4">Loading subjects...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    St Carels School Management System
+</footer>
+
+<!-- Load Supabase before using the database -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+    const db = window.supabaseClient;
+
+    const form = document.getElementById("subjectForm");
+    const subjectList = document.getElementById("subjectList");
+    const message = document.getElementById("message");
+    const status = document.getElementById("connectionStatus");
+    const search = document.getElementById("searchSubject");
+
+    let subjects = [];
+
+    function showMessage(text, isError = false) {
+        message.textContent = text;
+        message.className = "message " + (isError ? "error" : "success");
+        message.style.display = "block";
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    async function loadSubjects() {
+        if (!db) {
+            status.textContent =
+                "Database not initialized. Check supabase.js.";
+            subjectList.innerHTML =
+                '<tr><td colspan="4">Database connection unavailable.</td></tr>';
+            return;
+        }
+
+        status.textContent = "Loading subjects...";
+
+        const { data, error } = await db
+            .from("subjects")
+            .select("*")
+            .order("subject_name");
+
+        if (error) {
+            status.textContent = "Database error: " + error.message;
+            subjectList.innerHTML =
+                '<tr><td colspan="4">Could not load subjects.</td></tr>';
+            return;
+        }
+
+        subjects = data || [];
+        status.textContent = "Database connected. Subjects: " + subjects.length;
+        displaySubjects();
+    }
+
+    function displaySubjects() {
+        const query = search.value.toLowerCase().trim();
+
+        const filtered = subjects.filter(subject => {
+            const name = String(subject.subject_name || "").toLowerCase();
+            const grade = String(subject.grade || "").toLowerCase();
+            const code = String(subject.subject_code || "").toLowerCase();
+
+            return name.includes(query) ||
+                   grade.includes(query) ||
+                   code.includes(query);
+        });
+
+        if (filtered.length === 0) {
+            subjectList.innerHTML =
+                '<tr><td colspan="4">No subjects found.</td></tr>';
+            return;
+        }
+
+        subjectList.innerHTML = filtered.map(subject => `
+            <tr>
+                <td>${escapeHTML(subject.subject_name)}</td>
+                <td>${escapeHTML(subject.grade)}</td>
+                <td>${escapeHTML(subject.subject_code || "-")}</td>
+                <td>
+                    <button class="delete"
+                        data-id="${escapeHTML(subject.id)}"
+                        type="button">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        if (!db) {
+            showMessage("Supabase is not initialized.", true);
+            return;
+        }
+
+        const subjectName =
+            document.getElementById("subjectName").value.trim();
+
+        const grade =
+            document.getElementById("grade").value;
+
+        const subjectCode =
+            document.getElementById("subjectCode").value.trim();
+
+        if (!subjectName || !grade) {
+            showMessage("Enter a subject name and select a grade.", true);
+            return;
+        }
+
+        const saveButton = form.querySelector("button[type=submit]");
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+        try {
+            const { error } = await db
+                .from("subjects")
+                .insert([{
+                    subject_name: subjectName,
+                    grade: grade,
+                    subject_code: subjectCode || null
+                }]);
+
+            if (error) throw error;
+
+            showMessage("Subject saved successfully.");
+            form.reset();
+            await loadSubjects();
+
+        } catch (error) {
+            showMessage("Could not save subject: " + error.message, true);
+        } finally {
+            saveButton.disabled = false;
+            saveButton.textContent = "Save Subject";
+        }
+    });
+
+    subjectList.addEventListener("click", async function(event) {
+        const button = event.target.closest("button[data-id]");
+
+        if (!button) return;
+
+        if (!db) {
+            alert("Database connection unavailable.");
+            return;
+        }
+
+        const id = button.dataset.id;
+
+        if (!confirm("Are you sure you want to delete this subject?")) {
+            return;
+        }
+
+        button.disabled = true;
+
+        const { error } = await db
+            .from("subjects")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            alert("Could not delete subject: " + error.message);
+            button.disabled = false;
+            return;
+        }
+
+        await loadSubjects();
+    });
+
+    search.addEventListener("input", displaySubjects);
+
+    loadSubjects();
+</script>
+
+</body>
+</html>
