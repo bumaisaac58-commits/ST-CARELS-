@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script>
 <head><link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -211,7 +212,25 @@
                         <tr>
                             <td colspan="8">Preparing student records...</td>
                         </tr>
-                    </tbody>
+                    </tbody><script>
+async function testStudentsTable() {
+    const { data, error } = await supabaseClient
+        .from("students")
+        .select("*");
+
+    if (error) {
+        console.error("TABLE ERROR:", error.message);
+        alert("Database error: " + error.message);
+        return;
+    }
+
+    console.log("Students retrieved:", data);
+
+    alert("Connection successful! Records found: " + data.length);
+}
+
+testStudentsTable();
+</script>
                 </table>
 
             </div>
