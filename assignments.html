@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments | St Carels School</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #0755b8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h2 {
+            margin: 0 0 8px;
+        }
+
+        nav {
+            background: white;
+            padding: 14px;
+            box-shadow: 0 2px 5px #0001;
+        }
+
+        nav a {
+            color: #0755b8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        h3 {
+            color: #0755b8;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            background: #0755b8;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            margin-top: 8px;
+        }
+
+        .assignment {
+            border: 1px solid #dbeafe;
+            border-left: 5px solid #0755b8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            margin-top: 12px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>St Carels School</h2>
+    <div>Assignment Management</div>
+</header>
+
+<nav>
+    <a href="dashboard.html">← Back to Dashboard</a>
+</nav>
+
+<main class="container">
+
+    <section class="card">
+        <h3>Create Assignment</h3>
+
+        <form id="assignmentForm">
+            <label for="title">Assignment Title</label>
+            <input id="title" type="text" required
+                   placeholder="Enter assignment title">
+
+            <label for="subject">Subject</label>
+            <input id="subject" type="text"
+                   placeholder="e.g. Mathematics">
+
+            <label for="className">Class</label>
+            <select id="className" required>
+                <option value="">Select class</option>
+                <option>PP1</option>
+                <option>PP2</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+                <option>Grade 7</option>
+                <option>Grade 8</option>
+                <option>Grade 9</option>
+            </select>
+
+            <label for="description">Instructions</label>
+            <textarea id="description"
+                      placeholder="Enter assignment instructions"></textarea>
+
+            <label for="dueDate">Due Date</label>
+            <input id="dueDate" type="date">
+
+            <button id="saveBtn" type="submit">
+                Save Assignment
+            </button>
+
+            <div id="formStatus" class="status" role="status"></div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Saved Assignments</h3>
+
+        <label for="filterClass">Filter by class</label>
+        <select id="filterClass">
+            <option value="">All classes</option>
+            <option>PP1</option>
+            <option>PP2</option>
+            <option>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+            <option>Grade 4</option>
+            <option>Grade 5</option>
+            <option>Grade 6</option>
+            <option>Grade 7</option>
+            <option>Grade 8</option>
+            <option>Grade 9</option>
+        </select>
+
+        <button id="refreshBtn" type="button">Refresh Assignments</button>
+
+        <div id="assignmentList" aria-live="polite">
+            <p class="muted">Connecting to the database...</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    St Carels School Management System
+</footer>
+
+<!-- Load the Supabase JavaScript library first -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Your existing Supabase configuration -->
+<script src="supabase.js"></script>
+
+<script>
+    const form = document.getElementById("assignmentForm");
+    const saveBtn = document.getElementById("saveBtn");
+    const formStatus = document.getElementById("formStatus");
+    const assignmentList = document.getElementById("assignmentList");
+    const filterClass = document.getElementById("filterClass");
+
+    let db = null;
+
+    function showStatus(message, isError = false) {
+        formStatus.textContent = message;
+        formStatus.style.color = isError ? "#dc2626" : "#15803d";
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function getSupabaseClient() {
+        if (db) return db;
+
+        if (window.supabaseClient &&
+            typeof window.supabaseClient.from === "function") {
+            db = window.supabaseClient;
+            return db;
+        }
+
+        if (window.supabase &&
+            typeof window.supabase.from === "function") {
+            db = window.supabase;
+            return db;
+        }
+
+        if (window.supabase &&
+            typeof window.supabase.createClient === "function") {
+            assignmentList.textContent =
+                "Supabase is loaded, but its client is not configured. " +
+                "Check supabase.js and its project URL and public anon key.";
+            return null;
+        }
+
+        assignmentList.textContent =
+            "Supabase client not initialized. Check supabase.js.";
+        return null;
+    }
+
+    async function loadAssignments() {
+        const client = getSupabaseClient();
+        if (!client) return;
+
+        assignmentList.textContent = "Loading assignments...";
+
+        try {
+            let query = client
+                .from("assignments")
+                .select("*")
+                .order("created_at", { ascending: false });
+
+            if (filterClass.value) {
+                query = query.eq("class_name", filterClass.value);
+            }
+
+            const { data, error } = await query;
+
+            if (error) throw error;
+
+            assignmentList.replaceChildren();
+
+            if (!data || data.length === 0) {
+                assignmentList.textContent =
+                    "No assignments found. Create your first assignment above.";
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement("article");
+                card.className = "assignment";
+
+                card.innerHTML = `
+                    <h4>${escapeHTML(item.title)}</h4>
+                    <p><strong>Subject:</strong> ${escapeHTML(item.subject || "Not specified")}</p>
+                    <p><strong>Class:</strong> ${escapeHTML(item.class_name || "Not specified")}</p>
+                    <p><strong>Instructions:</strong><br>${escapeHTML(item.description || "No instructions provided").replace(/\n/g, "<br>")}</p>
+                    <p><strong>Due date:</strong> ${escapeHTML(item.due_date || "Not specified")}</p>
+                    <button type="button" class="delete-btn"
+                        data-id="${escapeHTML(item.id)}">Delete</button>
+                `;
+
+                assignmentList.appendChild(card);
+            });
+
+        } catch (error) {
+            assignmentList.textContent =
+                "Could not load assignments: " + error.message;
+        }
+    }
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const client = getSupabaseClient();
+        if (!client) {
+            showStatus("Supabase is not connected. Check supabase.js.", true);
+            return;
+        }
+
+        const title = document.getElementById("title").value.trim();
+        const subject = document.getElementById("subject").value.trim();
+        const className = document.getElementById("className").value;
+        const description = document.getElementById("description").value.trim();
+        const dueDate = document.getElementById("dueDate").value;
+
+        if (!title || !className) {
+            showStatus("Enter the assignment title and select a class.", true);
+            return;
+        }
+
+        saveBtn.disabled = true;
+        showStatus("Saving assignment...");
+
+        try {
+            const { error } = await client
+                .from("assignments")
+                .insert([{
+                    title: title,
+                    subject: subject || null,
+                    class_name: className,
+                    description: description || null,
+                    due_date: dueDate || null
+                }]);
+
+            if (error) throw error;
+
+            showStatus("Assignment saved successfully!");
+            form.reset();
+            await loadAssignments();
+
+        } catch (error) {
+            showStatus("Could not save assignment: " + error.message, true);
+        } finally {
+            saveBtn.disabled = false;
+        }
+    });
+
+    assignmentList.addEventListener("click", async function(event) {
+        const button = event.target.closest(".delete-btn");
+        if (!button) return;
+
+        if (!confirm("Are you sure you want to delete this assignment?")) {
+            return;
+        }
+
+        const client = getSupabaseClient();
+        if (!client) return;
+
+        try {
+            const { error } = await client
+                .from("assignments")
+                .delete()
+                .eq("id", button.dataset.id);
+
+            if (error) throw error;
+
+            showStatus("Assignment deleted successfully.");
+            await loadAssignments();
+
+        } catch (error) {
+            showStatus("Could not delete assignment: " + error.message, true);
+        }
+    });
+
+    filterClass.addEventListener("change", loadAssignments);
+    document.getElementById("refreshBtn")
+        .addEventListener("click", loadAssignments);
+
+    loadAssignments();
+</script>
+
+</body>
+</html>
