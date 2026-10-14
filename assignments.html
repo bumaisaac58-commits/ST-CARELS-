@@ -636,7 +636,65 @@
 
     <script src="supabase.js"></script>
     <script src="assignments.js"></script>
+<h2>Assignments</h2>
 
-</body>
+<p id="message">Loading assignments...</p>
+
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+    <tbody id="assignmentsTable"></tbody>
+</table>
+
+<script>
+async function loadAssignments() {
+    const message = document.getElementById("message");
+    const table = document.getElementById("assignmentsTable");
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("assignments")
+            .select("*");
+
+        if (error) throw error;
+
+        table.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            message.textContent = "No assignments found.";
+            return;
+        }
+
+        message.textContent = "";
+
+        data.forEach(assignment => {
+            const row = document.createElement("tr");
+
+            [
+                assignment.title ?? "",
+                assignment.description ?? "",
+                assignment.due_date ?? ""
+            ].forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            table.appendChild(row);
+        });
+
+    } catch (error) {
+        message.textContent = "Error loading assignments: " + error.message;
+        console.error(error);
+    }
+}
+
+loadAssignments();
+</script>
 </body>
 </html>
