@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subject Management | St Carels</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: #0756a5;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    margin: 0 0 8px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px #00000010;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 15px;
+}
+
+button {
+    background: #0756a5;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background: #063d78;
+}
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.edit-btn {
+    background: #15803d;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 11px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #0756a5;
+    color: white;
+}
+
+.actions button {
+    margin: 3px 0;
+}
+
+#message {
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 600px) {
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .actions button {
+        width: auto;
+        padding: 8px 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h2>St Carels School Management System</h2>
+    <p>Subject Management</p>
+</header>
+
+<div class="card">
+    <h3 id="formTitle">Add New Subject</h3>
+
+    <form id="subjectForm">
+        <input type="hidden" id="subjectId">
+
+        <div class="form-grid">
+
+            <div>
+                <label for="subjectName">Subject Name</label>
+                <input id="subjectName" type="text"
+                       placeholder="e.g. Mathematics" required>
+            </div>
+
+            <div>
+                <label for="subjectCode">Subject Code</label>
+                <input id="subjectCode" type="text"
+                       placeholder="e.g. MAT01">
+            </div>
+
+            <div>
+                <label for="className">Class / Grade</label>
+                <select id="className" required>
+                    <option value="">Select class</option>
+                    <option>PP1</option>
+                    <option>PP2</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="teacherName">Subject Teacher</label>
+                <input id="teacherName" type="text"
+                       placeholder="Teacher name">
+            </div>
+
+        </div>
+
+        <button type="submit" id="saveButton">Save Subject</button>
+        <button type="button" id="cancelButton"
+                style="display:none; background:#64748b"
+                onclick="resetForm()">Cancel Edit</button>
+    </form>
+
+    <p id="message" role="status"></p>
+</div>
+
+<div class="card">
+    <h3>Registered Subjects</h3>
+
+    <input type="search" id="searchInput"
+           placeholder="Search subjects, codes or grades...">
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Code</th>
+                    <th>Class</th>
+                    <th>Teacher</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="subjectList">
+                <tr>
+                    <td colspan="5">Loading subjects...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+<script>
+const tableName = "subjects";
+
+let subjects = [];
+let busy = false;
+
+function showMessage(message) {
+    document.getElementById("message").textContent = message;
+}
+
+async function loadSubjects() {
+    const list = document.getElementById("subjectList");
+    list.replaceChildren();
+
+    const loadingRow = document.createElement("tr");
+    const loadingCell = document.createElement("td");
+    loadingCell.colSpan = 5;
+    loadingCell.textContent = "Loading subjects...";
+    loadingRow.appendChild(loadingCell);
+    list.appendChild(loadingRow);
+
+    try {
+        const { data, error } = await supabaseClient
+            .from(tableName)
+            .select("*")
+            .order("subject_name", { ascending: true });
+
+        if (error) throw error;
+
+        subjects = data || [];
+        renderSubjects();
+
+    } catch (error) {
+        list.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 5;
+        cell.textContent = "Could not load subjects: " + error.message;
+
+        row.appendChild(cell);
+        list.appendChild(row);
+
+        showMessage(
+            "Check your Supabase table name, column names and permissions."
+        );
+    }
+}
+
+function renderSubjects() {
+    const list = document.getElementById("subjectList");
+    const query = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+    list.replaceChildren();
+
+    const filtered = subjects.filter(item => {
+        const values = [
+            item.subject_name,
+            item.subject_code,
+            item.class_name,
+            item.teacher_name
+        ];
+
+        return values.some(value =>
+            String(value ?? "").toLowerCase().includes(query)
+        );
+    });
+
+    if (filtered.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 5;
+        cell.textContent = "No subjects found.";
+
+        row.appendChild(cell);
+        list.appendChild(row);
+        return;
+    }
+
+    filtered.forEach(item => {
+        const row = document.createElement("tr");
+
+        [
+            item.subject_name,
+            item.subject_code,
+            item.class_name,
+            item.teacher_name
+        ].forEach(value => {
+            const cell = document.createElement("td");
+            cell.textContent = value ?? "";
+            row.appendChild(cell);
+        });
+
+        const actions = document.createElement("td");
+        actions.className = "actions";
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.className = "edit-btn";
+        editButton.onclick = () => editSubject(item);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-btn";
+        deleteButton.onclick = () => deleteSubject(item.id);
+
+        actions.append(editButton, deleteButton);
+        row.appendChild(actions);
+        list.appendChild(row);
+    });
+}
+
+document.getElementById("subjectForm")
+.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (busy) return;
+    busy = true;
+
+    const saveButton = document.getElementById("saveButton");
+    saveButton.disabled = true;
+
+    const id = document.getElementById("subjectId").value;
+
+    const record = {
+        subject_name: document.getElementById("subjectName")
+            .value.trim(),
+        subject_code: document.getElementById("subjectCode")
+            .value.trim(),
+        class_name: document.getElementById("className").value,
+        teacher_name: document.getElementById("teacherName")
+            .value.trim()
+    };
+
+    try {
+        let result;
+
+        if (id) {
+            result = await supabaseClient
+                .from(tableName)
+                .update(record)
+                .eq("id", id);
+        } else {
+            result = await supabaseClient
+                .from(tableName)
+                .insert(record);
+        }
+
+        if (result.error) throw result.error;
+
+        showMessage(id
+            ? "Subject updated successfully."
+            : "Subject saved successfully."
+        );
+
+        resetForm();
+        await loadSubjects();
+
+    } catch (error) {
+        showMessage("Save failed: " + error.message);
+    } finally {
+        busy = false;
+        saveButton.disabled = false;
+    }
+});
+
+function editSubject(item) {
+    document.getElementById("subjectId").value = item.id;
+    document.getElementById("subjectName").value =
+        item.subject_name ?? "";
+    document.getElementById("subjectCode").value =
+        item.subject_code ?? "";
+    document.getElementById("className").value =
+        item.class_name ?? "";
+    document.getElementById("teacherName").value =
+        item.teacher_name ?? "";
+
+    document.getElementById("formTitle").textContent =
+        "Edit Subject";
+    document.getElementById("saveButton").textContent =
+        "Update Subject";
+    document.getElementById("cancelButton").style.display =
+        "block";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function deleteSubject(id) {
+    if (!confirm("Are you sure you want to delete this subject?")) {
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+            .from(tableName)
+            .delete()
+            .eq("id", id);
+
+        if (error) throw error;
+
+        showMessage("Subject deleted successfully.");
+        await loadSubjects();
+
+    } catch (error) {
+        showMessage("Delete failed: " + error.message);
+    }
+}
+
+function resetForm() {
+    document.getElementById("subjectForm").reset();
+    document.getElementById("subjectId").value = "";
+    document.getElementById("formTitle").textContent =
+        "Add New Subject";
+    document.getElementById("saveButton").textContent =
+        "Save Subject";
+    document.getElementById("cancelButton").style.display =
+        "none";
+}
+
+document.getElementById("searchInput")
+    .addEventListener("input", renderSubjects);
+
+if (typeof supabaseClient !== "undefined") {
+    loadSubjects();
+} else {
+    showMessage(
+        "Supabase client not initialized. Check your supabase.js file."
+    );
+}
+</script>
+
+</body>
+</html>
