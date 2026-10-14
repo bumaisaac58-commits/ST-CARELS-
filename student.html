@@ -12,7 +12,39 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body><nav>
+<body><script>
+window.addEventListener("load", async function () {
+    console.log("STEP 1: Page loaded");
+
+    if (!window.supabase) {
+        console.error("ERROR: Supabase library not loaded");
+        alert("ERROR 1: Supabase library not loaded");
+        return;
+    }
+
+    if (typeof supabaseClient === "undefined") {
+        console.error("ERROR: Supabase client not initialized");
+        alert("ERROR 2: Supabase client not initialized");
+        return;
+    }
+
+    console.log("STEP 2: Supabase client found");
+
+    const { data, error } = await supabaseClient
+        .from("students")
+        .select("*")
+        .limit(5);
+
+    if (error) {
+        console.error("DATABASE ERROR:", error);
+        alert("DATABASE ERROR: " + error.message);
+        return;
+    }
+
+    console.log("STEP 3: Database connected", data);
+    alert("SUCCESS! Students table connected. Records: " + data.length);
+});
+</script><nav>
     <a href="dashboard.html">Dashboard</a>
 
     <a href="class-dashboard.html">Classes</a>
