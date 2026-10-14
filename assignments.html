@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script>
 <head><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
     <meta charset="UTF-8">
@@ -751,5 +751,309 @@ async function testConnection() {
 
 testConnection();
 </script>
-</body>
+</body><h2>Assignments Management</h2><h2>Assignments Management</h2>
+
+<form id="assignmentForm">
+    <input type="hidden" id="assignmentId">
+
+<label>Assignment Title</label>
+<input type="text" id="title" required>
+
+<label>Subject</label>
+<input type="text" id="subject" required>
+
+<label>Class</label>
+<input type="text" id="className" required>
+
+<label>Due Date</label>
+<input type="date" id="dueDate" required>
+
+<button type="submit">Save Assignment</button>
+<button type="button" onclick="resetForm()">Cancel</button>
+
+</form>
+
+<p id="message"></p>
+
+<h3>Saved Assignments</h3>
+
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="assignmentList"></tbody>
+</table>
+
+<script>
+const tableName = "assignments";
+
+async function loadAssignments() {
+    const { data, error } = await supabaseClient
+        .from(tableName)
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        document.getElementById("message").textContent =
+            "Could not load assignments: " + error.message;
+        return;
+    }
+
+    const list = document.getElementById("assignmentList");
+    list.innerHTML = "";
+
+    data.forEach(item => {
+        const row = document.createElement("tr");
+
+        [item.title, item.subject, item.class_name, item.due_date]
+            .forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "";
+                row.appendChild(cell);
+            });
+
+        const actions = document.createElement("td");
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.onclick = () => editAssignment(item);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = () => deleteAssignment(item.id);
+
+        actions.append(editButton, deleteButton);
+        row.appendChild(actions);
+        list.appendChild(row);
+    });
+}
+
+document.getElementById("assignmentForm")
+    .addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const id = document.getElementById("assignmentId").value;
+
+        const record = {
+            title: document.getElementById("title").value.trim(),
+            subject: document.getElementById("subject").value.trim(),
+            class_name: document.getElementById("className").value.trim(),
+            due_date: document.getElementById("dueDate").value
+        };
+
+        const result = id
+            ? await supabaseClient.from(tableName)
+                .update(record).eq("id", id)
+            : await supabaseClient.from(tableName).insert(record);
+
+        if (result.error) {
+            document.getElementById("message").textContent =
+                "Save failed: " + result.error.message;
+            return;
+        }
+
+        document.getElementById("message").textContent =
+            "Assignment saved successfully.";
+
+        resetForm();
+        loadAssignments();
+    });
+
+function editAssignment(item) {
+    document.getElementById("assignmentId").value = item.id;
+    document.getElementById("title").value = item.title ?? "";
+    document.getElementById("subject").value = item.subject ?? "";
+    document.getElementById("className").value = item.class_name ?? "";
+    document.getElementById("dueDate").value = item.due_date ?? "";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function deleteAssignment(id) {
+    if (!confirm("Are you sure you want to delete this assignment?")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from(tableName)
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        document.getElementById("message").textContent =
+            "Delete failed: " + error.message;
+        return;
+    }
+
+    document.getElementById("message").textContent =
+        "Assignment deleted successfully.";
+
+    loadAssignments();
+}
+
+function resetForm() {
+    document.getElementById("assignmentForm").reset();
+    document.getElementById("assignmentId").value = "";
+}
+
+loadAssignments();
+</script>
+
+<form id="assignmentForm">
+    <input type="hidden" id="assignmentId">
+
+<label>Assignment Title</label>
+<input type="text" id="title" required>
+
+<label>Subject</label>
+<input type="text" id="subject" required>
+
+<label>Class</label>
+<input type="text" id="className" required>
+
+<label>Due Date</label>
+<input type="date" id="dueDate" required>
+
+<button type="submit">Save Assignment</button>
+<button type="button" onclick="resetForm()">Cancel</button>
+
+</form>
+
+<p id="message"></p>
+
+<h3>Saved Assignments</h3>
+
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="assignmentList"></tbody>
+</table>
+
+<script>
+const tableName = "assignments";
+
+async function loadAssignments() {
+    const { data, error } = await supabaseClient
+        .from(tableName)
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        document.getElementById("message").textContent =
+            "Could not load assignments: " + error.message;
+        return;
+    }
+
+    const list = document.getElementById("assignmentList");
+    list.innerHTML = "";
+
+    data.forEach(item => {
+        const row = document.createElement("tr");
+
+        [item.title, item.subject, item.class_name, item.due_date]
+            .forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "";
+                row.appendChild(cell);
+            });
+
+        const actions = document.createElement("td");
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.onclick = () => editAssignment(item);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = () => deleteAssignment(item.id);
+
+        actions.append(editButton, deleteButton);
+        row.appendChild(actions);
+        list.appendChild(row);
+    });
+}
+
+document.getElementById("assignmentForm")
+    .addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const id = document.getElementById("assignmentId").value;
+
+        const record = {
+            title: document.getElementById("title").value.trim(),
+            subject: document.getElementById("subject").value.trim(),
+            class_name: document.getElementById("className").value.trim(),
+            due_date: document.getElementById("dueDate").value
+        };
+
+        const result = id
+            ? await supabaseClient.from(tableName)
+                .update(record).eq("id", id)
+            : await supabaseClient.from(tableName).insert(record);
+
+        if (result.error) {
+            document.getElementById("message").textContent =
+                "Save failed: " + result.error.message;
+            return;
+        }
+
+        document.getElementById("message").textContent =
+            "Assignment saved successfully.";
+
+        resetForm();
+        loadAssignments();
+    });
+
+function editAssignment(item) {
+    document.getElementById("assignmentId").value = item.id;
+    document.getElementById("title").value = item.title ?? "";
+    document.getElementById("subject").value = item.subject ?? "";
+    document.getElementById("className").value = item.class_name ?? "";
+    document.getElementById("dueDate").value = item.due_date ?? "";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function deleteAssignment(id) {
+    if (!confirm("Are you sure you want to delete this assignment?")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from(tableName)
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        document.getElementById("message").textContent =
+            "Delete failed: " + error.message;
+        return;
+    }
+
+    document.getElementById("message").textContent =
+        "Assignment deleted successfully.";
+
+    loadAssignments();
+}
+
+function resetForm() {
+    document.getElementById("assignmentForm").reset();
+    document.getElementById("assignmentId").value = "";
+}
+
+loadAssignments();
+</script>
 </html>
