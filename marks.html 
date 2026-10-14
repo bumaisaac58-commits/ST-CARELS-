@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marks Management | St Carels School</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+
+    header {
+      background: #0756b8;
+      color: white;
+      padding: 18px;
+    }
+
+    header h2 {
+      margin: 0 0 8px;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    nav {
+      background: white;
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #ddd;
+    }
+
+    nav a {
+      color: #0756b8;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px #0000000d;
+    }
+
+    h3 {
+      color: #0756b8;
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      background: white;
+      font-size: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: #0756b8;
+      color: white;
+    }
+
+    .secondary {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .danger {
+      background: #dc2626;
+      color: white;
+      padding: 8px 10px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #eaf2ff;
+      color: #0756b8;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 7px;
+      margin-bottom: 15px;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .muted {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>St Carels School Management System</h2>
+  <p>Marks Entry and Examination Management</p>
+</header>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="students.html">Students</a>
+  <a href="teachers.html">Teachers</a>
+  <a href="subjects.html">Subjects</a>
+  <a href="assignments.html">Assignments</a>
+  <a href="marks.html">Marks</a>
+  <a href="reports.html">Reports</a>
+  <a href="login.html">Login</a>
+</nav>
+
+<main class="container">
+
+  <div id="message" class="message" role="status"></div>
+
+  <section class="card">
+    <h3>Enter Examination Marks</h3>
+
+    <p class="muted">
+      Enter one learner's mark for one subject at a time.
+      The score must be between 0 and 100.
+    </p>
+
+    <form id="marksForm">
+      <div class="form-grid">
+
+        <div>
+          <label for="admission">Admission Number</label>
+          <input id="admission" type="text"
+                 placeholder="e.g. SC001" required>
+        </div>
+
+        <div>
+          <label for="learner">Learner Name</label>
+          <input id="learner" type="text"
+                 placeholder="Full learner name" required>
+        </div>
+
+        <div>
+          <label for="className">Class / Grade</label>
+          <select id="className" required>
+            <option value="">Select class</option>
+            <option>PP1</option>
+            <option>PP2</option>
+            <option>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+            <option>Grade 4</option>
+            <option>Grade 5</option>
+            <option>Grade 6</option>
+            <option>Grade 7</option>
+            <option>Grade 8</option>
+            <option>Grade 9</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="subject">Subject</label>
+          <input id="subject" type="text"
+                 placeholder="e.g. Mathematics" required>
+        </div>
+
+        <div>
+          <label for="exam">Examination</label>
+          <select id="exam" required>
+            <option value="">Select examination</option>
+            <option>Opener Exam</option>
+            <option>Midterm Exam</option>
+            <option>End Term Exam</option>
+            <option>Assessment</option>
+            <option>Mock Exam</option>
+            <option>KPSEA</option>
+            <option>KJSEA</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="term">Term</label>
+          <select id="term" required>
+            <option value="">Select term</option>
+            <option>Term 1</option>
+            <option>Term 2</option>
+            <option>Term 3</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="score">Marks (0–100)</label>
+          <input id="score" type="number"
+                 min="0" max="100" step="0.01"
+                 placeholder="Enter score" required>
+        </div>
+
+        <div>
+          <label for="year">Academic Year</label>
+          <input id="year" type="number"
+                 min="2020" max="2100"
+                 required>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="primary" type="submit" id="saveBtn">
+          Save Marks
+        </button>
+
+        <button class="secondary" type="reset">
+          Clear Form
+        </button>
+
+        <button class="secondary" type="button" id="refreshBtn">
+          Refresh Marks
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Saved Examination Marks</h3>
+
+    <div class="form-grid">
+      <div>
+        <label for="filterClass">Filter by Class</label>
+        <select id="filterClass">
+          <option value="">All Classes</option>
+          <option>PP1</option>
+          <option>PP2</option>
+          <option>Grade 1</option>
+          <option>Grade 2</option>
+          <option>Grade 3</option>
+          <option>Grade 4</option>
+          <option>Grade 5</option>
+          <option>Grade 6</option>
+          <option>Grade 7</option>
+          <option>Grade 8</option>
+          <option>Grade 9</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="search">Search Learner</label>
+        <input id="search" type="search"
+               placeholder="Name or admission number">
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:18px">
+      <table>
+        <thead>
+          <tr>
+            <th>Admission No.</th>
+            <th>Learner</th>
+            <th>Class</th>
+            <th>Subject</th>
+            <th>Examination</th>
+            <th>Term</th>
+            <th>Score</th>
+            <th>Grade</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="marksTable">
+          <tr>
+            <td colspan="9">Connecting to database...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="muted" id="recordCount">Records: 0</p>
+  </section>
+
+</main>
+
+<!-- Load Supabase JS library first -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Your existing Supabase connection file -->
+<script src="supabase.js"></script>
+
+<script>
+  const form = document.getElementById("marksForm");
+  const message = document.getElementById("message");
+  const tableBody = document.getElementById("marksTable");
+  const saveBtn = document.getElementById("saveBtn");
+
+  let db = null;
+  let allMarks = [];
+
+  document.getElementById("year").value =
+    new Date().getFullYear();
+
+  function showMessage(text, type = "success") {
+    message.textContent = text;
+    message.className = "message " + type;
+  }
+
+  function getGrade(score) {
+    const n = Number(score);
+
+    if (n >= 80) return "A";
+    if (n >= 70) return "B";
+    if (n >= 60) return "C";
+    if (n >= 50) return "D";
+    return "E";
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function getDatabaseClient() {
+    // Supports common client variable names in supabase.js.
+    if (window.supabaseClient) return window.supabaseClient;
+    if (window.supabaseDB) return window.supabaseDB;
+    if (window.db && typeof window.db.from === "function") {
+      return window.db;
+    }
+    if (window.supabase &&
+        typeof window.supabase.from === "function") {
+      return window.supabase;
+    }
+    return null;
+  }
+
+  async function initialize() {
+    db = getDatabaseClient();
+
+    if (!db || typeof db.from !== "function") {
+      tableBody.innerHTML =
+        '<tr><td colspan="9">Supabase client not initialized. ' +
+        'Check the URL, public key, and variable name in supabase.js.</td></tr>';
+      showMessage(
+        "Supabase connection not found. Check supabase.js.",
+        "error"
+      );
+      return;
+    }
+
+    await loadMarks();
+  }
+
+  async function loadMarks() {
+    if (!db) return;
+
+    tableBody.innerHTML =
+      '<tr><td colspan="9">Loading marks...</td></tr>';
+
+    // This page expects a table named marks.
+    const { data, error } = await db
+      .from("marks")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+
+    if (error) {
+      tableBody.innerHTML =
+        '<tr><td colspan="9">Could not load marks. Check that ' +
+        'the marks table and its SELECT policy exist in Supabase. ' +
+        escapeHTML(error.message) + '</td></tr>';
+
+      showMessage("Database error: " + error.message, "error");
+      return;
+    }
+
+    allMarks = data || [];
+    renderMarks();
+  }
+
+  function renderMarks() {
+    const classFilter =
+      document.getElementById("filterClass").value.toLowerCase();
+
+    const search =
+      document.getElementById("search").value.trim().toLowerCase();
+
+    const filtered = allMarks.filter(row => {
+      const className = String(
+        row.class_name ?? row.grade ?? ""
+      ).toLowerCase();
+
+      const learner = String(
+        row.learner_name ?? row.student_name ?? ""
+      ).toLowerCase();
+
+      const admission = String(
+        row.admission_number ?? ""
+      ).toLowerCase();
+
+      return (!classFilter || className === classFilter) &&
+        (!search ||
+          learner.includes(search) ||
+          admission.includes(search));
+    });
+
+    if (!filtered.length) {
+      tableBody.innerHTML =
+        '<tr><td colspan="9">No marks found.</td></tr>';
+    } else {
+      tableBody.innerHTML = filtered.map(row => {
+        const score = Number(row.score);
+
+        return `
+          <tr>
+            <td>${escapeHTML(row.admission_number)}</td>
+            <td>${escapeHTML(row.learner_name ?? row.student_name)}</td>
+            <td>${escapeHTML(row.class_name ?? row.grade)}</td>
+            <td>${escapeHTML(row.subject)}</td>
+            <td>${escapeHTML(row.exam_name ?? row.examination)}</td>
+            <td>${escapeHTML(row.term)}</td>
+            <td>${Number.isFinite(score) ? score : ""}</td>
+            <td>${Number.isFinite(score) ? getGrade(score) : ""}</td>
+            <td>
+              <button class="danger"
+                data-delete="${escapeHTML(row.id)}">
+                Delete
+              </button>
+            </td>
+          </tr>`;
+      }).join("");
+    }
+
+    document.getElementById("recordCount").textContent =
+      "Records: " + filtered.length;
+  }
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (!db) {
+      showMessage("Supabase client is not initialized.", "error");
+      return;
+    }
+
+    const score = Number(document.getElementById("score").value);
+
+    if (!Number.isFinite(score) || score < 0 || score > 100) {
+      showMessage("Enter a mark between 0 and 100.", "error");
+      return;
+    }
+
+    const record = {
+      admission_number:
+        document.getElementById("admission").value.trim(),
+
+      learner_name:
+        document.getElementById("learner").value.trim(),
+
+      class_name:
+        document.getElementById("className").value,
+
+      subject:
+        document.getElementById("subject").value.trim(),
+
+      exam_name:
+        document.getElementById("exam").value,
+
+      term:
+        document.getElementById("term").value,
+
+      score: score,
+
+      academic_year:
+        Number(document.getElementById("year").value)
+    };
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+
+    try {
+      const { error } = await db
+        .from("marks")
+        .insert(record);
+
+      if (error) {
+        showMessage("Could not save marks: " + error.message, "error");
+        return;
+      }
+
+      showMessage("Marks saved successfully.");
+      form.reset();
+      document.getElementById("year").value =
+        new Date().getFullYear();
+
+      await loadMarks();
+
+    } catch (err) {
+      showMessage("Unexpected error: " + err.message, "error");
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Marks";
+    }
+  });
+
+  tableBody.addEventListener("click", async function(event) {
+    const button = event.target.closest("[data-delete]");
+    if (!button) return;
+
+    const id = button.dataset.delete;
+
+    if (!confirm("Are you sure you want to delete this mark?")) {
+      return;
+    }
+
+    if (!db) return;
+
+    const { error } = await db
+      .from("marks")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      showMessage("Delete failed: " + error.message, "error");
+      return;
+    }
+
+    showMessage("Mark deleted successfully.");
+    await loadMarks();
+  });
+
+  document.getElementById("refreshBtn")
+    .addEventListener("click", loadMarks);
+
+  document.getElementById("filterClass")
+    .addEventListener("change", renderMarks);
+
+  document.getElementById("search")
+    .addEventListener("input", renderMarks);
+
+  initialize();
+</script>
+
+</body>
+</html>
