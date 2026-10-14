@@ -724,5 +724,32 @@ async function testConnection() {
 
 testConnection();
 </script>
+<script>
+async function testConnection() {
+    const message = document.getElementById("message");
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("assignments")
+            .select("*");
+
+        if (error) {
+            console.error(error);
+            message.textContent = "Database error: " + error.message;
+            return;
+        }
+
+        message.textContent =
+            "Connection successful. Records found: " + data.length;
+
+        console.log("Assignments:", data);
+
+    } catch (error) {
+        message.textContent = "Error: " + error.message;
+    }
+}
+
+testConnection();
+</script>
 </body>
 </html>
