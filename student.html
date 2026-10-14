@@ -451,5 +451,35 @@
     loadStudents();
 </script>
 
-</body>
+</body><h2>Database Connection Test</h2>
+<p id="status">Checking database...</p>
+
+<script>
+async function testDatabase() {
+    const status = document.getElementById("status");
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("students")
+            .select("*")
+            .limit(10);
+
+        if (error) {
+            status.textContent = "Database error: " + error.message;
+            console.error(error);
+            return;
+        }
+
+        status.textContent =
+            "Connection successful! Records found: " + data.length;
+
+        console.log(data);
+    } catch (error) {
+        status.textContent = "Connection failed: " + error.message;
+        console.error(error);
+    }
+}
+
+testDatabase();
+</script>
 </html>
