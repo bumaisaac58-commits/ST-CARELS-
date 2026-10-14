@@ -428,4 +428,110 @@
     </tbody>
 </table>
 </body>
+<body>
+
+    <header class="header">
+        <h1>St Carels School Management System</h1>
+        <p>Assignments Management</p>
+    </header>
+
+    <nav class="navigation">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="students.html">Students</a>
+        <a href="teachers.html">Teachers</a>
+        <a href="assignments.html">Assignments</a>
+        <a href="reports.html">Reports</a>
+    </nav>
+
+    <main class="container">
+
+        <h2>Manage Assignments</h2>
+        <p>Create assignments and manage learner submissions.</p>
+
+        <section class="card">
+            <h3>Add New Assignment</h3>
+
+            <form id="assignmentForm">
+
+                <label for="title">Assignment Title</label>
+                <input type="text" id="title"
+                       placeholder="Enter assignment title" required>
+
+                <label for="className">Class</label>
+                <select id="className" required>
+                    <option value="">Select Class</option>
+                    <option>PP1</option>
+                    <option>PP2</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                </select>
+
+                <label for="subject">Subject</label>
+                <input type="text" id="subject"
+                       placeholder="Enter subject" required>
+
+                <label for="teacher">Teacher's Name</label>
+                <input type="text" id="teacher"
+                       placeholder="Enter teacher's name" required>
+
+                <label for="dueDate">Submission Deadline</label>
+                <input type="date" id="dueDate" required>
+
+                <label for="instructions">Instructions</label>
+                <textarea id="instructions"
+                          placeholder="Enter assignment instructions"
+                          rows="4" required></textarea>
+
+                <button type="submit">Save Assignment</button>
+
+            </form>
+        </section>
+
+        <section class="card">
+            <h3>Assignments List</h3>
+
+            <input type="search" id="searchAssignment"
+                   placeholder="Search assignments...">
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Deadline</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="assignmentList">
+                        <tr>
+                            <td colspan="6">
+                                No assignments added yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 St Carels School Management System</p>
+    </footer>
+
+    <script src="supabase.js"></script>
+    <script src="assignments.js"></script>
+
+</body>
 </html>
