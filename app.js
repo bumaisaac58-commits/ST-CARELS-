@@ -1,3 +1,41 @@
+
+async function testDatabaseConnection() {
+if (!window.db) {
+console.error("Supabase client not initialized.");
+return;
+}
+
+const tables = [
+    "students",
+    "teachers",
+    "subjects",
+    "marks",
+    "assignments"
+];
+
+for (const table of tables) {
+    const { data, error } = await window.db
+        .from(table)
+        .select("*")
+        .limit(1);
+
+    if (error) {
+        console.error(
+            `Table ${table}:`,
+            error.message
+        );
+    } else {
+        console.log(
+            `Table ${table} is accessible.`,
+            data
+        );
+    }
+}
+
+}
+
+testDatabaseConnection();
+
 * {
   box-sizing: border-box;
 }
