@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Database Tables | St Carels</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f5ff;
+            color: #1e293b;
+        }
+
+        header {
+            background: #0755b8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #00000012;
+        }
+
+        h2 {
+            color: #0755b8;
+        }
+
+        button, select, input {
+            padding: 11px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #cbd5e1;
+            font-size: 15px;
+        }
+
+        button {
+            background: #0755b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #003b83;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .status {
+            padding: 12px;
+            background: #e0f2fe;
+            border-radius: 5px;
+            margin: 12px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #dbe3ef;
+            padding: 10px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #0755b8;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>ST CARELS SCHOOL MANAGEMENT SYSTEM</h1>
+    <p>Database Tables Management</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Database Connection</h2>
+
+        <div id="connectionStatus" class="status">
+            Checking Supabase connection...
+        </div>
+
+        <button onclick="checkConnection()">
+            Check Connection
+        </button>
+
+        <button onclick="window.location.href='dashboard.html'">
+            Back to Dashboard
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>View Database Records</h2>
+
+        <label for="tableSelect">Choose a database table:</label>
+        <br>
+
+        <select id="tableSelect">
+            <option value="students">Students</option>
+            <option value="teachers">Teachers</option>
+            <option value="subjects">Subjects</option>
+            <option value="marks">Marks</option>
+            <option value="assignments">Assignments</option>
+            <option value="classes">Classes</option>
+        </select>
+
+        <button onclick="loadTable()">
+            Load Table
+        </button>
+
+        <button onclick="refreshTable()">
+            Refresh
+        </button>
+
+        <div id="tableStatus" class="status">
+            Select a table and click Load Table.
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead id="tableHead">
+                    <tr>
+                        <th>Columns will appear here</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableBody">
+                    <tr>
+                        <td>No records loaded.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Important Information</h2>
+
+        <p>
+            This page displays records from existing Supabase tables.
+            It does not create database tables automatically.
+        </p>
+
+        <p class="muted">
+            The selected table must exist in Supabase, and its Row Level
+            Security (RLS) policies must allow the signed-in user to read
+            the records.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    St Carels School Management System
+</footer>
+
+<!-- Load Supabase library first -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Your Supabase connection file -->
+<script src="supabase.js"></script>
+
+<script>
+    let currentRows = [];
+
+    function getSupabaseClient() {
+        // Supports common client names used in supabase.js.
+        return window.supabaseClient ||
+               window.supabase ||
+               window._supabase ||
+               null;
+    }
+
+    function setStatus(elementId, message) {
+        document.getElementById(elementId).textContent = message;
+    }
+
+    async function checkConnection() {
+        const client = getSupabaseClient();
+
+        if (!client || typeof client.from !== "function") {
+            setStatus(
+                "connectionStatus",
+                "ERROR: Supabase client not initialized. Check supabase.js."
+            );
+            return false;
+        }
+
+        try {
+            const { error } = await client.auth.getSession();
+
+            if (error) throw error;
+
+            setStatus(
+                "connectionStatus",
+                "Supabase client initialized successfully."
+            );
+
+            return true;
+
+        } catch (error) {
+            setStatus(
+                "connectionStatus",
+                "Connection check failed: " + error.message
+            );
+            return false;
+        }
+    }
+
+    async function loadTable() {
+        const client = getSupabaseClient();
+
+        if (!client || typeof client.from !== "function") {
+            setStatus(
+                "tableStatus",
+                "ERROR: Supabase client not initialized. Check supabase.js."
+            );
+            return;
+        }
+
+        const tableName = document.getElementById("tableSelect").value;
+
+        setStatus("tableStatus", "Loading " + tableName + "...");
+
+        try {
+            const { data, error } = await client
+                .from(tableName)
+                .select("*")
+                .limit(100);
+
+            if (error) {
+                throw error;
+            }
+
+            currentRows = data || [];
+
+            displayTable(currentRows);
+
+            setStatus(
+                "tableStatus",
+                "Table: " + tableName +
+                " | Records loaded: " + currentRows.length
+            );
+
+        } catch (error) {
+            currentRows = [];
+
+            document.getElementById("tableHead").innerHTML =
+                "<tr><th>Database message</th></tr>";
+
+            document.getElementById("tableBody").innerHTML = "";
+
+            setStatus(
+                "tableStatus",
+                "Could not load " + tableName + ": " + error.message +
+                ". Confirm the table exists and SELECT permission is granted."
+            );
+        }
+    }
+
+    function displayTable(rows) {
+        const head = document.getElementById("tableHead");
+        const body = document.getElementById("tableBody");
+
+        head.innerHTML = "";
+        body.innerHTML = "";
+
+        if (!rows.length) {
+            head.innerHTML = "<tr><th>Result</th></tr>";
+            body.innerHTML =
+                "<tr><td>No records found. The table may be empty.</td></tr>";
+            return;
+        }
+
+        const columns = Object.keys(rows[0]);
+
+        const headerRow = document.createElement("tr");
+
+        columns.forEach(column => {
+            const th = document.createElement("th");
+            th.textContent = column;
+            headerRow.appendChild(th);
+        });
+
+        head.appendChild(headerRow);
+
+        rows.forEach(row => {
+            const tr = document.createElement("tr");
+
+            columns.forEach(column => {
+                const td = document.createElement("td");
+                const value = row[column];
+
+                td.textContent =
+                    value === null || value === undefined
+                        ? ""
+                        : typeof value === "object"
+                            ? JSON.stringify(value)
+                            : String(value);
+
+                tr.appendChild(td);
+            });
+
+            body.appendChild(tr);
+        });
+    }
+
+    function refreshTable() {
+        loadTable();
+    }
+
+    document.getElementById("tableSelect")
+        .addEventListener("change", () => {
+            currentRows = [];
+            setStatus("tableStatus", "Click Load Table to view records.");
+        });
+
+    checkConnection();
+</script>
+
+</body>
+</html>
