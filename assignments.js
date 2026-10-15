@@ -50,3 +50,26 @@ function escapeHTML(value) {
 }
 
 document.addEventListener("DOMContentLoaded", loadAssignments);
+
+<form id="assignmentForm">
+  <input id="title" type="text"
+         placeholder="Assignment title" required>
+
+  <textarea id="description"
+            placeholder="Assignment instructions"></textarea>
+
+  <input id="class_name" type="text"
+         placeholder="Class e.g. Grade 6">
+
+  <input id="due_date" type="date">
+
+  <button type="submit">Save Assignment</button>
+</form>
+
+<p id="message"></p>
+
+<div id="assignmentsList"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="assignments.js"></script>
