@@ -13,7 +13,7 @@ if (!window.supabase) {
     console.error("Supabase library not loaded. Check your HTML script links.");
 } else {
     window.supabaseClient = window.supabase.createClient(
-        SUPABASE_URL
+        SUPABASE_URL, 
         SUPABASE_ANON_KEY
     );
 
