@@ -505,4 +505,248 @@ if(!loadSaved())generate();
 })();
 </script>
 <body/>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Carels Academy - Timetable & Teacher Allocations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #fff; color: #000; }
+            .print-break { page-break-before: always; }
+        }
+    </style>
+</head>
+<body class="bg-blue-50/30 text-slate-800 min-h-screen font-sans pb-12">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-lg no-print">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold tracking-wide">ST. CARELS ACADEMY</h1>
+                <p class="text-blue-100 text-sm">Automated Timetable Generator & Learning Area Allocations</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="window.print()" class="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-lg font-semibold text-sm shadow transition">
+                    🖨️ Print / Save PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 mt-8 space-y-8">
+
+        <!-- SECTION 1: LEARNING AREA & TEACHER ASSIGNMENT FORM -->
+        <section class="bg-white rounded-xl shadow-md border border-blue-100 p-6 no-print">
+            <h2 class="text-xl font-bold text-blue-800 border-b border-blue-100 pb-3 mb-4 flex items-center gap-2">
+                <span>📝</span> Assign Learning Areas to Teachers
+            </h2>
+            
+            <form id="allocationForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Teacher Name</label>
+                    <input type="text" id="teacherName" placeholder="e.g., Mr. Buma" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Grade / Class</label>
+                    <select id="gradeLevel" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <option value="">Select Grade</option>
+                        <option value="PP1">PP1</option>
+                        <option value="PP2">PP2</option>
+                        <option value="Grade 1">Grade 1</option>
+                        <option value="Grade 2">Grade 2</option>
+                        <option value="Grade 3">Grade 3</option>
+                        <option value="Grade 4">Grade 4</option>
+                        <option value="Grade 5">Grade 5</option>
+                        <option value="Grade 6">Grade 6</option>
+                        <option value="Grade 7">Grade 7</option>
+                        <option value="Grade 8">Grade 8</option>
+                        <option value="Grade 9">Grade 9</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Learning Area (Subject)</label>
+                    <select id="learningArea" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <option value="">Select Learning Area</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="English">English Language</option>
+                        <option value="Kiswahili">Kiswahili / KSL</option>
+                        <option value="Integrated Science">Integrated Science</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="CRE / IRE">CRE / IRE</option>
+                        <option value="Creative Arts & Sports">Creative Arts & Sports</option>
+                        <option value="Pre-Technical Studies">Pre-Technical Studies</option>
+                        <option value="Agriculture & Nutrition">Agriculture & Nutrition</option>
+                        <option value="Language Activities">Language Activities (Pre-Primary)</option>
+                        <option value="Mathematical Activities">Math Activities (Pre-Primary)</option>
+                    </select>
+                </div>
+
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow transition">
+                        + Assign Subject
+                    </button>
+                </div>
+            </form>
+
+            <!-- Current Allocations Table -->
+            <div class="mt-6">
+                <h3 class="text-sm font-bold text-slate-700 mb-2">Current Active Allocations</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-600 border border-slate-200 rounded-lg">
+                        <thead class="bg-blue-50 text-blue-900 border-b border-blue-200">
+                            <tr>
+                                <th class="p-2.5">Teacher</th>
+                                <th class="p-2.5">Grade</th>
+                                <th class="p-2.5">Learning Area</th>
+                                <th class="p-2.5 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocationsTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COMBINED WEEKLY TIMETABLE DISPLAY -->
+        <section class="bg-white rounded-xl shadow-md border border-blue-100 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-blue-900">ST. CARELS ACADEMY</h2>
+                    <p class="text-slate-500 text-sm font-medium">Combined Weekly Master Timetable (13 Periods)</p>
+                </div>
+                <div class="no-print">
+                    <button onclick="generateTimetable()" class="bg-blue-900 hover:bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-lg shadow transition">
+                        🔄 Auto-Generate Schedule
+                    </button>
+                </div>
+            </div>
+
+            <!-- Timetable Grid Structure -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse text-center text-xs">
+                    <thead>
+                        <tr class="bg-blue-800 text-white border border-blue-800">
+                            <th class="p-2 border border-blue-700 min-w-[90px]">Day / Period</th>
+                            <th class="p-2 border border-blue-700">P1<br><span class="text-[10px] opacity-80">8:00-8:35</span></th>
+                            <th class="p-2 border border-blue-700">P2<br><span class="text-[10px] opacity-80">8:35-9:10</span></th>
+                            <th class="p-2 border border-blue-700">P3<br><span class="text-[10px] opacity-80">9:10-9:45</span></th>
+                            <th class="p-2 border border-blue-700">P4<br><span class="text-[10px] opacity-80">9:45-10:20</span></th>
+                            <th class="p-2 border border-blue-700 bg-blue-900">Break<br><span class="text-[10px] text-blue-200">10:20-10:50</span></th>
+                            <th class="p-2 border border-blue-700">P5<br><span class="text-[10px] opacity-80">10:50-11:25</span></th>
+                            <th class="p-2 border border-blue-700">P6<br><span class="text-[10px] opacity-80">11:25-12:00</span></th>
+                            <th class="p-2 border border-blue-700">P7<br><span class="text-[10px] opacity-80">12:00-12:35</span></th>
+                            <th class="p-2 border border-blue-700 bg-blue-900">Lunch<br><span class="text-[10px] text-blue-200">12:35-1:35</span></th>
+                            <th class="p-2 border border-blue-700">P8<br><span class="text-[10px] opacity-80">1:35-2:10</span></th>
+                            <th class="p-2 border border-blue-700">P9<br><span class="text-[10px] opacity-80">2:10-2:45</span></th>
+                            <th class="p-2 border border-blue-700 bg-blue-900">Games<br><span class="text-[10px] text-blue-200">2:45-3:20</span></th>
+                            <th class="p-2 border border-blue-700">P10<br><span class="text-[10px] opacity-80">3:20-4:00</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetableGridBody" class="divide-y divide-slate-200">
+                        <!-- Dynamic timetable populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Data State
+        let allocations = [
+            { id: 1, teacher: "Mr. Buma", grade: "Grade 7", subject: "Creative Arts & Sports" },
+            { id: 2, teacher: "Mrs. Chebet", grade: "Grade 7", subject: "Mathematics" },
+            { id: 3, teacher: "Mr. Omondi", grade: "Grade 7", subject: "Integrated Science" },
+            { id: 4, teacher: "Ms. Wambui", grade: "Grade 7", subject: "English" }
+        ];
+
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+        // UI Initialization
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAllocations();
+            generateTimetable();
+        });
+
+        // Form Submit Handler
+        document.getElementById("allocationForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const teacher = document.getElementById("teacherName").value.trim();
+            const grade = document.getElementById("gradeLevel").value;
+            const subject = document.getElementById("learningArea").value;
+
+            if (teacher && grade && subject) {
+                allocations.push({ id: Date.now(), teacher, grade, subject });
+                document.getElementById("allocationForm").reset();
+                renderAllocations();
+                generateTimetable();
+            }
+        });
+
+        // Delete Allocation
+        function deleteAllocation(id) {
+            allocations = allocations.filter(item => item.id !== id);
+            renderAllocations();
+            generateTimetable();
+        }
+
+        // Render Allocations Table
+        function renderAllocations() {
+            const tbody = document.getElementById("allocationsTableBody");
+            tbody.innerHTML = allocations.map(item => `
+                <tr class="border-b hover:bg-blue-50/50">
+                    <td class="p-2.5 font-medium text-slate-800">${item.teacher}</td>
+                    <td class="p-2.5">${item.grade}</td>
+                    <td class="p-2.5 text-blue-700 font-semibold">${item.subject}</td>
+                    <td class="p-2.5 text-center">
+                        <button onclick="deleteAllocation(${item.id})" class="text-red-600 hover:text-red-800 font-bold text-xs">Remove</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Generate Timetable View
+        function generateTimetable() {
+            const gridBody = document.getElementById("timetableGridBody");
+            gridBody.innerHTML = "";
+
+            days.forEach((day) => {
+                let row = `<tr class="border-b hover:bg-blue-50/30">`;
+                row += `<td class="p-2 font-bold bg-blue-50 text-blue-900 border border-blue-200">${day}</td>`;
+
+                // 13 period distribution per schedule breakdown
+                for (let period = 1; period <= 13; period++) {
+                    if (period === 5) {
+                        row += `<td class="p-1 bg-blue-100 text-blue-900 font-semibold text-[11px] border border-blue-200">TEA BREAK</td>`;
+                    } else if (period === 9) {
+                        row += `<td class="p-1 bg-blue-100 text-blue-900 font-semibold text-[11px] border border-blue-200">LUNCH BREAK</td>`;
+                    } else if (period === 12) {
+                        row += `<td class="p-1 bg-blue-50 text-blue-800 font-semibold text-[11px] border border-blue-200">GAMES / CLUBS</td>`;
+                    } else {
+                        // Pick allocated subject randomly for demonstration grid
+                        if (allocations.length > 0) {
+                            const alloc = allocations[(period + day.length) % allocations.length];
+                            row += `<td class="p-2 border border-slate-200 align-top">
+                                <div class="font-semibold text-blue-800 text-[11px]">${alloc.subject}</div>
+                                <div class="text-[10px] text-slate-500">${alloc.teacher} (${alloc.grade})</div>
+                            </td>`;
+                        } else {
+                            row += `<td class="p-2 border border-slate-200 text-slate-400 text-[10px]">Free</td>`;
+                        }
+                    }
+                }
+                row += `</tr>`;
+                gridBody.innerHTML += row;
+            });
+        }
+    </script>
+</body>
+</html>
 </html/>
