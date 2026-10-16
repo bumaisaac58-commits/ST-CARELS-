@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | St Carels Academy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f5ff;
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 25px 15px;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 50, 120, 0.12);
+    }
+
+    .header {
+      background: #0756b5;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .logo {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: white;
+      color: #0756b5;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      font-size: 25px;
+      font-weight: bold;
+      border: 3px solid #bfdbfe;
+    }
+
+    .header h1 {
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+    }
+
+    .form-area {
+      padding: 28px;
+    }
+
+    .section-title {
+      color: #0756b5;
+      font-size: 17px;
+      margin: 20px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #dbeafe;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #0756b5;
+      box-shadow: 0 0 0 3px #dbeafe;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      margin: 18px 0;
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      background: #0756b5;
+      color: white;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #06458f;
+    }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+
+    #message {
+      display: none;
+      padding: 12px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8fafc;
+      font-size: 14px;
+    }
+
+    a {
+      color: #0756b5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .form-area {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">SCA</div>
+      <h1>ST CARELS ACADEMY</h1>
+      <p>School Management System</p>
+      <p>School Registration Portal</p>
+    </header>
+
+    <main class="form-area">
+      <form id="registerForm">
+        <div id="message" role="status" aria-live="polite"></div>
+
+        <h2 class="section-title">School Information</h2>
+
+        <div class="field">
+          <label for="schoolName">School Name *</label>
+          <input id="schoolName" required
+                 value="St Carels Academy"
+                 placeholder="Enter school name">
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="schoolCode">School Code *</label>
+            <input id="schoolCode" required
+                   placeholder="e.g. SCA001">
+          </div>
+
+          <div class="field">
+            <label for="schoolType">School Type *</label>
+            <select id="schoolType" required>
+              <option value="">Select type</option>
+              <option>Public</option>
+              <option>Private</option>
+              <option>Faith-based</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="county">County *</label>
+            <select id="county" required>
+              <option value="">Select county</option>
+              <option>Baringo</option>
+              <option>Bomet</option>
+              <option>Bungoma</option>
+              <option>Busia</option>
+              <option>Elgeyo-Marakwet</option>
+              <option>Embu</option>
+              <option>Garissa</option>
+              <option>Homa Bay</option>
+              <option>Isiolo</option>
+              <option>Kajiado</option>
+              <option>Kakamega</option>
+              <option>Kericho</option>
+              <option>Kiambu</option>
+              <option>Kilifi</option>
+              <option>Kirinyaga</option>
+              <option>Kisii</option>
+              <option>Kisumu</option>
+              <option>Kitui</option>
+              <option>Kwale</option>
+              <option>Laikipia</option>
+              <option>Lamu</option>
+              <option>Machakos</option>
+              <option>Makueni</option>
+              <option>Mandera</option>
+              <option>Marsabit</option>
+              <option>Meru</option>
+              <option>Migori</option>
+              <option>Mombasa</option>
+              <option>Murang'a</option>
+              <option>Nairobi</option>
+              <option>Nakuru</option>
+              <option>Nandi</option>
+              <option>Narok</option>
+              <option>Nyamira</option>
+              <option>Nyandarua</option>
+              <option>Nyeri</option>
+              <option>Samburu</option>
+              <option>Siaya</option>
+              <option>Taita-Taveta</option>
+              <option>Tana River</option>
+              <option>Tharaka-Nithi</option>
+              <option>Trans Nzoia</option>
+              <option>Turkana</option>
+              <option>Uasin Gishu</option>
+              <option>Vihiga</option>
+              <option>Wajir</option>
+              <option>West Pokot</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="subCounty">Sub-County *</label>
+            <input id="subCounty" required
+                   placeholder="Enter sub-county">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="phone">School Phone Number *</label>
+          <input id="phone" type="tel" required
+                 placeholder="e.g. 0712345678">
+        </div>
+
+        <h2 class="section-title">Administrator Account</h2>
+
+        <div class="field">
+          <label for="adminName">Administrator's Full Name *</label>
+          <input id="adminName" required
+                 autocomplete="name"
+                 placeholder="Enter full name">
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input id="email" type="email" required
+                 autocomplete="email"
+                 placeholder="admin@example.com">
+        </div>
+
+        <div class="field">
+          <label for="password">Create Password *</label>
+          <input id="password" type="password" required
+                 minlength="8" autocomplete="new-password"
+                 placeholder="At least 8 characters">
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword">Confirm Password *</label>
+          <input id="confirmPassword" type="password" required
+                 minlength="8" autocomplete="new-password"
+                 placeholder="Enter password again">
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" id="agree" required>
+          <span>I confirm that the information provided is correct and I am authorized to register this school.</span>
+        </label>
+
+        <button type="submit" id="registerButton">
+          Register School
+        </button>
+      </form>
+    </main>
+
+    <footer class="footer">
+      Already registered?
+      <a href="login.html">Login Here</a>
+      <p style="margin-top: 12px;">&copy; 2026 St Carels Academy</p>
+    </footer>
+  </div>
+
+  <!-- Load Supabase library before initializing the client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // REPLACE THESE WITH YOUR SUPABASE PROJECT DETAILS.
+    const SUPABASE_URL = "https://kgibditegnkghtvcmilc.supabase.co/";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnaWJkaXRlZ25rZ2h0dmNtaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NTkyMDUsImV4cCI6MjEwNjQzNTIwNX0.XE5j1guWFYnz6SwftIPFAh7lkFUVa8D5dXKkeuuNkPs";
+
+
+    const form = document.getElementById("registerForm");
+    const button = document.getElementById("registerButton");
+    const message = document.getElementById("message");
+
+    function showMessage(text, success = false) {
+      message.style.display = "block";
+      message.style.background = success ? "#dcfce7" : "#fee2e2";
+      message.style.color = success ? "#166534" : "#991b1b";
+      message.textContent = text;
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      if (SUPABASE_URL.startsWith("YOUR_") ||
+          SUPABASE_ANON_KEY.startsWith("YOUR_")) {
+        showMessage("Please configure your Supabase URL and publishable/anon key first.");
+        return;
+      }
+
+      const password = document.getElementById("password").value;
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        showMessage("Passwords do not match.");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Registering...";
+
+      try {
+        const client = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY
+        );
+
+        const email = document.getElementById("email").value
+          .trim().toLowerCase();
+
+        // Create the administrator's authentication account.
+        const { data, error } = await client.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: document.getElementById("adminName").value.trim(),
+              school_name: document.getElementById("schoolName").value.trim()
+            }
+          }
+        });
+
+        if (error) throw error;
+
+        if (!data.user) {
+          throw new Error("Account creation was not confirmed by Supabase.");
+        }
+
+        // Save the school profile. The schools table and its security
+        // policies must be configured as described below.
+        if (!data.session) {
+          showMessage(
+            "Your account was created. Check your email to confirm it. " +
+            "The school profile has not yet been saved. After confirming " +
+            "your email, sign in and complete school registration."
+          );
+          return;
+        }
+
+        const { error: profileError } = await client
+          .from("schools")
+          .insert({
+            school_name: document.getElementById("schoolName").value.trim(),
+            school_code: document.getElementById("schoolCode").value.trim(),
+            school_type: document.getElementById("schoolType").value,
+            county: document.getElementById("county").value,
+            sub_county: document.getElementById("subCounty").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            admin_name: document.getElementById("adminName").value.trim(),
+            email: email,
+            auth_user_id: data.user.id
+          });
+
+        if (profileError) {
+          throw new Error(
+            "Account created, but school profile saving failed: " +
+            profileError.message
+          );
+        }
+
+        showMessage(
+          "School registered successfully! You can now log in.",
+          true
+        );
+
+        form.reset();
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1800);
+
+      } catch (error) {
+        showMessage(error.message || "Registration failed.");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Register School";
+      }
+    });
+  </script>
+</body>
+</html>
