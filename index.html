@@ -290,7 +290,20 @@
 <script>
     document.getElementById("year").textContent =
         new Date().getFullYear();
-</script>
+</script><h2>Student Records</h2>
+
+<p id="status">Loading student records...</p>
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Admission Number</th>
+            <th>Class</th>
+        </tr>
+    </thead>
+    <tbody id="studentsTable"></tbody>
+</table>
 
 </body>
 </html>
