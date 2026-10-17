@@ -1,0 +1,40 @@
+async function loadStudents() {
+    const status = document.getElementById("status");
+    const table = document.getElementById("studentsTable");
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("students")
+            .select("*");
+
+        if (error) throw error;
+
+        table.innerHTML = "";
+
+        data.forEach(student => {
+            const row = document.createElement("tr");
+
+            [
+                student.student_name,
+                student.admission_number,
+                student.class_name
+            ].forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "";
+                row.appendChild(cell);
+            });
+
+            table.appendChild(row);
+        });
+
+        status.textContent = data.length
+            ? `${data.length} student records loaded.`
+            : "No student records found.";
+
+    } catch (error) {
+        console.error("Database error:", error);
+        status.textContent = "Could not load students: " + error.message;
+    }
+}
+
+loadStudents();
