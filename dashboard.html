@@ -628,6 +628,29 @@ document.getElementById("term")
     .addEventListener("change", updateTitle);
 
 generateTimetable();
+</script><!-- Load Supabase library first --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><!-- Load your Supabase connection --><script src="supabase.js"></script><!-- Dashboard connection check --><script>
+document.addEventListener("DOMContentLoaded", async function () {
+    if (!window.db) {
+        alert("Supabase is not connected. Check supabase.js.");
+        return;
+    }
+
+    const { data: { session }, error } =
+        await window.db.auth.getSession();
+
+    if (error) {
+        console.error("Session error:", error.message);
+        return;
+    }
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    console.log("Supabase connected successfully!");
+    console.log("Logged-in user:", session.user.email);
+});
 </script>
 
 </body>
