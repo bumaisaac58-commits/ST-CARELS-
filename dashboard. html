@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><!DOCTYPE html>
+<html
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -289,7 +289,8 @@ const currentYear = new Date().getFullYear();
 
 document.getElementById("year").textContent = currentYear;
 document.getElementById("footerYear").textContent = currentYear;
-</script><!DOCTYPE html>
+</script><
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -791,7 +792,6 @@ loadTeacherDashboard();
 
 </body>
 </html>
-
 <head<!DOCTYPE html>
 <html lang="en">
 <head>
