@@ -1,4 +1,28 @@
 
+document.addEventListener("DOMContentLoaded", function () {
+    if (!window.supabaseClient) {
+        console.error("Supabase client not initialized.");
+        return;
+    }
+
+    console.log("Supabase client is ready!");
+
+    testConnection();
+});
+
+async function testConnection() {
+    const { data, error } = await window.supabaseClient
+        .auth.getSession();
+
+    if (error) {
+        console.error("Supabase error:", error.message);
+        return;
+    }
+
+    console.log("Supabase connection initialized.");
+    console.log("Current session:", data.session);
+}
+
 async function testDatabaseConnection() {
 if (!window.db) {
 console.error("Supabase client not initialized.");
