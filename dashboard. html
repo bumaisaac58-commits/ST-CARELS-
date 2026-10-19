@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grades | St Carels Academy Umoja Kwanza</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f5ff;
+    color: #243047;
+}
+
+header {
+    background: #0646a5;
+    color: white;
+    padding: 25px 15px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+header p {
+    margin: 5px 0;
+}
+
+nav {
+    background: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px #ddd;
+}
+
+nav a {
+    color: #0646a5;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 8px;
+    display: inline-block;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+h2 {
+    color: #0646a5;
+    margin-bottom: 15px;
+}
+
+.intro {
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.grade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.grade-card {
+    background: #e8f0ff;
+    border: 1px solid #cbdcff;
+    padding: 22px 10px;
+    text-align: center;
+    border-radius: 9px;
+    transition: 0.2s;
+}
+
+.grade-card:hover {
+    background: #d5e4ff;
+    transform: translateY(-3px);
+}
+
+.grade-card h3 {
+    color: #0646a5;
+    margin-bottom: 8px;
+}
+
+.grade-card p {
+    font-size: 13px;
+}
+
+.btn {
+    display: inline-block;
+    background: #0646a5;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background: #033477;
+}
+
+footer {
+    background: #0646a5;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 25px;
+    font-size: 13px;
+}
+
+@media(max-width: 500px) {
+    header h1 {
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>ST CARELS ACADEMY</h1>
+    <p>UMOJA KWANZA</p>
+    <p><strong>Excellency via Faith</strong></p>
+    <p>OUR GRADES AND CLASSES</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="admission.html">Admissions</a>
+    <a href="grades.html">Grades</a>
+    <a href="marks.html">Marks</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Welcome to Our Grades</h2>
+
+        <p class="intro">
+            St Carels Academy Umoja Kwanza provides learning opportunities
+            from Pre-Primary to Junior School. Select a grade below to
+            access the relevant academic records and class information.
+        </p>
+
+        <p><strong>Academic Year:</strong>
+            <span id="year"></span>
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Pre-Primary Section</h2>
+
+        <div class="grade-grid">
+
+            <div class="grade-card">
+                <h3>PP1</h3>
+                <p>Pre-Primary One</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>PP2</h3>
+                <p>Pre-Primary Two</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Primary School Section</h2>
+
+        <div class="grade-grid">
+
+            <div class="grade-card">
+                <h3>Grade 1</h3>
+                <p>Lower Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 2</h3>
+                <p>Lower Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 3</h3>
+                <p>Lower Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 4</h3>
+                <p>Upper Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 5</h3>
+                <p>Upper Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 6</h3>
+                <p>Upper Primary</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Junior School Section</h2>
+
+        <div class="grade-grid">
+
+            <div class="grade-card">
+                <h3>Grade 7</h3>
+                <p>Junior School</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 8</h3>
+                <p>Junior School</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+            <div class="grade-card">
+                <h3>Grade 9</h3>
+                <p>Junior School</p>
+                <a class="btn" href="students.html">View Students</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Academic Management</h2>
+
+        <p class="intro">
+            Manage learner records, examination marks, and academic
+            performance using the school management system.
+        </p>
+
+        <a href="students.html" class="btn">Manage Students</a>
+        <a href="marks.html" class="btn">Manage Marks</a>
+        <a href="dashboard.html" class="btn">Back to Dashboard</a>
+    </div>
+
+</div>
+
+<footer>
+    <p>ST CARELS ACADEMY UMOJA KWANZA</p>
+    <p>Excellency via Faith</p>
+    <p>&copy; <span id="footerYear"></span> All Rights Reserved.</p>
+</footer>
+
+<script>
+const currentYear = new Date().getFullYear();
+
+document.getElementById("year").textContent = currentYear;
+document.getElementById("footerYear").textContent = currentYear;
+</script><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Dashboard | St Carels Academy</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5fb;
+    color: #243047;
+}
+
+.header {
+    background: #0646a5;
+    color: white;
+    padding: 20px;
+}
+
+.header h1 {
+    font-size: 23px;
+    margin-bottom: 7px;
+}
+
+.header p {
+    margin-top: 5px;
+}
+
+.layout {
+    display: flex;
+    min-height: 80vh;
+}
+
+.sidebar {
+    width: 235px;
+    background: white;
+    padding: 20px 12px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.sidebar h3 {
+    color: #0646a5;
+    margin: 5px 10px 18px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 13px 12px;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #e6efff;
+    color: #0646a5;
+    font-weight: bold;
+}
+
+.main {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.welcome {
+    background: white;
+    padding: 22px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+}
+
+.welcome h2 {
+    color: #0646a5;
+    margin-bottom: 8px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.card .number {
+    color: #0646a5;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.section {
+    background: white;
+    padding: 22px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+}
+
+.section h2 {
+    color: #0646a5;
+    margin-bottom: 18px;
+    font-size: 19px;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.quick-links a {
+    display: block;
+    background: #eaf1ff;
+    color: #0646a5;
+    padding: 17px 10px;
+    border-radius: 7px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.quick-links a:hover {
+    background: #d5e4ff;
+}
+
+.status {
+    background: #eaf1ff;
+    color: #0646a5;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+th {
+    color: #0646a5;
+    background: #f1f5fb;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+footer {
+    text-align: center;
+    padding: 18px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media(max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .quick-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width: 600px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    .sidebar a {
+        margin: 0;
+    }
+
+    .main {
+        padding: 12px;
+    }
+
+    .header h1 {
+        font-size: 19px;
+    }
+
+    .cards {
+        gap: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card .number {
+        font-size: 23px;
+    }
+
+    .quick-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>ST CARELS ACADEMY UMOJA KWANZA</h1>
+    <p>Excellency via Faith</p>
+    <p>Teacher Management Portal</p>
+</header>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <h3>TEACHER MENU</h3>
+
+        <nav>
+            <a href="teacher-dashboard.html" class="active">Dashboard</a>
+            <a href="students.html">My Students</a>
+            <a href="grades.html">Grades / Classes</a>
+            <a href="subject.html">My Subjects</a>
+            <a href="marks.html">Enter Marks</a>
+            <a href="assignments.html">Assignments</a>
+            <a href="timetable.html">Timetable</a>
+            <a href="attendance.html">Attendance</a>
+            <a href="index.html" id="logoutLink">Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+
+        <div class="welcome">
+            <h2>Welcome, Teacher!</h2>
+            <p>Welcome to the St Carels Academy teacher dashboard.</p>
+            <p style="margin-top:10px">
+                <strong>Academic Year:</strong>
+                <span id="academicYear"></span>
+            </p>
+        </div>
+
+        <div class="status" id="connectionStatus">
+            Checking login and database connection...
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>My Students</h3>
+                <div class="number" id="studentCount">—</div>
+            </div>
+
+            <div class="card">
+                <h3>My Classes</h3>
+                <div class="number" id="classCount">—</div>
+            </div>
+
+            <div class="card">
+                <h3>My Subjects</h3>
+                <div class="number" id="subjectCount">—</div>
+            </div>
+
+            <div class="card">
+                <h3>Assignments</h3>
+                <div class="number" id="assignmentCount">—</div>
+            </div>
+
+        </div>
+
+        <section class="section">
+            <h2>Quick Actions</h2>
+
+            <div class="quick-links">
+                <a href="students.html">👨‍🎓<br><br>View Students</a>
+                <a href="marks.html">📝<br><br>Enter Examination Marks</a>
+                <a href="attendance.html">📋<br><br>Record Attendance</a>
+                <a href="assignments.html">📚<br><br>Manage Assignments</a>
+                <a href="timetable.html">🕒<br><br>View Timetable</a>
+                <a href="subject.html">📖<br><br>View Subjects</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>My Recent Students</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Admission No.</th>
+                            <th>Learner Name</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentsTable">
+                        <tr>
+                            <td colspan="3">Connect Supabase to load students.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<footer>
+    St Carels Academy Umoja Kwanza<br>
+    &copy; <span id="footerYear"></span> All Rights Reserved.
+</footer>
+
+<!-- Load Supabase library first -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Your Supabase configuration -->
+<script src="supabase.js"></script>
+
+<script>
+document.getElementById("academicYear").textContent =
+    new Date().getFullYear();
+
+document.getElementById("footerYear").textContent =
+    new Date().getFullYear();
+
+const statusBox = document.getElementById("connectionStatus");
+
+function getSupabaseClient() {
+    return window.supabaseClient || window.db || null;
+}
+
+async function loadTeacherDashboard() {
+    const db = getSupabaseClient();
+
+    if (!db) {
+        statusBox.textContent =
+            "Supabase client not initialized. Check your supabase.js file.";
+        return;
+    }
+
+    try {
+        // Verify that a user is logged in.
+        const { data: sessionData, error: authError } =
+            await db.auth.getUser();
+
+        if (authError || !sessionData.user) {
+            statusBox.textContent =
+                "Please log in using your St Carels teacher account.";
+
+            return;
+        }
+
+        statusBox.textContent =
+            "Teacher authenticated. Checking school records...";
+
+        /*
+          These queries require the relevant tables and RLS policies.
+          Replace the table names or columns if your database differs.
+        */
+
+        const { data: students, error: studentError } = await db
+            .from("students")
+            .select("id, admission_no, full_name, grade");
+
+        if (!studentError && students) {
+            document.getElementById("studentCount").textContent =
+                students.length;
+
+            const tbody = document.getElementById("studentsTable");
+            tbody.replaceChildren();
+
+            if (students.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="3">No students found.</td></tr>';
+            } else {
+                students.slice(0, 10).forEach(student => {
+                    const row = document.createElement("tr");
+
+                    [
+                        student.admission_no || "-",
+                        student.full_name || "-",
+                        student.grade || "-"
+                    ].forEach(value => {
+                        const cell = document.createElement("td");
+                        cell.textContent = value;
+                        row.appendChild(cell);
+                    });
+
+                    tbody.appendChild(row);
+                });
+            }
+        }
+
+        const { data: classes, error: classError } = await db
+            .from("grades")
+            .select("id");
+
+        if (!classError && classes) {
+            document.getElementById("classCount").textContent =
+                classes.length;
+        }
+
+        const { data: subjects, error: subjectError } = await db
+            .from("subjects")
+            .select("id");
+
+        if (!subjectError && subjects) {
+            document.getElementById("subjectCount").textContent =
+                subjects.length;
+        }
+
+        const { data: assignments, error: assignmentError } = await db
+            .from("assignments")
+            .select("id");
+
+        if (!assignmentError && assignments) {
+            document.getElementById("assignmentCount").textContent =
+                assignments.length;
+        }
+
+        statusBox.textContent =
+            "Connected to Supabase. Available records have been loaded.";
+
+    } catch (error) {
+        statusBox.textContent =
+            "Unable to load dashboard: " + error.message;
+    }
+}
+
+document.getElementById("logoutLink").addEventListener("click", async function(e) {
+    const db = getSupabaseClient();
+
+    if (db) {
+        e.preventDefault();
+
+        const { error } = await db.auth.signOut();
+
+        if (error) {
+            statusBox.textContent =
+                "Logout failed: " + error.message;
+            return;
+        }
+
+        window.location.href = "login.html";
+    }
+});
+
+loadTeacherDashboard();
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
+
+<head<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>School Admission Form | St Carels Academy</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f5ff;
+    color: #222;
+    padding: 15px;
+}
+
+.container {
+    max-width: 850px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.header {
+    background: #0646a5;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.header h1 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+form {
+    padding: 25px;
+}
+
+.section-title {
+    background: #e6efff;
+    color: #0646a5;
+    padding: 12px;
+    margin: 20px 0 15px;
+    border-left: 5px solid #0646a5;
+    font-size: 17px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccd5e0;
+    border-radius: 6px;
+    font-size: 15px;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #0646a5;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.checkbox input {
+    width: auto;
+    margin-top: 3px;
+}
+
+button {
+    width: 100%;
+    background: #0646a5;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #033477;
+}
+
+.footer {
+    text-align: center;
+    padding: 15px;
+    background: #f5f7fa;
+    font-size: 12px;
+    color: #555;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>ST CARELS ACADEMY</h1>
+        <p>UMOJA KWANZA</p>
+        <p><strong>Excellency via Faith</strong></p>
+        <p>LEARNER ADMISSION FORM</p>
+    </div>
+
+    <form id="admissionForm">
+
+        <h2 class="section-title">1. Learner's Details</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="admission_no">Admission Number (if available)</label>
+                <input type="text" id="admission_no" name="admission_no">
+            </div>
+
+            <div class="form-group">
+                <label for="full_name">Learner's Full Name *</label>
+                <input type="text" id="full_name" name="full_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth *</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender *</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="class">Class Applying For *</label>
+                <select id="class" name="class" required>
+                    <option value="">Select Class</option>
+                    <option>PP1</option>
+                    <option>PP2</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="previous_school">Previous School</label>
+                <input type="text" id="previous_school" name="previous_school">
+            </div>
+
+            <div class="form-group">
+                <label for="residence">Place of Residence *</label>
+                <input type="text" id="residence" name="residence" required>
+            </div>
+
+            <div class="form-group">
+                <label for="boarding">Learning Arrangement *</label>
+                <select id="boarding" name="boarding" required>
+                    <option value="">Select Arrangement</option>
+                    <option>Day Scholar</option>
+                    <option>Boarder</option>
+                </select>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">2. Parent / Guardian Details</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="parent_name">Parent/Guardian Full Name *</label>
+                <input type="text" id="parent_name" name="parent_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="relationship">Relationship to Learner *</label>
+                <select id="relationship" name="relationship" required>
+                    <option value="">Select Relationship</option>
+                    <option>Father</option>
+                    <option>Mother</option>
+                    <option>Guardian</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone"
+                       placeholder="e.g. 0712345678" required>
+            </div>
+
+            <div class="form-group">
+                <label for="alt_phone">Alternative Phone Number</label>
+                <input type="tel" id="alt_phone" name="alt_phone">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="email">Email Address (optional)</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+        </div>
+
+        <h2 class="section-title">3. Emergency and Medical Information</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="emergency_name">Emergency Contact Name</label>
+                <input type="text" id="emergency_name" name="emergency_name">
+            </div>
+
+            <div class="form-group">
+                <label for="emergency_phone">Emergency Contact Phone</label>
+                <input type="tel" id="emergency_phone" name="emergency_phone">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="medical">Medical Conditions / Allergies</label>
+                <textarea id="medical" name="medical"
+                          placeholder="Provide relevant information, or write None"></textarea>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">4. Declaration</h2>
+
+        <div class="form-group">
+            <label for="declaration">Parent/Guardian Declaration *</label>
+            <textarea id="declaration" name="declaration"
+                      placeholder="I confirm that the information provided is correct."
+                      required></textarea>
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox" id="confirm" required>
+            <label for="confirm">
+                I confirm that the information provided is accurate and agree
+                to the school's admission procedures.
+            </label>
+        </div>
+
+        <button type="submit">Submit Admission Application</button>
+
+    </form>
+
+    <div class="footer">
+        &copy; 2026 St Carels Academy Umoja Kwanza.
+        All Rights Reserved.
+    </div>
+
+</div>
+
+<script>
+document.getElementById("admissionForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    alert(
+        "The admission form is ready, but it has not been saved to a database. " +
+        "Connect this form to Supabase before collecting applications."
+    );
+});
+</script>
+
+</body>
+</html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  
+</body>
+
+</html>
