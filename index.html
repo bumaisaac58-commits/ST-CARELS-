@@ -196,6 +196,420 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Load your Supabase connection second -->
-<script src="supabase.js"></script>
+<script src="supabase.js"></script><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b4da2">
+<title>St Carels Academy | School Management System</title>
+<style>
+:root{--blue:#0b4da2;--navy:#062b59;--pale:#eaf3ff;--bg:#f4f7fb;--ink:#1d2939;--muted:#667085;--white:#fff;--line:#d9e2ef;--red:#b42318;--green:#067647}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}
+.hidden{display:none!important}.topbar{background:var(--navy);color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{font-weight:800;font-size:18px}.brand small{display:block;font-size:12px;font-weight:400;opacity:.9}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:8px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.btn.light{background:#fff;color:var(--blue)}.btn.outline{background:transparent;border:1px solid currentColor;color:inherit}.btn.danger{background:var(--red)}.btn:disabled{opacity:.6;cursor:wait}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#062b59,#1674d1)}.login-card{width:min(100%,420px);background:white;border-radius:18px;padding:28px;box-shadow:0 18px 55px #001c3d55}.login-card h1{text-align:center;color:var(--navy);font-size:24px;margin:0}.motto{text-align:center;color:var(--blue);margin:6px 0 24px}.hint{font-size:13px;color:var(--muted)}label{font-size:13px;font-weight:700;display:block;margin:12px 0 5px}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:11px;background:white;color:var(--ink)}textarea{min-height:85px;resize:vertical}.login-card .btn{width:100%;margin-top:18px}.message{font-size:13px;margin-top:12px;overflow-wrap:anywhere}.message.error{color:var(--red)}.message.ok{color:var(--green)}
+.app-layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 65px)}.sidebar{background:white;border-right:1px solid var(--line);padding:15px;display:flex;flex-direction:column;gap:6px}.nav-btn{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:8px;color:#344054;font-weight:700;cursor:pointer}.nav-btn:hover,.nav-btn.active{background:var(--pale);color:var(--blue)}.main{padding:22px;min-width:0}.page-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.page-head h2{margin:0;color:var(--navy)}.muted{color:var(--muted);font-size:13px}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:17px;box-shadow:0 2px 8px #0b25400a}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:28px;color:var(--blue);margin-top:7px}.panel h3{margin:0 0 12px;color:var(--navy)}.module-grid{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:16px;align-items:start}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.field.full{grid-column:1/-1}.form-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.table-wrap{overflow:auto;max-width:100%}table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f7faff;color:#344054;position:sticky;top:0}td{overflow-wrap:anywhere}.empty{padding:22px;text-align:center;color:var(--muted)}.status{font-size:12px;border-radius:999px;padding:5px 9px;background:#eef4ff;color:var(--blue)}.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.toolbar input{max-width:260px}.notice{background:#fff7e6;border:1px solid #f5d48c;border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:16px}.analysis-filters{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:10px}.analysis-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.analysis-kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}.analysis-kpi span{display:block;color:var(--muted);font-size:12px}.analysis-kpi strong{display:block;color:var(--blue);font-size:24px;margin-top:5px}.analysis-section{margin-top:16px}.analysis-section h3{margin-top:0}@media(max-width:900px){.analysis-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.analysis-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.analysis-filters{grid-template-columns:1fr}.analysis-kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.app-layout{grid-template-columns:1fr}.sidebar{display:flex;flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.nav-btn{white-space:nowrap}.module-grid{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.main{padding:15px}}
+@media(max-width:480px){.cards{grid-template-columns:1fr 1fr}.stat{padding:13px}.stat strong{font-size:24px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.main{padding:12px}.login-card{padding:22px}}
+@media print{.topbar,.sidebar,.no-print,.form-panel,.footer{display:none!important}.app-layout{display:block}.main{padding:0}.panel,.stat{box-shadow:none}.print-only{display:block!important}body{background:white}}
+</style>
+</head>
+<body>
+<section id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <h1>ST CARELS ACADEMY</h1>
+    <p class="motto">Excellency via Faith</p>
+    <h2 style="font-size:19px;margin-bottom:4px">Administrator / Staff Login</h2>
+    <p class="hint">Sign in using an account created in your Supabase project.</p>
+    <form id="loginForm">
+      <label for="loginEmail">Email address</label>
+      <input id="loginEmail" type="email" autocomplete="username" required placeholder="name@example.com">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Your password">
+      <button class="btn" id="loginButton" type="submit">Sign in</button>
+      <p id="loginMessage" class="message" role="status"></p>
+    </form>
+    <p class="hint">New account? Create the user first in Supabase → Authentication → Users. This page does not create passwords automatically.</p>
+  </div>
+</section>
+
+<div id="appScreen" class="hidden">
+<header class="topbar">
+  <div class="brand">ST CARELS ACADEMY <small>Excellency via Faith · School Management System</small></div>
+  <div class="top-actions"><span id="userLabel" class="status">Signed in</span><button id="logoutButton" class="btn light">Log out</button></div>
+</header>
+<div class="app-layout">
+  <nav class="sidebar" aria-label="School modules">
+    <button class="nav-btn active" data-page="dashboard">📊 Dashboard</button>
+    <button class="nav-btn" data-page="students">🎓 Students</button>
+    <button class="nav-btn" data-page="teachers">👩‍🏫 Teachers</button>
+    <button class="nav-btn" data-page="grades">📚 Grades & Classes</button>
+    <button class="nav-btn" data-page="marks">📝 Marks</button>
+    <button class="nav-btn" data-page="analysis">📈 Exam Analysis</button>
+    <button class="nav-btn" data-page="reports">📄 CBC Report Cards</button>
+    <button class="nav-btn" data-page="curriculum">📘 CBE Learning Areas</button>
+    <button class="nav-btn" data-page="sms">📱 Bulk SMS</button>
+  </nav>
+  <main class="main">
+    <div id="setupNotice" class="notice">Connecting to Supabase… If a module cannot load, confirm its table exists and that your Row Level Security policies permit this signed-in user.</div>
+    <section class="page" id="page-dashboard">
+      <div class="page-head"><div><h2>School Dashboard</h2><div class="muted">Welcome to St Carels Academy.</div></div><button class="btn no-print" id="refreshStats">Refresh statistics</button></div>
+      <div class="cards">
+        <div class="stat"><span>Total Students</span><strong id="statStudents">—</strong></div>
+        <div class="stat"><span>Total Teachers</span><strong id="statTeachers">—</strong></div>
+        <div class="stat"><span>Grades / Classes</span><strong id="statGrades">—</strong></div>
+        <div class="stat"><span>Marks Records</span><strong id="statMarks">—</strong></div>
+      </div>
+      <div class="panel"><h3>Quick guide</h3><p>Use the menu to register students and teachers, set up grades, record marks, analyze results, and prepare CBC report cards. Data is saved to your Supabase database when the required tables and permissions are configured.</p><p class="muted">Security reminder: restrict access to school records with Row Level Security. For multi-school use, every record must be scoped to the correct school.</p></div>
+    </section>
+    <section class="page hidden" id="page-students"></section>
+    <section class="page hidden" id="page-teachers"></section>
+    <section class="page hidden" id="page-grades"></section>
+    <section class="page hidden" id="page-marks"></section>
+    <section class="page hidden" id="page-analysis"></section>
+    <section class="page hidden" id="page-reports"></section>
+    <section class="page hidden" id="page-curriculum"></section>
+    <section class="page hidden" id="page-sms"></section>
+  </main>
+</div>
+<div class="footer">© <span id="year"></span> St Carels Academy · Excellency via Faith</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* IMPORTANT: Replace both placeholders with your own Supabase Project URL and publishable/anon key.
+   Never place a service-role or secret key in this public HTML file. */
+const SUPABASE_URL = "https://nzlgrdsmffkltqmxyhfi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_8QjeslMySz0-F4vwHCh2lQ_TUP3Bd5u";
+let db = null;
+const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+$("year").textContent = new Date().getFullYear();
+
+const modules = {
+ students: {title:"Student Management", table:"students", description:"Register learners and manage admission details.", fields:[
+  ["admission_number","Admission Number","text",true],["full_name","Learner Full Name","text",true],["gender","Gender","select",true,["Female","Male","Other"]],["grade","Grade","select",true,["PP1","PP2","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9"]],["stream","Stream","text",false],["date_of_birth","Date of Birth","date",false],["guardian_name","Parent / Guardian Name","text",false],["guardian_phone","Guardian Phone","tel",false]], columns:["admission_number","full_name","gender","grade","stream","guardian_name","guardian_phone"]},
+ teachers: {title:"Teacher Management",table:"teachers",description:"Maintain teacher and staff teaching details.",fields:[
+  ["tsc_number","TSC Number","text",false],["full_name","Teacher Full Name","text",true],["gender","Gender","select",false,["Female","Male","Other"]],["phone","Phone","tel",false],["email","Email","email",false],["position","Position","text",false],["assigned_grade","Assigned Grade","text",false],["subject","Subject","text",false]],columns:["tsc_number","full_name","phone","email","position","assigned_grade","subject"]},
+ grades: {title:"Grades & Classes",table:"school_grades",description:"Set up grade names, streams and academic year.",fields:[
+  ["grade_name","Grade Name","text",true],["stream","Stream","text",false],["academic_year","Academic Year","number",true]],columns:["grade_name","stream","academic_year"]},
+ marks: {title:"Examination Marks",table:"marks",description:"Enter marks for a learner. Student ID must match an existing students.id value.",fields:[
+  ["student_id","Student ID (database ID)","text",true],["grade","Grade","select",true,["PP1","PP2","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9"]],["subject","Learning Area / Subject","select",true,[]],["exam_name","Exam Name","text",true],["term","Term","text",true],["academic_year","Academic Year","number",true],["marks_obtained","Marks Obtained","number",true]],columns:["student_id","grade","subject","exam_name","term","academic_year","marks_obtained"]},
+ analysis: {title:"Examination Analysis",table:"exam_analysis",description:"Record a learner's result and calculate percentage and performance band.",fields:[
+  ["admission_number","Admission Number","text",true],["learner_name","Learner Name","text",true],["grade","Grade","select",true,["PP1","PP2","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9"]],["subject","Subject / Learning Area","select",true,[]],["exam_name","Exam Name","text",true],["term","Term","text",true],["academic_year","Academic Year","number",true],["marks_obtained","Marks Obtained","number",true],["maximum_marks","Maximum Marks","number",true]],columns:["admission_number","learner_name","grade","subject","exam_name","term","academic_year","marks_obtained","maximum_marks","percentage","performance_band"]},
+ reports: {title:"CBC Report Cards",table:"cbc_report_cards",description:"Create a report-card record. Enter learning areas as JSON, e.g. [{\"name\":\"English\",\"score\":75,\"max\":100}].",fields:[
+  ["admission_number","Admission Number","text",true],["learner_name","Learner Name","text",true],["grade","Grade","select",true,["PP1","PP2","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9"]],["stream","Stream","text",false],["term","Term","text",true],["academic_year","Academic Year","number",true],["class_teacher","Class Teacher","text",false],["attendance_days","Days Present","number",false],["total_school_days","Total School Days","number",false],["learning_areas","Learning Areas JSON","textarea",false],["teacher_comment","Teacher Comment","textarea",false],["headteacher_comment","Headteacher Comment","textarea",false],["parent_comment","Parent Comment","textarea",false]],columns:["admission_number","learner_name","grade","stream","term","academic_year","class_teacher","attendance_days","total_school_days","created_at"]}
+};
+function showMessage(el, msg, isError=false){el.textContent=msg;el.className="message "+(isError?"error":"ok");}
+function setNotice(msg, warning=false){$("setupNotice").textContent=msg;$("setupNotice").style.background=warning?"#fff7e6":"#eef8f1";$("setupNotice").style.borderColor=warning?"#f5d48c":"#b7e4c7";}
+function fieldHTML(field, prefix){
+ const [key,label,type,required,options]=field; const id=prefix+"-"+key; let control="";
+ if(type==="select") control=`<select id="${id}" name="${key}" ${required?"required":""}><option value="">Choose…</option>${options.map(o=>`<option>${escapeHTML(o)}</option>`).join("")}</select>`;
+ else if(type==="textarea") control=`<textarea id="${id}" name="${key}" ${required?"required":""} placeholder="${escapeHTML(label)}"></textarea>`;
+ else control=`<input id="${id}" name="${key}" type="${type}" ${required?"required":""} ${type==="number"?'step="any"':""} placeholder="${escapeHTML(label)}">`;
+ return `<div class="field ${type==="textarea"?"full":""}"><label for="${id}">${escapeHTML(label)}${required?" *":""}</label>${control}</div>`;
+}
+function buildModule(key){
+ const m=modules[key], root=$("page-"+key);
+ root.innerHTML=`<div class="page-head"><div><h2>${escapeHTML(m.title)}</h2><div class="muted">${escapeHTML(m.description)}</div></div><button class="btn no-print" data-reload="${key}">Refresh records</button></div>
+ <div class="module-grid"><div class="panel form-panel"><h3>Add Record</h3><form id="form-${key}"><div class="form-grid">${m.fields.map(f=>fieldHTML(f,key)).join("")}</div><div class="form-actions"><button class="btn" type="submit">Save Record</button><button class="btn outline" type="reset" style="color:#344054">Clear</button></div><p class="message" id="msg-${key}" role="status"></p></form></div>
+ <div class="panel"><h3>Saved Records</h3><div class="toolbar no-print"><input id="search-${key}" type="search" placeholder="Search records…"><button class="btn outline" data-export="${key}" style="color:#344054">Export CSV</button><button class="btn outline" data-print="${key}" style="color:#344054">Print</button></div><div class="table-wrap" id="table-${key}"><div class="empty">Loading records…</div></div></div></div>`;
+ $("form-"+key).addEventListener("submit",e=>saveRecord(key,e));
+ $("search-"+key).addEventListener("input",()=>loadRecords(key));
+ root.querySelector(`[data-reload="${key}"]`).addEventListener("click",()=>loadRecords(key));
+ root.querySelector(`[data-export="${key}"]`).addEventListener("click",()=>exportCSV(key));
+ root.querySelector(`[data-print="${key}"]`).addEventListener("click",()=>window.print());
+}
+const cache={};
+async function saveRecord(key,event){
+ event.preventDefault(); const m=modules[key], form=event.currentTarget, msg=$("msg-"+key);
+ if(!db){showMessage(msg,"Supabase is not configured.",true);return;}
+ const record={};
+ for(const f of m.fields){const k=f[0], el=form.elements[k]; if(!el)continue;let value=el.value.trim(); if(value===""){record[k]=null;continue;} if(f[2]==="number")record[k]=Number(value);else if(key==="reports"&&k==="learning_areas"){try{record[k]=JSON.parse(value||"[]");}catch{showMessage(msg,"Learning Areas must be valid JSON.",true);return;}}else record[k]=value;}
+ if(key==="analysis"){const max=Number(record.maximum_marks);if(!max||max<0){showMessage(msg,"Maximum Marks must be greater than zero.",true);return;}record.percentage=Math.round((Number(record.marks_obtained)/max)*10000)/100;record.performance_band=record.percentage>=80?"Exceeding":record.percentage>=60?"Meeting":record.percentage>=40?"Approaching":"Below";}
+ if(key==="analysis"||key==="reports")record.created_by=(await db.auth.getUser()).data.user?.id;
+ const button=form.querySelector('button[type="submit"]');button.disabled=true;button.textContent="Saving…";
+ const {error}=await db.from(m.table).insert(record);
+ button.disabled=false;button.textContent="Save Record";
+ if(error){showMessage(msg,error.message,true);return;}
+ showMessage(msg,"Record saved successfully.");form.reset();await loadRecords(key);await loadStats();
+}
+async function loadRecords(key){
+ const m=modules[key], container=$("table-"+key);if(!db){container.innerHTML='<div class="empty">Configure Supabase first.</div>';return;}
+ const {data,error}=await db.from(m.table).select("*").order("created_at",{ascending:false}).limit(200);
+ if(error){container.innerHTML=`<div class="empty">Could not load records: ${escapeHTML(error.message)}<br><span class="muted">Check that the table exists and its RLS policies allow this user.</span></div>`;cache[key]=[];return;}
+ cache[key]=data||[];const query=($("search-"+key)?.value||"").toLowerCase();
+ const rows=cache[key].filter(r=>JSON.stringify(r).toLowerCase().includes(query));
+ if(!rows.length){container.innerHTML='<div class="empty">No matching records found.</div>';return;}
+ const cols=m.columns.filter(c=>rows.some(r=>r[c]!==undefined));
+ container.innerHTML=`<table><thead><tr>${cols.map(c=>`<th>${escapeHTML(c.replaceAll("_"," "))}</th>`).join("")}<th class="no-print">Action</th></tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${escapeHTML(typeof r[c]==="object"&&r[c]!==null?JSON.stringify(r[c]):r[c]??"—")}</td>`).join("")}<td class="no-print"><button class="btn danger" data-delete="${escapeHTML(r.id)}" data-key="${key}" style="padding:6px 9px">Delete</button></td></tr>`).join("")}</tbody></table>`;
+ container.querySelectorAll("[data-delete]").forEach(btn=>btn.addEventListener("click",()=>deleteRecord(key,btn.dataset.delete)));
+}
+async function deleteRecord(key,id){
+ if(!confirm("Delete this record permanently?"))return;
+ const {error}=await db.from(modules[key].table).delete().eq("id",id);
+ if(error){alert("Delete failed: "+error.message);return;}await loadRecords(key);await loadStats();
+}
+function exportCSV(key){
+ const rows=cache[key]||[];if(!rows.length){alert("There are no records to export.");return;}
+ const cols=modules[key].columns;const csv=[cols.join(","),...rows.map(r=>cols.map(c=>'"'+String(r[c]??"").replaceAll('"','""')+'"').join(","))].join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download=key+"-records.csv";a.click();URL.revokeObjectURL(a.href);
+}
+async function loadStats(){
+ if(!db)return;
+ const mapping=[["students","statStudents"],["teachers","statTeachers"],["school_grades","statGrades"],["marks","statMarks"]];
+ for(const [table,id] of mapping){const {count,error}=await db.from(table).select("*",{count:"exact",head:true});$(id).textContent=error?"—":(count??0);}
+}
+function showPage(key){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ $("page-"+key).classList.remove("hidden");
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===key));
+ if(modules[key] && key!=="analysis")loadRecords(key);if(key==="analysis")loadExamAnalysis();if(key==="dashboard")loadStats();
+}
+document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+$("refreshStats").addEventListener("click",loadStats);
+$("logoutButton").addEventListener("click",async()=>{if(db)await db.auth.signOut();$("appScreen").classList.add("hidden");$("loginScreen").classList.remove("hidden");});
+async function openApp(session){
+ $("loginScreen").classList.add("hidden");$("appScreen").classList.remove("hidden");
+ $("userLabel").textContent=session.user.email||"Signed in";
+ setNotice("Signed in. Database modules will work when the matching tables and Row Level Security policies are configured.");
+ Object.keys(modules).filter(k=>k!=="analysis").forEach(buildModule);buildExamAnalysisPage();buildCurriculumPage();buildSmsPage();refreshSubjectDropdowns();setAutomaticAcademicYears();await loadStats();showPage("dashboard");
+}
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();const msg=$("loginMessage"),button=$("loginButton");
+ if(!db){showMessage(msg,"Supabase is not configured. Replace the URL and public key in index.html.",true);return;}
+ button.disabled=true;button.textContent="Signing in…";msg.textContent="";
+ try{const {data,error}=await db.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});if(error)throw error;if(!data.session)throw new Error("No login session was returned.");showMessage(msg,"Login successful.");await openApp(data.session);}
+ catch(err){showMessage(msg,err.message||"Login failed.",true);}
+ finally{button.disabled=false;button.textContent="Sign in";}
+});
+
+
+const analysisGrades = ["PP1","PP2","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9"];
+let analysisMarks = [];
+let analysisStudents = [];
+let analysisLoaded = false;
+
+function buildExamAnalysisPage(){
+ const root=$("page-analysis");
+ root.innerHTML=`<div class="page-head"><div><h2>Exam Analysis</h2><div class="muted">Automatic subject and learner analysis from saved Marks records, PP1 to Grade 9.</div></div><div class="toolbar no-print"><button class="btn" id="analysisRefresh">Refresh analysis</button><button class="btn outline" id="analysisExport" style="color:#344054">Export current view CSV</button><button class="btn outline" id="analysisPrint" style="color:#344054">Print report</button></div></div>
+ <div class="notice">Analysis is calculated from the records in the Marks module. Marks are assumed to be out of 100. Enter accurate learner IDs and marks first. If your database stores marks with a different maximum, standardise them before comparing results.</div>
+ <div class="panel no-print"><h3>Filter results</h3><div class="analysis-filters">
+ <div><label for="analysisGrade">Grade</label><select id="analysisGrade"><option value="">All grades</option>${analysisGrades.map(g=>`<option>${escapeHTML(g)}</option>`).join("")}</select></div>
+ <div><label for="analysisExam">Exam</label><select id="analysisExam"><option value="">All exams</option></select></div>
+ <div><label for="analysisTerm">Term</label><select id="analysisTerm"><option value="">All terms</option><option value="Term 1">Term 1</option><option value="Term 2">Term 2</option><option value="Term 3">Term 3</option></select></div>
+ <div><label for="analysisYear">Academic year</label><select id="analysisYear"><option value="">All years</option></select></div>
+ <div><label for="analysisSubject">Learning area</label><select id="analysisSubject"><option value="">All learning areas</option></select></div>
+ </div><p id="analysisStatus" class="message" role="status">Press Refresh analysis to load saved marks.</p></div>
+ <div class="analysis-kpis">
+ <div class="analysis-kpi"><span>Marks records</span><strong id="analysisRecordsCount">0</strong></div>
+ <div class="analysis-kpi"><span>Learners assessed</span><strong id="analysisLearnerCount">0</strong></div>
+ <div class="analysis-kpi"><span>Subjects assessed</span><strong id="analysisSubjectCount">0</strong></div>
+ <div class="analysis-kpi"><span>Overall average</span><strong id="analysisOverallAverage">—</strong></div>
+ </div>
+ <div class="panel analysis-section"><h3>1. Subject-by-subject analysis</h3><p class="muted">Average, highest and lowest marks, and the number of learners scoring 50/100 or more.</p><div class="table-wrap" id="subjectAnalysisTable"><div class="empty">Load marks to calculate subject analysis.</div></div></div>
+ <div class="panel analysis-section"><h3>2. Learner-by-learner analysis</h3><p class="muted">Shows each learner’s average across the selected subjects, total marks, number of subjects and performance band. Rank is calculated within the selected grade/filter.</p><div class="table-wrap" id="learnerAnalysisTable"><div class="empty">Load marks to calculate learner analysis.</div></div></div>`;
+ $("analysisRefresh").addEventListener("click",loadExamAnalysis);
+ ["analysisGrade","analysisExam","analysisTerm","analysisYear","analysisSubject"].forEach(id=>$(id).addEventListener("change",renderExamAnalysis));
+ $("analysisExport").addEventListener("click",exportExamAnalysis);
+ $("analysisPrint").addEventListener("click",()=>window.print());
+}
+
+function analysisBand(mark){
+ if(mark>=80)return "Exceeding";
+ if(mark>=60)return "Meeting";
+ if(mark>=40)return "Approaching";
+ return "Below";
+}
+function average(nums){return nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:0;}
+function uniqueSorted(values){return [...new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=="").map(String))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));}
+function fillAnalysisFilter(id, values, label){
+ const el=$(id), old=el.value;
+ el.innerHTML=`<option value="">${label}</option>`+uniqueSorted(values).map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`).join("");
+ if([...el.options].some(o=>o.value===old))el.value=old;
+}
+async function loadExamAnalysis(){
+ const status=$("analysisStatus");
+ if(!db){showMessage(status,"Supabase is not configured. Add your project URL and publishable/anon key in index.html.",true);return;}
+ status.textContent="Loading marks and learner records…";
+ const [marksResult,studentsResult]=await Promise.all([
+   db.from("marks").select("*").limit(5000),
+   db.from("students").select("id,admission_number,full_name").limit(5000)
+ ]);
+ if(marksResult.error){
+   showMessage(status,"Could not load marks: "+marksResult.error.message+". Check the marks table and its Row Level Security policies.",true);
+   $("subjectAnalysisTable").innerHTML='<div class="empty">Marks could not be loaded.</div>';
+   $("learnerAnalysisTable").innerHTML='<div class="empty">Marks could not be loaded.</div>';
+   return;
+ }
+ analysisMarks=(marksResult.data||[]).filter(r=>Number.isFinite(Number(r.marks_obtained))&&r.marks_obtained!==null);
+ analysisStudents=studentsResult.error?[]:(studentsResult.data||[]);
+ const learnerMap=new Map(analysisStudents.map(s=>[String(s.id),s]));
+ analysisMarks=analysisMarks.map(r=>{
+   const s=learnerMap.get(String(r.student_id));
+   return {...r,_learnerName:s?.full_name||r.learner_name||("Learner ID "+(r.student_id??"unknown")),_admission:s?.admission_number||r.admission_number||""};
+ });
+ fillAnalysisFilter("analysisExam",analysisMarks.map(r=>r.exam_name),"All exams");
+ // Term choices are fixed to the three school terms.
+ // Academic year is generated automatically from the current calendar year.
+ const yearSelect=$("analysisYear"), selectedYear=yearSelect.value, currentYear=new Date().getFullYear();
+ yearSelect.innerHTML='<option value="">All years</option>'+Array.from({length:6},(_,i)=>currentYear-i).map(y=>`<option value="${y}">${y}</option>`).join("");
+ if([...yearSelect.options].some(o=>o.value===selectedYear))yearSelect.value=selectedYear;
+ fillAnalysisFilter("analysisSubject",analysisMarks.map(r=>r.subject),"All learning areas");
+ analysisLoaded=true;
+ showMessage(status,`Loaded ${analysisMarks.length} marks records${studentsResult.error?" (learner names may show as IDs because the students table could not be read)":""}.`);
+ renderExamAnalysis();
+}
+function getFilteredAnalysisMarks(){
+ if(!analysisLoaded)return [];
+ const grade=$("analysisGrade").value, exam=$("analysisExam").value, term=$("analysisTerm").value, year=$("analysisYear").value, subject=$("analysisSubject").value;
+ return analysisMarks.filter(r=>(!grade||String(r.grade||"")===grade)&&(!exam||String(r.exam_name||"")===exam)&&(!term||String(r.term||"")===term)&&(!year||String(r.academic_year||"")===year)&&(!subject||String(r.subject||"")===subject));
+}
+function renderExamAnalysis(){
+ if(!$("analysisStatus"))return;
+ const rows=getFilteredAnalysisMarks();
+ $("analysisRecordsCount").textContent=rows.length;
+ const learnerIds=new Set(rows.map(r=>String(r.student_id??r._admission??r._learnerName)));
+ const subjects=new Set(rows.map(r=>String(r.subject||"")).filter(Boolean));
+ $("analysisLearnerCount").textContent=learnerIds.size;
+ $("analysisSubjectCount").textContent=subjects.size;
+ $("analysisOverallAverage").textContent=rows.length?average(rows.map(r=>Number(r.marks_obtained))).toFixed(1)+"%":"—";
+ if(!rows.length){
+  $("subjectAnalysisTable").innerHTML='<div class="empty">No marks match these filters. Add marks in the Marks module or change the filters.</div>';
+  $("learnerAnalysisTable").innerHTML='<div class="empty">No learner results to show.</div>';
+  return;
+ }
+ const bySubject=new Map();
+ rows.forEach(r=>{const subject=String(r.subject||"Unspecified");if(!bySubject.has(subject))bySubject.set(subject,[]);bySubject.get(subject).push(Number(r.marks_obtained));});
+ const subjectRows=[...bySubject.entries()].map(([subject,nums])=>({subject,count:nums.length,avg:average(nums),high:Math.max(...nums),low:Math.min(...nums),meeting:nums.filter(n=>n>=50).length})).sort((a,b)=>a.subject.localeCompare(b.subject));
+ $("subjectAnalysisTable").innerHTML=`<table><thead><tr><th>Learning area</th><th>Records</th><th>Average (%)</th><th>Highest</th><th>Lowest</th><th>50+ marks</th><th>Performance</th></tr></thead><tbody>${subjectRows.map(r=>`<tr><td>${escapeHTML(r.subject)}</td><td>${r.count}</td><td><b>${r.avg.toFixed(1)}%</b></td><td>${r.high}</td><td>${r.low}</td><td>${r.meeting}/${r.count}</td><td>${escapeHTML(analysisBand(r.avg))}</td></tr>`).join("")}</tbody></table>`;
+ const byLearner=new Map();
+ rows.forEach(r=>{
+  const key=String(r.student_id??r._admission??r._learnerName);
+  if(!byLearner.has(key))byLearner.set(key,{key,name:r._learnerName,admission:r._admission,grade:r.grade||"",marks:[],subjects:new Set()});
+  const learner=byLearner.get(key);learner.marks.push(Number(r.marks_obtained));if(r.subject)learner.subjects.add(String(r.subject));if(!learner.grade&&r.grade)learner.grade=r.grade;
+ });
+ const learnerRows=[...byLearner.values()].map(r=>({...r,total:r.marks.reduce((a,b)=>a+b,0),avg:average(r.marks)})).sort((a,b)=>String(a.grade).localeCompare(String(b.grade),undefined,{numeric:true})||b.avg-a.avg||a.name.localeCompare(b.name));
+ let lastGrade=null, rank=0, lastAvg=null;
+ learnerRows.forEach(r=>{if(r.grade!==lastGrade){lastGrade=r.grade;rank=1;lastAvg=r.avg;r.rank=rank;}else{if(r.avg!==lastAvg)rank++;r.rank=rank;lastAvg=r.avg;}});
+ $("learnerAnalysisTable").innerHTML=`<table><thead><tr><th>Rank</th><th>Admission No.</th><th>Learner name</th><th>Grade</th><th>Subjects</th><th>Total marks</th><th>Average (%)</th><th>Performance band</th></tr></thead><tbody>${learnerRows.map(r=>`<tr><td>${r.rank}</td><td>${escapeHTML(r.admission||"—")}</td><td>${escapeHTML(r.name)}</td><td>${escapeHTML(r.grade||"—")}</td><td>${r.subjects.size}</td><td>${r.total}</td><td><b>${r.avg.toFixed(1)}%</b></td><td>${escapeHTML(analysisBand(r.avg))}</td></tr>`).join("")}</tbody></table>`;
+}
+function exportExamAnalysis(){
+ const rows=getFilteredAnalysisMarks();
+ if(!rows.length){alert("No marks to export for the selected filters.");return;}
+ const out=[["Admission Number","Learner Name","Grade","Subject","Exam","Term","Academic Year","Marks Obtained","Maximum Marks","Percentage","Performance Band"]];
+ rows.forEach(r=>out.push([r._admission,r._learnerName,r.grade,r.subject,r.exam_name,r.term,r.academic_year,r.marks_obtained,100,Number(r.marks_obtained),analysisBand(Number(r.marks_obtained))]));
+ const csv=out.map(row=>row.map(v=>'"'+String(v??"").replaceAll('"','""')+'"').join(",")).join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="st-carels-exam-analysis.csv";a.click();URL.revokeObjectURL(a.href);
+}
+
+const cbeAreas = {
+ "PP1":["Language Activities","Mathematical Activities","Environmental Activities","Psychomotor and Creative Activities","Religious Education Activities"],
+ "PP2":["Language Activities","Mathematical Activities","Environmental Activities","Psychomotor and Creative Activities","Religious Education Activities"],
+ "Grade 1":["English Language Activities","Kiswahili Language Activities","Indigenous Language Activities","Mathematical Activities","Environmental Activities","Creative Arts Activities","Religious Education Activities"],
+ "Grade 2":["English Language Activities","Kiswahili Language Activities","Indigenous Language Activities","Mathematical Activities","Environmental Activities","Creative Arts Activities","Religious Education Activities"],
+ "Grade 3":["English Language Activities","Kiswahili Language Activities","Indigenous Language Activities","Mathematical Activities","Environmental Activities","Creative Arts Activities","Religious Education Activities"],
+ "Grade 4":["English","Kiswahili","Mathematics","Science and Technology","Social Studies","Agriculture and Nutrition","Creative Arts","Religious Education"],
+ "Grade 5":["English","Kiswahili","Mathematics","Science and Technology","Social Studies","Agriculture and Nutrition","Creative Arts","Religious Education"],
+ "Grade 6":["English","Kiswahili","Mathematics","Science and Technology","Social Studies","Agriculture and Nutrition","Creative Arts","Religious Education"],
+ "Grade 7":["English","Kiswahili / Kenyan Sign Language (where applicable)","Mathematics","Integrated Science","Social Studies","Pre-Technical Studies","Agriculture and Nutrition","Creative Arts and Sports","Religious Education (CRE / IRE / HRE)"],
+ "Grade 8":["English","Kiswahili / Kenyan Sign Language (where applicable)","Mathematics","Integrated Science","Social Studies","Pre-Technical Studies","Agriculture and Nutrition","Creative Arts and Sports","Religious Education (CRE / IRE / HRE)"],
+ "Grade 9":["English","Kiswahili / Kenyan Sign Language (where applicable)","Mathematics","Integrated Science","Social Studies","Pre-Technical Studies","Agriculture and Nutrition","Creative Arts and Sports","Religious Education (CRE / IRE / HRE)"]
+};
+function refreshSubjectDropdowns(){
+ document.querySelectorAll('select[name="grade"]').forEach(g=>{
+  const s=g.closest("form")?.elements["subject"]; if(!s)return;
+  const fill=()=>{const old=s.value, arr=cbeAreas[g.value]||[];s.innerHTML='<option value="">Choose learning area…</option>'+arr.map(x=>'<option>'+escapeHTML(x)+'</option>').join("");if(arr.includes(old))s.value=old;};
+  g.addEventListener("change",fill);fill();
+ });
+}
+function buildCurriculumPage(){
+ const root=$("page-curriculum");
+ root.innerHTML=`<div class="page-head"><div><h2>CBE Learning Areas</h2><div class="muted">Grade-by-grade learning areas for PP1 to Grade 9.</div></div></div>
+ <div class="panel"><label for="cbeGrade">Select grade</label><select id="cbeGrade">${Object.keys(cbeAreas).map(g=>`<option>${escapeHTML(g)}</option>`).join("")}</select><div id="cbeList" style="margin-top:16px"></div><p class="hint">Please verify the current approved learning areas against <a href="https://kicd.ac.ke/cbc-materials/curriculum-designs/regular-curriculum-designs/" target="_blank" rel="noopener">official KICD curriculum designs</a>.</p></div>`;
+ const draw=()=>{const g=$("cbeGrade").value;const a=cbeAreas[g];$("cbeList").innerHTML=`<h3>${escapeHTML(g)} — ${a.length} learning areas</h3><ol>${a.map(s=>`<li style="padding:7px 0">${escapeHTML(s)}</li>`).join("")}</ol>`;};
+ $("cbeGrade").addEventListener("change",draw);draw();
+}
+
+
+function setAutomaticAcademicYears(){
+ const currentYear=new Date().getFullYear();
+ ["academic_year","academicYear","marksYear","examYear"].forEach(id=>{
+  const el=$(id);
+  if(el && !el.value)el.value=String(currentYear);
+ });
+}
+function buildSmsPage(){
+ const root=$("page-sms");
+ root.innerHTML=`<div class="page-head"><div><h2>Bulk SMS</h2><div class="muted">Generate, personalise and prepare messages for parents and staff.</div></div></div>
+ <div class="notice">The message generator and preview work now. Real SMS delivery requires an SMS provider connected through a secure server-side endpoint. The Send button will not pretend to send messages before that connection is configured.</div>
+ <div class="grid two">
+ <section class="panel"><h3>1. Compose and auto-generate</h3>
+ <div class="form-grid">
+ <div><label>Recipient group</label><select id="smsAudience"><option value="parents">Parents / guardians</option><option value="teachers">Teachers</option><option value="all">All contacts</option><option value="custom">Custom numbers</option></select></div>
+ <div><label>Message template</label><select id="smsTemplate"><option value="">Choose template</option><option value="fees">School fees reminder</option><option value="meeting">Parents meeting</option><option value="exam">Examination notice</option><option value="opening">School opening</option><option value="closing">School closing</option><option value="attendance">Attendance notice</option><option value="results">Exam results ready</option><option value="general">General announcement</option></select></div>
+ <div><label>School name</label><input id="smsSchool" value="St Carels Academy"></div>
+ <div><label>Date / deadline</label><input id="smsDate" type="date"></div>
+ <div><label>Learner name (optional)</label><input id="smsLearner" placeholder="Learner name"></div>
+ <div><label>Grade (optional)</label><select id="smsClass"><option value="">Select grade</option>${analysisGrades.map(g=>`<option>${escapeHTML(g)}</option>`).join("")}</select></div>
+ <div><label>Amount in KSh (optional)</label><input id="smsAmount" type="number" min="0" placeholder="e.g. 2500"></div>
+ <div><label>Extra details (optional)</label><input id="smsExtra" placeholder="Venue, time or instructions"></div>
+ </div>
+ <div style="margin-top:12px"><label>SMS message</label><textarea id="smsMessage" rows="6" placeholder="Choose a template or type your message here…"></textarea></div>
+ <div class="toolbar" style="margin-top:12px"><button class="btn" id="smsGenerate">Generate message</button><button class="btn outline" id="smsClear" style="color:#344054">Clear message</button></div>
+ <p class="muted" id="smsCount">0 characters · 0 SMS segments</p>
+ </section>
+ <section class="panel"><h3>2. Insert recipients</h3>
+ <div id="smsCustomWrap"><label>Phone numbers (one per line, e.g. 2547XXXXXXXX)</label><textarea id="smsPhones" rows="5" placeholder="2547XXXXXXXX&#10;2541XXXXXXXX"></textarea></div>
+ <div class="form-grid" style="margin-top:10px"><div><label>Single phone number</label><input id="smsPhone" placeholder="2547XXXXXXXX"></div><div><label>Parent / guardian name</label><input id="smsRecipientName" placeholder="Optional"></div></div>
+ <div class="toolbar" style="margin-top:10px"><button class="btn outline" id="smsInsertNumber" style="color:#344054">Insert number</button><button class="btn outline" id="smsPreview" style="color:#344054">Preview message</button></div>
+ <div class="notice" style="margin-top:14px">Personalisation fields supported: {{parent_name}}, {{learner_name}}, {{grade}}, {{school_name}}, {{date}}, {{amount}}.</div>
+ <h3 style="margin-top:16px">3. Preview and send</h3><div id="smsPreviewBox" class="empty">Your message preview will appear here.</div>
+ <div class="toolbar" style="margin-top:12px"><button class="btn" id="smsSend">Send SMS</button><button class="btn outline" id="smsSave" style="color:#344054">Save draft</button></div>
+ <p id="smsSendStatus" class="message" role="status">SMS provider is not connected.</p>
+ </section></div>`;
+
+ const $s=id=>$(id);
+ const templates={
+ fees:"Dear Parent/Guardian, this is a reminder that school fees for {{learner_name}} in {{grade}} at {{school_name}} are due. Amount: KSh {{amount}}. Deadline: {{date}}. {{extra}} Thank you.",
+ meeting:"Dear Parent/Guardian, {{school_name}} invites you to a parents' meeting on {{date}}. {{extra}} Your participation is important. Thank you.",
+ exam:"Dear Parent/Guardian, examinations at {{school_name}} are scheduled for {{date}}. Please ensure {{learner_name}} in {{grade}} is prepared. {{extra}}",
+ opening:"Dear Parent/Guardian, {{school_name}} will reopen on {{date}}. Please ensure {{learner_name}} in {{grade}} reports on time. {{extra}}",
+ closing:"Dear Parent/Guardian, {{school_name}} will close on {{date}}. {{extra}} Thank you for your support.",
+ attendance:"Dear Parent/Guardian, {{school_name}} wishes to inform you about the attendance of {{learner_name}} in {{grade}}. Please contact the school. {{extra}}",
+ results:"Dear Parent/Guardian, results for {{learner_name}} in {{grade}} at {{school_name}} are ready. Please contact the school. {{extra}}",
+ general:"Dear Parent/Guardian, an announcement from {{school_name}}: {{extra}} Thank you."
+ };
+ function values(){
+  const d=$s("smsDate").value;
+  return {parent_name:$s("smsRecipientName").value.trim()||"Parent/Guardian",learner_name:$s("smsLearner").value.trim()||"your child",grade:$s("smsClass").value||"your class",school_name:$s("smsSchool").value.trim()||"St Carels Academy",date:d?new Date(d+"T00:00:00").toLocaleDateString():"the stated date",amount:$s("smsAmount").value||"the stated amount",extra:$s("smsExtra").value.trim()};
+ }
+ function personalise(t){const v=values();return t.replace(/\{\{(parent_name|learner_name|grade|school_name|date|amount|extra)\}\}/g,(_,k)=>v[k]||"").replace(/\s{2,}/g," ").replace(/\s+([,.])/g,"$1").trim();}
+ function count(){const n=$s("smsMessage").value.length;const ascii=/^[\x00-\x7F]*$/.test($s("smsMessage").value);const seg=n===0?0:ascii?(n<=160?1:Math.ceil(n/153)):(n<=70?1:Math.ceil(n/67));$s("smsCount").textContent=`${n} characters · ${seg} SMS segment${seg===1?"":"s"} (estimate)`;}
+ function generate(){const k=$s("smsTemplate").value;if(!k){alert("Choose a message template first.");return;}$s("smsMessage").value=personalise(templates[k]);count();}
+ function preview(){const msg=$s("smsMessage").value.trim();$s("smsPreviewBox").innerHTML=msg?`<div style="white-space:pre-wrap">${escapeHTML(msg)}</div>`:"Please generate or type a message first.";}
+ $s("smsTemplate").addEventListener("change",generate);$s("smsGenerate").addEventListener("click",generate);$s("smsMessage").addEventListener("input",count);
+ $s("smsClear").addEventListener("click",()=>{$s("smsMessage").value="";$s("smsPreviewBox").textContent="Your message preview will appear here.";count();});
+ $s("smsPreview").addEventListener("click",preview);
+ $s("smsInsertNumber").addEventListener("click",()=>{const n=$s("smsPhone").value.trim();if(!n){alert("Enter a phone number first.");return;}const area=$s("smsPhones");area.value+=(area.value?"\n":"")+n;$s("smsPhone").value="";});
+ $s("smsAudience").addEventListener("change",()=>{$s("smsCustomWrap").style.display=$s("smsAudience").value==="custom"?"block":"none";});
+ $s("smsSave").addEventListener("click",()=>{const drafts=JSON.parse(localStorage.getItem("stcarels_sms_drafts")||"[]");drafts.unshift({message:$s("smsMessage").value,template:$s("smsTemplate").value,created_at:new Date().toISOString()});localStorage.setItem("stcarels_sms_drafts",JSON.stringify(drafts.slice(0,20)));$s("smsSendStatus").textContent="Draft saved on this device in this browser.";});
+ $s("smsSend").addEventListener("click",()=>{if(!$s("smsMessage").value.trim()){alert("Generate or type a message first.");return;}if($s("smsAudience").value==="custom"&&!$s("smsPhones").value.trim()&&!$s("smsPhone").value.trim()){alert("Enter at least one recipient number.");return;}$s("smsSendStatus").textContent="Not sent: connect an SMS provider through a secure backend endpoint first. No SMS has been sent.";alert("The message is ready, but real SMS sending is not connected. No SMS has been sent.");});
+ $s("smsAudience").dispatchEvent(new Event("change"));count();
+}
+
+function renderSmsDrafts(){const el=$("smsDrafts");if(!el)return;let a=[];try{a=JSON.parse(localStorage.getItem("carelsSmsDrafts")||"[]")}catch{}if(!a.length){el.innerHTML="No drafts saved yet.";return;}el.innerHTML=a.map(x=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><b>${escapeHTML(x.group)}</b><div class="muted">${escapeHTML(x.date)}</div><p>${escapeHTML(x.body)}</p><button class="btn danger" data-del-draft="${x.id}">Delete</button></div>`).join("");el.querySelectorAll("[data-del-draft]").forEach(b=>b.onclick=()=>{a=a.filter(x=>String(x.id)!==b.dataset.delDraft);localStorage.setItem("carelsSmsDrafts",JSON.stringify(a));renderSmsDrafts();});}
+
+if(window.supabase?.createClient&&!SUPABASE_URL.includes("YOUR_SUPABASE")&&!SUPABASE_KEY.includes("YOUR_SUPABASE")){
+ db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+ db.auth.getSession().then(({data})=>{if(data.session)openApp(data.session);});
+ $("setupNotice").textContent="Supabase client configured. Sign in to access school management.";
+}else{
+ $("setupNotice").textContent="Setup needed: edit index.html and replace SUPABASE_URL and SUPABASE_KEY with your real project URL and public key. Never use a service-role/secret key here.";
+ $("setupNotice").style.background="#fff7e6";$("setupNotice").style.borderColor="#f5d48c";
+}
+</script>
+</body>
+</html>
                                                 </body>
                                                 </html>
